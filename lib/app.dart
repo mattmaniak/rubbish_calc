@@ -10,7 +10,7 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   final DateTime _appInitDateTime = DateTime.now();
-  final int _maxRubbishGrams = 16;
+  final int _maxRubbishGrams = 1000000; // 1 metric ton.
   int _rubbishGrams = 0;
 
   void _incrementRubbishGrams() {

@@ -1,15 +1,8 @@
 import 'package:flutter/material.dart';
 
-class CalcDisplay extends StatefulWidget {
+class CalcDisplay extends StatelessWidget {
   CalcDisplay({this.rubbishGrams, this.rubbishCreationDateTime});
-  final int rubbishGrams;
-  final DateTime rubbishCreationDateTime;
 
-  _CalcState createState() => _CalcState();
-}
-
-class _CalcState extends State<CalcDisplay> {
-  _CalcState({this.rubbishGrams, this.rubbishCreationDateTime});
   final int rubbishGrams;
   final DateTime rubbishCreationDateTime;
 
