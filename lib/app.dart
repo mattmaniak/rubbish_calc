@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'calc.dart';
+import 'rubbish.dart';
 
 const String APP_TITLE = 'Rubbish Calc';
 
@@ -7,13 +9,14 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  final int _maxTrashAmountKg = 16;
-  int _trashAmountKg = 0;
+  final DateTime _appInitDateTime = DateTime.now();
+  final int _maxRubbishGrams = 16;
+  int _rubbishGrams = 0;
 
-  void _incrementTrashAmount() {
+  void _incrementRubbishGrams() {
     setState(() {
-      if(_trashAmountKg < _maxTrashAmountKg) {
-      _trashAmountKg++;
+      if(_rubbishGrams < _maxRubbishGrams) {
+        _rubbishGrams++;
       }
     });
   }
@@ -21,20 +24,33 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey,
       appBar: AppBar(
-        title: Text(APP_TITLE),
+        title: Text(
+          APP_TITLE,
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.green,
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add),
+            color: Colors.black,
             tooltip: 'Add task',
-            onPressed: _incrementTrashAmount,
+            onPressed: _incrementRubbishGrams,
           ),
         ],
       ),
       body: ListView(
         scrollDirection: Axis.vertical,
         children: <Widget>[
-          Text(_trashAmountKg.toString() + ' kg')],
+          Column(
+            children: items.toList(),
+          ),
+          CalcDisplay(
+            rubbishGrams: this._rubbishGrams,
+            rubbishCreationDateTime: this._appInitDateTime
+          ),
+        ]
       ),
     );
   }
