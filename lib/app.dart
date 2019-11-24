@@ -12,50 +12,50 @@ class _AppState extends State<App> {
   final DateTime _appInitDateTime = DateTime.now();
   final int _maxRubbishGrams = 1000000; // 1 metric ton.
   int _rubbishGrams = 0;
-  bool _active = false;
+  int _active = 0;
 
-  void _handleItemChanged(bool value) {
+  void _handleItemChanged(int value) {
     setState(() {
       _active = value;
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey,
-      appBar: AppBar(
-        title: Text(
-          APP_TITLE,
-          style: TextStyle(color: Colors.black),
-        ),
-        backgroundColor: Colors.green,
-      ),
-      body: ListView(
-        scrollDirection: Axis.vertical,
-        children: <Widget>[
-          Column(
-            children: <Widget>[
-              Item(
-                name: 'PET Bottle 0.5 L',
-                weightGrams: 10,
-                onChanged: _handleItemChanged,
-                active: _active,
-              )
-            ]
-          ),
-          ClipOval(
-            child: Container(
-              color: Colors.green,
-              height: MediaQuery.of(context).size.width,
-              child: Center(
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverAppBar(
+            leading: Icon(Icons.scatter_plot),
+            pinned: true,
+            floating: true,
+            expandedHeight: 256.0,
+            flexibleSpace: FlexibleSpaceBar(
+              centerTitle: true,
+              title: Text(
+                'Rubbish Calc',
+                style: TextStyle(color: Colors.black),
+              ),
+              background: Center(
                 child: Text(
-                  this._rubbishGrams.toString() + ' grams produced since\n'
-                  + this._appInitDateTime.toString() + '.',
-                  textAlign: TextAlign.center
+                  (_active * 10).toString() + ' g',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.black),
                 ),
               ),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              <Widget>[
+                Item(
+                  name: 'PET Bottle 0.5 L',
+                  weightGrams: 10,
+                  onChanged: _handleItemChanged,
+                  amountInRubbish: _active,
+                ),
+              ]
             ),
           ),
         ]

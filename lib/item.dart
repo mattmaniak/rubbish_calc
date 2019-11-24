@@ -1,28 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 
 class Item extends StatelessWidget {
-  Item({@required this.name, @required this.weightGrams, this.active: false,
-        @required this.onChanged});
+  Item({@required this.onChanged, @required this.name,
+        @required this.weightGrams, this.amountInRubbish: 0});
 
-  int _amountInRubbish = 0;
   final String name;
   final int weightGrams;
-  final bool active;
-  final ValueChanged<bool> onChanged;
+  final ValueChanged<int> onChanged;
+  int amountInRubbish = 0;
 
   void _handleTap() {
-    onChanged(!active);
-  }
-
-  int getAmountInRubbish() {
-    return _amountInRubbish;
+    onChanged(++amountInRubbish);
   }
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: active ? Colors.lightGreen[700] : Colors.grey[600],
+      color: Colors.green,
       child: ListTile(
         leading: Icon(
           Icons.restore_from_trash,
@@ -30,7 +24,13 @@ class Item extends StatelessWidget {
           size: 36.0,
         ),
         title: Text(name),
-        trailing: Text(this.weightGrams.toString() + ' grams'),
+        subtitle: Text(
+          amountInRubbish.toString()
+          + ' thrown equals to '
+          + (amountInRubbish * weightGrams).toString()
+          + ' g'
+        ),
+        trailing: Text(this.weightGrams.toString() + ' g'),
         onTap: _handleTap,
       ),
     );
