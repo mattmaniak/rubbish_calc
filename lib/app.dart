@@ -12,11 +12,12 @@ class _AppState extends State<App> {
   final DateTime _appInitDateTime = DateTime.now();
   final int _maxRubbishGrams = 1000000; // 1 metric ton.
   int _rubbishGrams = 0;
-  int _active = 0;
+  int _amount = 0;
 
-  void _handleItemChanged(int value) {
+
+  void _handleItemChanged(int newAmount) {
     setState(() {
-      _active = value;
+      _amount = newAmount;
     });
   }
 
@@ -39,7 +40,7 @@ class _AppState extends State<App> {
               ),
               background: Center(
                 child: Text(
-                  (_active * 10).toString() + ' g',
+                  (_amount * 10).toString() + ' g',
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.black),
                 ),
@@ -53,7 +54,13 @@ class _AppState extends State<App> {
                   name: 'PET Bottle 0.5 L',
                   weightGrams: 10,
                   onChanged: _handleItemChanged,
-                  amountInRubbish: _active,
+                  amountInRubbish: _amount,
+                ),
+                Item(
+                  name: 'PET Bottle 1.5 L',
+                  weightGrams: 30,
+                  onChanged: _handleItemChanged,
+                  amountInRubbish: _amount,
                 ),
               ]
             ),

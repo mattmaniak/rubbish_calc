@@ -2,15 +2,19 @@ import 'package:flutter/material.dart';
 
 class Item extends StatelessWidget {
   Item({@required this.onChanged, @required this.name,
-        @required this.weightGrams, this.amountInRubbish: 0});
+        @required this.weightGrams, @required this.amountInRubbish});
 
   final String name;
   final int weightGrams;
   final ValueChanged<int> onChanged;
-  int amountInRubbish = 0;
+  int amountInRubbish;
 
-  void _handleTap() {
+  void _incrementAmountInRubbish() {
     onChanged(++amountInRubbish);
+  }
+
+  int getTotalWeightGrams() {
+    return amountInRubbish * weightGrams;
   }
 
   @override
@@ -30,8 +34,8 @@ class Item extends StatelessWidget {
           + (amountInRubbish * weightGrams).toString()
           + ' g'
         ),
-        trailing: Text(this.weightGrams.toString() + ' g'),
-        onTap: _handleTap,
+        trailing: Text(weightGrams.toString() + ' g'),
+        onTap: _incrementAmountInRubbish,
       ),
     );
   }
