@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'calc.dart';
-import 'rubbish.dart';
+import 'item.dart';
 
 const String APP_TITLE = 'Rubbish Calc';
 
 class App extends StatefulWidget {
+  @override
   _AppState createState() => _AppState();
 }
 
@@ -12,14 +12,14 @@ class _AppState extends State<App> {
   final DateTime _appInitDateTime = DateTime.now();
   final int _maxRubbishGrams = 1000000; // 1 metric ton.
   int _rubbishGrams = 0;
+  bool _active = false;
 
-  void _incrementRubbishGrams() {
+  void _handleItemChanged(bool value) {
     setState(() {
-      if(_rubbishGrams < _maxRubbishGrams) {
-        _rubbishGrams++;
-      }
+      _active = value;
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -31,24 +31,32 @@ class _AppState extends State<App> {
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.green,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
-            color: Colors.black,
-            tooltip: 'Add task',
-            onPressed: _incrementRubbishGrams,
-          ),
-        ],
       ),
       body: ListView(
         scrollDirection: Axis.vertical,
         children: <Widget>[
           Column(
-            children: items.toList(),
+            children: <Widget>[
+              Item(
+                name: 'PET Bottle 0.5 L',
+                weightGrams: 10,
+                onChanged: _handleItemChanged,
+                active: _active,
+              )
+            ]
           ),
-          CalcDisplay(
-            rubbishGrams: this._rubbishGrams,
-            rubbishCreationDateTime: this._appInitDateTime
+          ClipOval(
+            child: Container(
+              color: Colors.green,
+              height: MediaQuery.of(context).size.width,
+              child: Center(
+                child: Text(
+                  this._rubbishGrams.toString() + ' grams produced since\n'
+                  + this._appInitDateTime.toString() + '.',
+                  textAlign: TextAlign.center
+                ),
+              ),
+            ),
           ),
         ]
       ),
