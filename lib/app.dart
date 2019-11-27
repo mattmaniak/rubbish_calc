@@ -11,62 +11,60 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   final DateTime _appInitDateTime = DateTime.now();
   final int _maxRubbishGrams = 1000000; // 1 metric ton.
-  int _rubbishGrams = 0;
-  int _amount = 0;
 
+  List<Item> _rubbish;
 
-  void _handleItemChanged(int newAmount) {
-    setState(() {
-      _amount = newAmount;
-    });
+  @override
+  void initState() {
+    super.initState();
+
+    _rubbish = [
+      Item(
+        name: 'PET Bottle 0.5 L',
+        weightGrams: 10,
+      ),
+      Item(
+        name: 'PET Bottle 1.5 L',
+        weightGrams: 30,
+      )
+    ];
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey,
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
-            leading: Icon(Icons.scatter_plot),
-            pinned: true,
-            floating: true,
-            expandedHeight: 256.0,
-            flexibleSpace: FlexibleSpaceBar(
-              centerTitle: true,
-              title: Text(
-                'Rubbish Calc',
-                style: TextStyle(color: Colors.black),
-              ),
-              background: Center(
-                child: Text(
-                  (_amount * 10).toString() + ' g',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.black),
-                ),
-              ),
+      body: CustomScrollView(slivers: <Widget>[
+        SliverAppBar(
+          leading: Icon(Icons.scatter_plot),
+          pinned: true,
+          floating: true,
+          expandedHeight: 256.0,
+          flexibleSpace: FlexibleSpaceBar(
+            centerTitle: true,
+            title: Text(
+              'Rubbish Calc',
+              style: TextStyle(color: Colors.black),
             ),
+            background:
+                Center(child: Text(_countRubbishGrams().toString() + ' g')),
           ),
-          SliverList(
-            delegate: SliverChildListDelegate(
-              <Widget>[
-                Item(
-                  name: 'PET Bottle 0.5 L',
-                  weightGrams: 10,
-                  onChanged: _handleItemChanged,
-                  amountInRubbish: _amount,
-                ),
-                Item(
-                  name: 'PET Bottle 1.5 L',
-                  weightGrams: 30,
-                  onChanged: _handleItemChanged,
-                  amountInRubbish: _amount,
-                ),
-              ]
-            ),
-          ),
-        ]
-      ),
+        ),
+        SliverList(delegate: SliverChildListDelegate(_rubbish)),
+      ]),
     );
+  }
+
+  int _countRubbishGrams() {
+    int rubbishGrams = 0;
+
+    _rubbish.forEach((item) {
+      rubbishGrams += item.amountInRubbish * item.weightGrams;
+      if (rubbishGrams > _maxRubbishGrams) {
+        // Error.
+        return 0;
+      }
+    });
+    return rubbishGrams;
   }
 }

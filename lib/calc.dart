@@ -14,10 +14,11 @@ class CalcDisplay extends StatelessWidget {
         height: MediaQuery.of(context).size.width,
         child: Center(
           child: Text(
-            this.rubbishGrams.toString() + ' grams produced since\n'
-            + this.rubbishCreationDateTime.toString() + '.',
-            textAlign: TextAlign.center
-          ),
+              this.rubbishGrams.toString() +
+                  ' grams produced since\n' +
+                  this.rubbishCreationDateTime.toString() +
+                  '.',
+              textAlign: TextAlign.center),
         ),
       ),
     );
