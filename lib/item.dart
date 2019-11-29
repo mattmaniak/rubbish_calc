@@ -24,11 +24,17 @@ class _ItemState extends State<Item> {
           ),
           title: Text(widget.name),
           subtitle: Text(widget.amountInRubbish.toString() +
-              ' thrown equals to ' +
+              ' thrown equals ' +
               (widget.amountInRubbish * widget.weightGrams).toString() +
               ' g'),
           trailing: Text(widget.weightGrams.toString() + ' g'),
-          onTap: () => widget.amountInRubbish++),
+          onTap: _incrementAmountInRubbish),
     );
+  }
+
+  void _incrementAmountInRubbish() {
+    setState(() {
+      widget.amountInRubbish++;
+    });
   }
 }

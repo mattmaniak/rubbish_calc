@@ -12,23 +12,27 @@ class _AppState extends State<App> {
   final DateTime _appInitDateTime = DateTime.now();
   final int _maxRubbishGrams = 1000000; // 1 metric ton.
 
-  List<Item> _rubbish;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _rubbish = [
-      Item(
-        name: 'PET Bottle 0.5 L',
-        weightGrams: 10,
-      ),
-      Item(
-        name: 'PET Bottle 1.5 L',
-        weightGrams: 30,
-      )
-    ];
-  }
+  // https://www.quora.com/What-is-the-weight-of-1-5-liter-empty-pet-bottles
+  // https://www.quora.com/How-much-does-a-330ml-can-of-soda-weigh-in-grams
+  final List<Item> _rubbish = [
+    Item(
+      name: 'PET Bottle 0.5 L',
+      weightGrams: 10,
+    ),
+    Item(
+      name: 'PET Bottle 1.0 L',
+      weightGrams: 20,
+    ),
+    Item(
+      name: 'PET Bottle 1.5 L',
+      weightGrams: 30,
+    ),
+    Item(
+      name: 'Aluminium soda can 0.33 L',
+      weightGrams: 360,
+    ),
+  ];
+  int _rubbishGrams = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +50,7 @@ class _AppState extends State<App> {
               'Rubbish Calc',
               style: TextStyle(color: Colors.black),
             ),
-            background:
-                Center(child: Text(_countRubbishGrams().toString() + ' g')),
+            background: Center(child: Text(_rubbishGrams.toString() + ' g')),
           ),
         ),
         SliverList(delegate: SliverChildListDelegate(_rubbish)),
@@ -56,15 +59,13 @@ class _AppState extends State<App> {
   }
 
   int _countRubbishGrams() {
-    int rubbishGrams = 0;
-
-    _rubbish.forEach((item) {
-      rubbishGrams += item.amountInRubbish * item.weightGrams;
-      if (rubbishGrams > _maxRubbishGrams) {
-        // Error.
-        return 0;
-      }
+    setState(() {
+      _rubbish.forEach((item) {
+        _rubbishGrams += item.amountInRubbish * item.weightGrams;
+        if (_rubbishGrams > _maxRubbishGrams) {
+          _rubbishGrams = 0;
+        }
+      });
     });
-    return rubbishGrams;
   }
 }
