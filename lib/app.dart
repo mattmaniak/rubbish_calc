@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'item.dart';
 
-const String APP_TITLE = 'Rubbish Calc';
-
 class App extends StatefulWidget {
+  final String appTitle;
+
+  App({@required this.appTitle});
+
   @override
   _AppState createState() => _AppState();
 }
 
 class _AppState extends State<App> {
-  final DateTime _appInitDateTime = DateTime.now();
   final int _maxRubbishGrams = 1000000; // 1 metric ton.
+  int _rubbishGrams = 0;
+  String _appInitDate;
+  int amount = 0;
+
+  ValueChanged<int> onChanged;
 
   // https://www.quora.com/What-is-the-weight-of-1-5-liter-empty-pet-bottles
   // https://www.quora.com/How-much-does-a-330ml-can-of-soda-weigh-in-grams
@@ -29,10 +35,21 @@ class _AppState extends State<App> {
     ),
     Item(
       name: 'Aluminium soda can 0.33 L',
-      weightGrams: 360,
+      weightGrams: 30,
     ),
   ];
-  int _rubbishGrams = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final DateTime appInitDateTime = DateTime.now();
+    _appInitDate = appInitDateTime.year.toString() +
+        '-' +
+        appInitDateTime.month.toString() +
+        '-' +
+        appInitDateTime.day.toString();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,26 +57,38 @@ class _AppState extends State<App> {
       backgroundColor: Colors.grey,
       body: CustomScrollView(slivers: <Widget>[
         SliverAppBar(
-          leading: Icon(Icons.scatter_plot),
-          pinned: true,
-          floating: true,
-          expandedHeight: 256.0,
-          flexibleSpace: FlexibleSpaceBar(
-            centerTitle: true,
-            title: Text(
-              'Rubbish Calc',
-              style: TextStyle(color: Colors.black),
+            leading: Icon(Icons.scatter_plot),
+            pinned: true,
+            floating: true,
+            expandedHeight: 256.0,
+            flexibleSpace: FlexibleSpaceBar(
+              centerTitle: true,
+              title: Text(
+                widget.appTitle,
+                style: TextStyle(color: Colors.black),
+              ),
+              background: Center(
+                  child: Text(_rubbishGrams.toString() +
+                      ' g produced since ' +
+                      _appInitDate +
+                      '.')),
             ),
-            background: Center(child: Text(_rubbishGrams.toString() + ' g')),
-          ),
-        ),
+            actions: [
+              IconButton(
+                icon: Icon(Icons.restore_page),
+                onPressed: _countRubbishGrams,
+                tooltip: 'Refresh',
+              ),
+            ]),
         SliverList(delegate: SliverChildListDelegate(_rubbish)),
       ]),
     );
   }
 
-  int _countRubbishGrams() {
+  void _countRubbishGrams() {
     setState(() {
+      _rubbishGrams = 0;
+
       _rubbish.forEach((item) {
         _rubbishGrams += item.amountInRubbish * item.weightGrams;
         if (_rubbishGrams > _maxRubbishGrams) {

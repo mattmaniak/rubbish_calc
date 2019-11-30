@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'app.dart';
 
 void main() {
+  const String materialAppTitle = 'Rubbish Calc';
+
   runApp(
     MaterialApp(
-      title: APP_TITLE,
-      home: App(),
+      title: materialAppTitle,
+      home: App(appTitle: materialAppTitle),
     ),
   );
 }
