@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.rubbish_calc">
+    package="com.mattmaniak.rubbish_calc">
 
     <application
         android:name="io.flutter.app.FlutterApplication"
