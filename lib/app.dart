@@ -55,7 +55,7 @@ class _AppState extends State<App> {
       backgroundColor: Colors.grey,
       body: CustomScrollView(slivers: <Widget>[
         SliverAppBar(
-            leading: Icon(Icons.scatter_plot),
+            leading: Image(image: AssetImage('images/icon.png')),
             pinned: true,
             floating: true,
             expandedHeight: 256.0,
