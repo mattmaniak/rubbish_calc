@@ -15,16 +15,16 @@ class _ItemState extends State<Item> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.green,
+      color: Colors.green[100],
       child: ListTile(
           leading: Icon(
             Icons.restore_from_trash,
             color: Colors.black,
-            size: 36.0,
+            size: 40.0,
           ),
           title: Text(widget.name),
           subtitle: Text(widget.amountInRubbish.toString() +
-              ' thrown equals ' +
+              ' wasted - ' +
               (widget.amountInRubbish * widget.weightGrams).toString() +
               ' g'),
           trailing: Text(widget.weightGrams.toString() + ' g'),

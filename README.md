@@ -1,6 +1,6 @@
 # Rubbish Calc
 
-Check how much rubbish you produce everyday.
+Check how much rubbish you produce every day.
 
 ## Getting Started
 
