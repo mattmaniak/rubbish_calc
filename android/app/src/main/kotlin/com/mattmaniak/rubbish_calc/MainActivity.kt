@@ -1,4 +1,4 @@
-package com.mattmaniak.rubbish_calc
+package com.mattmaniak.rubbishCalc
 
 import android.os.Bundle
 

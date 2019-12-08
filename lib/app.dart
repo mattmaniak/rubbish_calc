@@ -1,5 +1,6 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:path_provider/path_provider.dart';
 import 'item.dart';
 
 class App extends StatefulWidget {
@@ -10,26 +11,25 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   final int _maxRubbishGrams = 1000000; // 1 metric ton.
   int _rubbishGrams = 0;
-  SharedPreferences appSettings;
   String _measurementStartDate;
 
-  // https://www.quora.com/What-is-the-weight-of-1-5-liter-empty-pet-bottles
-  // https://www.quora.com/How-much-does-a-330ml-can-of-soda-weigh-in-grams
-  // https://en.m.wikipedia.org/wiki/Wine_bottle#Environmental_impact
-  // https://www.quora.com/How-much-does-a-single-metal-bottle-cap-weigh-from-a-beer-or-soda-bottle
   final List<Item> _rubbish = [
+    // https://www.quora.com/How-much-does-a-330ml-can-of-soda-weigh-in-grams
     Item(
       name: 'Aluminium soda can 0.33 L',
       weightGrams: 30,
     ),
+    // https://en.m.wikipedia.org/wiki/Wine_bottle#Environmental_impact
     Item(
       name: 'Glass wine bottle 0.75 L',
       weightGrams: 500,
     ),
+    // https://www.quora.com/How-much-does-a-single-metal-bottle-cap-weigh-from-a-beer-or-soda-bottle
     Item(
       name: 'Metal bottle cap',
       weightGrams: 2,
     ),
+    // https://www.quora.com/What-is-the-weight-of-1-5-liter-empty-pet-bottles
     Item(
       name: 'PET Bottle 0.5 L',
       weightGrams: 10,
@@ -48,26 +48,35 @@ class _AppState extends State<App> {
   void initState() {
     super.initState();
 
-    final DateTime measurementStartDateTime = DateTime.now();
-    final String currentDate = measurementStartDateTime.year.toString() +
-        '-' +
-        measurementStartDateTime.month.toString() +
-        '-' +
-        measurementStartDateTime.day.toString();
-    _measurementStartDate = currentDate;
     _read();
+    // _save();
   }
 
-  _read() async {
-    appSettings = await SharedPreferences.getInstance();
+  Future<void> _read() async {
+    // final DateTime measurementStartDateTime = DateTime.now();
+    // final String currentDate = measurementStartDateTime.year.toString() +
+    //     '-' +
+    //     measurementStartDateTime.month.toString() +
+    //     '-' +
+    //     measurementStartDateTime.day.toString();
 
-    _measurementStartDate =
-        appSettings.getString('measurementStartDate') ?? '1970-01-01';
+    final Directory directory = await getApplicationDocumentsDirectory();
+    final File file = File('${directory.path}/.config');
+    try {
+      _measurementStartDate = await file.readAsString();
+    } catch (exception) {
+      _measurementStartDate = DateTime.now().toString();
+      await file.writeAsString(_measurementStartDate);
+    }
   }
 
-  _save() async {
-    appSettings = await SharedPreferences.getInstance();
-    appSettings.setString('measurementStartDate', _measurementStartDate);
+  Future<void> _save() async {
+    final Directory directory = await getApplicationDocumentsDirectory();
+    final File file = File('${directory.path}/.config');
+
+    if(!await file.exists()) {
+      await file.writeAsString(_measurementStartDate);
+    }
   }
 
   @override
@@ -88,7 +97,7 @@ class _AppState extends State<App> {
               ),
               background: Center(
                 child: Text(
-                  'Measured since ' + _measurementStartDate + '.',
+                  'Measured since ' + _measurementStartDate.toString() + '.',
                   style: TextStyle(fontSize: 16),
                 ),
               ),

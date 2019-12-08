@@ -1,4 +1,4 @@
-name: rubbish_calc
+name: rubbishCalc
 description: Check how much rubbish you produce every day.
 version: 0.0.0
 
@@ -8,7 +8,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  shared_preferences: ^0.5.4
+  path_provider: ^1.5.0
 
 dev_dependencies:
   flutter_test:
