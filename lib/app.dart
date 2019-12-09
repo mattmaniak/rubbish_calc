@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'item.dart';
+import 'info.dart';
 
 class App extends StatefulWidget {
   @override
@@ -84,7 +85,12 @@ class _AppState extends State<App> {
           ButtonBar(alignment: MainAxisAlignment.center, children: [
             FlatButton(
               child: Text('About'),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => About()),
+                );
+              },
               color: Colors.green[100],
             ),
             FlatButton(
@@ -129,7 +135,7 @@ class _AppState extends State<App> {
     final Directory directory = await getApplicationDocumentsDirectory();
     final File file = File('${directory.path}/.config');
 
-    if(!await file.exists()) {
+    if (!await file.exists()) {
       await file.writeAsString(_measurementStartDate);
     }
   }
@@ -151,7 +157,7 @@ class _AppState extends State<App> {
   Text renderMeasurementStartDate() {
     String textToDisplay = 'Loading data...';
 
-    if(_measurementStartDate.toString() != 'null') {
+    if (_measurementStartDate.toString() != 'null') {
       textToDisplay = 'Measured since ' + _measurementStartDate + '.';
     }
     return Text(
