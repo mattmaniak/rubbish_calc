@@ -47,36 +47,7 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
-
     _read();
-    // _save();
-  }
-
-  Future<void> _read() async {
-    // final DateTime measurementStartDateTime = DateTime.now();
-    // final String currentDate = measurementStartDateTime.year.toString() +
-    //     '-' +
-    //     measurementStartDateTime.month.toString() +
-    //     '-' +
-    //     measurementStartDateTime.day.toString();
-
-    final Directory directory = await getApplicationDocumentsDirectory();
-    final File file = File('${directory.path}/.config');
-    try {
-      _measurementStartDate = await file.readAsString();
-    } catch (exception) {
-      _measurementStartDate = DateTime.now().toString();
-      await file.writeAsString(_measurementStartDate);
-    }
-  }
-
-  Future<void> _save() async {
-    final Directory directory = await getApplicationDocumentsDirectory();
-    final File file = File('${directory.path}/.config');
-
-    if(!await file.exists()) {
-      await file.writeAsString(_measurementStartDate);
-    }
   }
 
   @override
@@ -96,10 +67,7 @@ class _AppState extends State<App> {
                 style: TextStyle(color: Colors.black),
               ),
               background: Center(
-                child: Text(
-                  'Measured since ' + _measurementStartDate.toString() + '.',
-                  style: TextStyle(fontSize: 16),
-                ),
+                child: renderMeasurementStartDate(),
               ),
             ),
             actions: [
@@ -135,6 +103,37 @@ class _AppState extends State<App> {
     );
   }
 
+  Future<void> _read() async {
+    // final DateTime measurementStartDateTime = DateTime.now();
+    // final String currentDate = measurementStartDateTime.year.toString() +
+    //     '-' +
+    //     measurementStartDateTime.month.toString() +
+    //     '-' +
+    //     measurementStartDateTime.day.toString();
+    String asdf;
+
+    final Directory directory = await getApplicationDocumentsDirectory();
+    final File file = File('${directory.path}/.config');
+    try {
+      asdf = await file.readAsString();
+    } catch (exception) {
+      asdf = DateTime.now().toString();
+      await file.writeAsString(asdf);
+    }
+    setState(() {
+      _measurementStartDate = asdf;
+    });
+  }
+
+  Future<void> _save() async {
+    final Directory directory = await getApplicationDocumentsDirectory();
+    final File file = File('${directory.path}/.config');
+
+    if(!await file.exists()) {
+      await file.writeAsString(_measurementStartDate);
+    }
+  }
+
   void _countRubbishGrams() {
     setState(() {
       _rubbishGrams = 0;
@@ -147,5 +146,17 @@ class _AppState extends State<App> {
       });
     });
     _save();
+  }
+
+  Text renderMeasurementStartDate() {
+    String textToDisplay = 'Loading data...';
+
+    if(_measurementStartDate.toString() != 'null') {
+      textToDisplay = 'Measured since ' + _measurementStartDate + '.';
+    }
+    return Text(
+      textToDisplay,
+      style: TextStyle(fontSize: 16),
+    );
   }
 }
