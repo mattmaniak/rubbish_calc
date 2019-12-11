@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 class Item extends StatefulWidget {
   final String name;
   final int weightGrams;
+  Function refreshParentState;
   int amountInRubbish = 0;
 
-  Item({@required this.name, @required this.weightGrams});
+  Item(
+      {@required this.name,
+      @required this.weightGrams,
+      @required this.refreshParentState});
 
   @override
   _ItemState createState() => _ItemState();
@@ -35,6 +39,7 @@ class _ItemState extends State<Item> {
   void _incrementAmountInRubbish() {
     setState(() {
       widget.amountInRubbish++;
+      widget.refreshParentState();
     });
   }
 }

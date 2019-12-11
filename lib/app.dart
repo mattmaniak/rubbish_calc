@@ -13,41 +13,48 @@ class _AppState extends State<App> {
   final int _maxRubbishGrams = 1000000; // 1 metric ton.
   int _rubbishGrams = 0;
   String _measurementStartDate;
-
-  final List<Item> _rubbish = [
-    // https://www.quora.com/How-much-does-a-330ml-can-of-soda-weigh-in-grams
-    Item(
-      name: 'Aluminium soda can 0.33 L',
-      weightGrams: 30,
-    ),
-    // https://en.m.wikipedia.org/wiki/Wine_bottle#Environmental_impact
-    Item(
-      name: 'Glass wine bottle 0.75 L',
-      weightGrams: 500,
-    ),
-    // https://www.quora.com/How-much-does-a-single-metal-bottle-cap-weigh-from-a-beer-or-soda-bottle
-    Item(
-      name: 'Metal bottle cap',
-      weightGrams: 2,
-    ),
-    // https://www.quora.com/What-is-the-weight-of-1-5-liter-empty-pet-bottles
-    Item(
-      name: 'PET Bottle 0.5 L',
-      weightGrams: 10,
-    ),
-    Item(
-      name: 'PET Bottle 1.0 L',
-      weightGrams: 20,
-    ),
-    Item(
-      name: 'PET Bottle 1.5 L',
-      weightGrams: 30,
-    ),
-  ];
+  List<Item> _rubbish;
 
   @override
   void initState() {
     super.initState();
+
+    _rubbish = [
+      // https://www.quora.com/How-much-does-a-330ml-can-of-soda-weigh-in-grams
+      Item(
+        name: 'Aluminium soda can 0.33 L',
+        weightGrams: 30,
+        refreshParentState: _countRubbishGrams,
+      ),
+      // https://en.m.wikipedia.org/wiki/Wine_bottle#Environmental_impact
+      Item(
+        name: 'Glass wine bottle 0.75 L',
+        weightGrams: 500,
+        refreshParentState: _countRubbishGrams,
+      ),
+      // https://www.quora.com/How-much-does-a-single-metal-bottle-cap-weigh-from-a-beer-or-soda-bottle
+      Item(
+        name: 'Metal bottle cap',
+        weightGrams: 2,
+        refreshParentState: _countRubbishGrams,
+      ),
+      // https://www.quora.com/What-is-the-weight-of-1-5-liter-empty-pet-bottles
+      Item(
+        name: 'PET Bottle 0.5 L',
+        weightGrams: 10,
+        refreshParentState: _countRubbishGrams,
+      ),
+      Item(
+        name: 'PET Bottle 1.0 L',
+        weightGrams: 20,
+        refreshParentState: _countRubbishGrams,
+      ),
+      Item(
+        name: 'PET Bottle 1.5 L',
+        weightGrams: 30,
+        refreshParentState: _countRubbishGrams,
+      ),
+    ];
     _read();
   }
 
@@ -116,18 +123,18 @@ class _AppState extends State<App> {
     //     measurementStartDateTime.month.toString() +
     //     '-' +
     //     measurementStartDateTime.day.toString();
-    String asdf;
+    String readText;
 
     final Directory directory = await getApplicationDocumentsDirectory();
     final File file = File('${directory.path}/.config');
     try {
-      asdf = await file.readAsString();
+      readText = await file.readAsString();
     } catch (exception) {
-      asdf = DateTime.now().toString();
-      await file.writeAsString(asdf);
+      readText = DateTime.now().toString();
+      await file.writeAsString(readText);
     }
     setState(() {
-      _measurementStartDate = asdf;
+      _measurementStartDate = readText;
     });
   }
 
@@ -158,7 +165,7 @@ class _AppState extends State<App> {
     String textToDisplay = 'Loading data...';
 
     if (_measurementStartDate.toString() != 'null') {
-      textToDisplay = 'Measured since ' + _measurementStartDate + '.';
+      textToDisplay = 'Measured since ' + _measurementStartDate;
     }
     return Text(
       textToDisplay,
