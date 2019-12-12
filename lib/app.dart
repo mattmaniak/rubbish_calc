@@ -64,28 +64,21 @@ class _AppState extends State<App> {
       backgroundColor: Colors.green[500],
       body: CustomScrollView(slivers: <Widget>[
         SliverAppBar(
-            backgroundColor: Colors.green[500],
-            pinned: true,
-            floating: true,
-            expandedHeight: 256.0,
-            flexibleSpace: FlexibleSpaceBar(
-              centerTitle: true,
-              title: Text(
-                _rubbishGrams.toString() + ' g wasted',
-                style: TextStyle(color: Colors.black),
-              ),
-              background: Center(
-                child: renderMeasurementStartDate(),
-              ),
+          backgroundColor: Colors.green[500],
+          pinned: true,
+          floating: true,
+          expandedHeight: 256.0,
+          flexibleSpace: FlexibleSpaceBar(
+            centerTitle: true,
+            title: Text(
+              _rubbishGrams.toString() + ' g wasted',
+              style: TextStyle(color: Colors.black),
             ),
-            actions: [
-              IconButton(
-                icon: Icon(Icons.save),
-                onPressed: _countRubbishGrams,
-                tooltip: 'Refresh',
-                color: Colors.green[100],
-              ),
-            ]),
+            background: Center(
+              child: renderMeasurementStartDate(),
+            ),
+          ),
+        ),
         SliverList(delegate: SliverChildListDelegate(_rubbish)),
         SliverList(
             delegate: SliverChildListDelegate([
@@ -102,12 +95,22 @@ class _AppState extends State<App> {
             ),
             FlatButton(
               child: Text('License'),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => License()),
+                );
+              },
               color: Colors.green[100],
             ),
             FlatButton(
               child: Text('Terms'),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Terms()),
+                );
+              },
               color: Colors.green[100],
             ),
           ]),
@@ -123,12 +126,14 @@ class _AppState extends State<App> {
     //     measurementStartDateTime.month.toString() +
     //     '-' +
     //     measurementStartDateTime.day.toString();
-    String readText;
 
+    String readText;
     final Directory directory = await getApplicationDocumentsDirectory();
     final File file = File('${directory.path}/.config');
+
     try {
       readText = await file.readAsString();
+      debugPrint(readText);
     } catch (exception) {
       readText = DateTime.now().toString();
       await file.writeAsString(readText);

@@ -1,12 +1,28 @@
 import 'package:flutter/material.dart';
 
-abstract class Info extends StatelessWidget {}
+class Info extends StatelessWidget {
+  final String text;
+
+  Info({@required this.text});
+
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Text(text),
+      ),
+    );
+  }
+}
 
 class About extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('About'),
+    return Scaffold(
+      body: Center(
+        child: Text(
+          'About',
+        ),
+      ),
     );
   }
 }
@@ -14,9 +30,12 @@ class About extends StatelessWidget {
 class License extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-          'https://gitlab.com/mattmaniak/rubbish_calc/blob/master/LICENSE'),
+    return Scaffold(
+      body: Center(
+        child: Text(
+          'MIT License',
+        ),
+      ),
     );
   }
 }
@@ -24,8 +43,12 @@ class License extends StatelessWidget {
 class Terms extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('Terms of service'),
+    return Scaffold(
+      body: Center(
+        child: Text(
+          'For educational purposes only.',
+        ),
+      ),
     );
   }
 }
