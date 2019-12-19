@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'item.dart';
-import 'info.dart';
+import 'about.dart';
+import 'style.dart';
+import 'bar.dart';
 
 class App extends StatefulWidget {
   @override
@@ -62,57 +64,27 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green[500],
+      backgroundColor: appColor(),
       body: CustomScrollView(slivers: <Widget>[
-        SliverAppBar(
-          backgroundColor: Colors.green[500],
-          pinned: true,
-          floating: true,
-          expandedHeight: 128.0,
-          flexibleSpace: FlexibleSpaceBar(
-            centerTitle: true,
-            title: Text(
-              _rubbishGrams.toString() + ' g wasted',
-              style: TextStyle(color: Colors.black),
-            ),
-            background: Center(
-              child: renderMeasurementStartDate(),
-            ),
-          ),
-        ),
+        Bar(
+            text: _rubbishGrams.toString() + ' g wasted',
+            backgroundText: renderMeasurementStartDate()),
         SliverList(delegate: SliverChildListDelegate(_rubbish)),
         SliverList(
             delegate: SliverChildListDelegate([
           ButtonBar(alignment: MainAxisAlignment.center, children: [
             FlatButton(
-              child: Text('About'),
+              child: Text(
+                'About app',
+                style: TextStyle(color: textColor()),
+              ),
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => About()),
                 );
               },
-              color: Colors.green[100],
-            ),
-            FlatButton(
-              child: Text('License'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => License()),
-                );
-              },
-              color: Colors.green[100],
-            ),
-            FlatButton(
-              child: Text('Terms'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Terms()),
-                );
-              },
-              color: Colors.green[100],
+              color: buttonColor(),
             ),
           ]),
         ])),
@@ -191,15 +163,10 @@ class _AppState extends State<App> {
     _saveConfig();
   }
 
-  Text renderMeasurementStartDate() {
-    String textToDisplay = 'Loading data...';
-
+  String renderMeasurementStartDate() {
     if (_measurementStartDate.toString() != 'null') {
-      textToDisplay = 'Measured since ' + _measurementStartDate;
+      return 'Measured since ' + _measurementStartDate;
     }
-    return Text(
-      textToDisplay,
-      style: TextStyle(fontSize: 16),
-    );
+    return 'Loading data...';
   }
 }
