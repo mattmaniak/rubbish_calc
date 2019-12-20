@@ -2,6 +2,9 @@
 
 Check how much rubbish you produce every day.
 
+## Terms of Use
+I don't guarantee anything.
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
