@@ -4,7 +4,7 @@ class Item extends StatefulWidget {
   final String name;
   final int weightGrams;
   Function refreshParentState;
-  int amountInRubbish = 0;
+  int numberInRubbish = 0;
 
   Item(
       {@required this.name,
@@ -27,9 +27,9 @@ class _ItemState extends State<Item> {
             size: 40.0,
           ),
           title: Text(widget.name),
-          subtitle: Text(widget.amountInRubbish.toString() +
+          subtitle: Text(widget.numberInRubbish.toString() +
               ' wasted - ' +
-              (widget.amountInRubbish * widget.weightGrams).toString() +
+              (widget.numberInRubbish * widget.weightGrams).toString() +
               ' g'),
           trailing: Text(widget.weightGrams.toString() + ' g'),
           onTap: _incrementAmountInRubbish),
@@ -38,7 +38,7 @@ class _ItemState extends State<Item> {
 
   void _incrementAmountInRubbish() {
     setState(() {
-      widget.amountInRubbish++;
+      widget.numberInRubbish++;
       widget.refreshParentState();
     });
   }

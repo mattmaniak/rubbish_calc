@@ -1,6 +1,4 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'item.dart';
 import 'about.dart';
@@ -75,7 +73,7 @@ class _AppState extends State<App> {
           ButtonBar(alignment: MainAxisAlignment.center, children: [
             FlatButton(
               child: Text(
-                'About app',
+                'About',
                 style: TextStyle(color: textColor()),
               ),
               onPressed: () {
@@ -93,60 +91,46 @@ class _AppState extends State<App> {
   }
 
   Future<void> _loadConfig() async {
-    // final DateTime measurementStartDateTime = DateTime.now();
-    // final String currentDate = measurementStartDateTime.year.toString() +
-    //     '-' +
-    //     measurementStartDateTime.month.toString() +
-    //     '-' +
-    //     measurementStartDateTime.day.toString();
-
-    // String readText;
-    // final Directory directory = await getApplicationDocumentsDirectory();
-    // final File file = File('${directory.path}/.config');
+    final DateTime measurementStartDateTime = DateTime.now();
+    final String currentDate = measurementStartDateTime.year.toString() +
+        '-' +
+        measurementStartDateTime.month.toString() +
+        '-' +
+        measurementStartDateTime.day.toString();
 
     final SharedPreferences appConfig = await SharedPreferences.getInstance();
-    List<String> amountOfItemsInRubbish = [];
+    List<String> numberOfItemsInRubbish = [];
 
     setState(() {
       _measurementStartDate = appConfig.getString('_measurementStartDate') ??
-          DateTime.now().toString();
+          currentDate;
     });
     try {
-      amountOfItemsInRubbish =
-          appConfig.getStringList('amountOfItemsInRubbish');
-
-      for (int i = 0; i < _rubbish.length; i++) {
-        _rubbish[i].amountInRubbish = int.parse(amountOfItemsInRubbish[i]);
-      }
+      numberOfItemsInRubbish =
+          appConfig.getStringList('numberOfItemsInRubbish');
     } catch (exception) {
-      return;
+      // throw 'Unable to load the configuration.';
+    }
+    for (int i = 0; i < _rubbish.length; i++) {
+      try {
+      _rubbish[i].numberInRubbish = int.parse(numberOfItemsInRubbish[i]);
+      } on FormatException {
+        // throw 'Unable to load the configuration.';
+      }
     }
     _countRubbishGrams();
-
-    //   readText = await file.readAsString();
-    //   debugPrint(readText);
-    // } catch (exception) {
-    //   readText = DateTime.now().toString();
-    //   await file.writeAsString(readText);
-    // }
   }
 
   Future<void> _saveConfig() async {
-    // final Directory directory = await getApplicationDocumentsDirectory();
-    // final File file = File('${directory.path}/.config');
-
     final SharedPreferences appConfig = await SharedPreferences.getInstance();
-    List<String> amountOfItemsInRubbish = [];
+    List<String> numberOfItemsInRubbish = [];
 
     appConfig.setString('_measurementStartDate', _measurementStartDate);
 
     for (int i = 0; i < _rubbish.length; i++) {
-      amountOfItemsInRubbish.add(_rubbish[i].amountInRubbish.toString());
+      numberOfItemsInRubbish.add(_rubbish[i].numberInRubbish.toString());
     }
-    appConfig.setStringList('amountOfItemsInRubbish', amountOfItemsInRubbish);
-    // if (!await file.exists()) {
-    //   await file.writeAsString(_measurementStartDate);
-    // }
+    appConfig.setStringList('numberOfItemsInRubbish', numberOfItemsInRubbish);
   }
 
   void _countRubbishGrams() {
@@ -154,7 +138,7 @@ class _AppState extends State<App> {
       _rubbishGrams = 0;
 
       _rubbish.forEach((item) {
-        _rubbishGrams += item.amountInRubbish * item.weightGrams;
+        _rubbishGrams += item.numberInRubbish * item.weightGrams;
         if (_rubbishGrams > _maxRubbishGrams) {
           _rubbishGrams = 0;
         }

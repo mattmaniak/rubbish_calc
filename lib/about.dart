@@ -5,8 +5,8 @@ import 'style.dart';
 
 class About extends StatelessWidget {
   static final String _repoURL = 'https://gitlab.com/mattmaniak/rubbish_calc';
-
   final String _licenseURL = _repoURL + '/blob/master/LICENSE';
+  final String _termsURL = _repoURL + '/blob/master/README.md#terms-of-use';
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,53 +14,50 @@ class About extends StatelessWidget {
       body: CustomScrollView(slivers: <Widget>[
         Bar(
           text: 'Rubbish Calc v0.0.0',
-          backgroundText: 'About app',
+          backgroundText: 'About',
         ),
         SliverList(
             delegate: SliverChildListDelegate([
           Card(
             color: buttonColor(),
             child: ListTile(
-              leading: Text('Repo'),
               title: Text(
-                _repoURL,
+                'Source code',
                 style: TextStyle(
                   color: Colors.blue,
                   decoration: TextDecoration.underline,
                 ),
                 textAlign: TextAlign.center,
               ),
-              onTap: _openLicenseURL,
+              onTap: () => _openURL(_repoURL),
             ),
           ),
           Card(
             color: buttonColor(),
             child: ListTile(
-              leading: Text('License'),
               title: Text(
-                _licenseURL,
+                'License',
                 style: TextStyle(
                   color: Colors.blue,
                   decoration: TextDecoration.underline,
                 ),
                 textAlign: TextAlign.center,
               ),
-              onTap: _openLicenseURL,
+              onTap: () => _openURL(_licenseURL),
             ),
           ),
           Card(
             color: buttonColor(),
             child: ListTile(
-              leading: Text('Terms'),
               title: Text(
-                _licenseURL,
+                'Terms of Use',
                 style: TextStyle(
                   color: Colors.blue,
                   decoration: TextDecoration.underline,
                 ),
                 textAlign: TextAlign.center,
               ),
-              onTap: _openLicenseURL,
+              onTap: () => _openURL(_termsURL),
             ),
           ),
         ])),
@@ -68,9 +65,9 @@ class About extends StatelessWidget {
     );
   }
 
-  void _openLicenseURL() async {
-    if (await canLaunch(_licenseURL)) {
-      await launch(_licenseURL);
+  void _openURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
     } else {
       throw 'Unable to open the license in a browser.';
     }
