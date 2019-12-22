@@ -63,10 +63,10 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: appColor(),
-      body: CustomScrollView(slivers: <Widget>[
+      body: CustomScrollView(slivers: [
         Bar(
             text: _rubbishGrams.toString() + ' g wasted',
-            backgroundText: renderMeasurementStartDate()),
+            backgroundText: _renderMeasurementStartDate()),
         SliverList(delegate: SliverChildListDelegate(_rubbish)),
         SliverList(
             delegate: SliverChildListDelegate([
@@ -101,22 +101,18 @@ class _AppState extends State<App> {
     final SharedPreferences appConfig = await SharedPreferences.getInstance();
     List<String> numberOfItemsInRubbish = [];
 
-    setState(() {
-      _measurementStartDate = appConfig.getString('_measurementStartDate') ??
-          currentDate;
-    });
+    _measurementStartDate =
+        appConfig.getString('_measurementStartDate') ?? currentDate;
     try {
       numberOfItemsInRubbish =
           appConfig.getStringList('numberOfItemsInRubbish');
     } catch (exception) {
-      // throw 'Unable to load the configuration.';
+      numberOfItemsInRubbish = List<String>.filled(_rubbish.length, '0');
+      _measurementStartDate = currentDate;
     }
     for (int i = 0; i < _rubbish.length; i++) {
-      try {
-      _rubbish[i].numberInRubbish = int.parse(numberOfItemsInRubbish[i]);
-      } on FormatException {
-        // throw 'Unable to load the configuration.';
-      }
+      _rubbish[i].numberInRubbish =
+          int.tryParse(numberOfItemsInRubbish[i]) ?? 0;
     }
     _countRubbishGrams();
   }
@@ -147,7 +143,7 @@ class _AppState extends State<App> {
     _saveConfig();
   }
 
-  String renderMeasurementStartDate() {
+  String _renderMeasurementStartDate() {
     if (_measurementStartDate.toString() != 'null') {
       return 'Measured since ' + _measurementStartDate;
     }

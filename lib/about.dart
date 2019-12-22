@@ -4,7 +4,8 @@ import 'bar.dart';
 import 'style.dart';
 
 class About extends StatelessWidget {
-  static final String _repoURL = 'https://gitlab.com/mattmaniak/rubbish_calc';
+  static final String _authorURL = 'https://gitlab.com/mattmaniak';
+  static final String _repoURL = _authorURL + '/rubbish_calc';
   final String _licenseURL = _repoURL + '/blob/master/LICENSE';
   final String _termsURL = _repoURL + '/blob/master/README.md#terms-of-use';
 
@@ -18,50 +19,36 @@ class About extends StatelessWidget {
         ),
         SliverList(
             delegate: SliverChildListDelegate([
-          Card(
-            color: buttonColor(),
-            child: ListTile(
-              title: Text(
-                'Source code',
-                style: TextStyle(
-                  color: Colors.blue,
-                  decoration: TextDecoration.underline,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              onTap: () => _openURL(_repoURL),
-            ),
-          ),
-          Card(
-            color: buttonColor(),
-            child: ListTile(
-              title: Text(
-                'License',
-                style: TextStyle(
-                  color: Colors.blue,
-                  decoration: TextDecoration.underline,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              onTap: () => _openURL(_licenseURL),
-            ),
-          ),
-          Card(
-            color: buttonColor(),
-            child: ListTile(
-              title: Text(
-                'Terms of Use',
-                style: TextStyle(
-                  color: Colors.blue,
-                  decoration: TextDecoration.underline,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              onTap: () => _openURL(_termsURL),
-            ),
-          ),
+          AboutItem(title: 'Created by mattmaniak', url: _authorURL),
+          AboutItem(title: 'Source code on GitLab', url: _repoURL),
+          AboutItem(title: 'MIT License', url: _licenseURL),
+          AboutItem(title: 'Terms of Use', url: _termsURL),
         ])),
       ]),
+    );
+  }
+}
+
+class AboutItem extends StatelessWidget {
+  final String title;
+  final String url;
+
+  AboutItem({@required this.title, @required this.url});
+
+  Widget build(BuildContext context) {
+    return Card(
+      color: buttonColor(),
+      child: ListTile(
+        title: Text(
+          title,
+          style: TextStyle(
+            color: Colors.blue,
+            decoration: TextDecoration.underline,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        onTap: () => _openURL(url),
+      ),
     );
   }
 
