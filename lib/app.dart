@@ -21,16 +21,9 @@ class _AppState extends State<App> {
     super.initState();
 
     _rubbish = [
-      // https://www.quora.com/How-much-does-a-330ml-can-of-soda-weigh-in-grams
       Item(
-        name: 'Aluminium soda can 0.33 L',
-        weightGrams: 30,
-        refreshParentState: _countRubbishGrams,
-      ),
-      // https://en.m.wikipedia.org/wiki/Wine_bottle#Environmental_impact
-      Item(
-        name: 'Glass wine bottle 0.75 L',
-        weightGrams: 500,
+        name: 'Plastic bottle cap',
+        weightGrams: 1,
         refreshParentState: _countRubbishGrams,
       ),
       // https://www.quora.com/How-much-does-a-single-metal-bottle-cap-weigh-from-a-beer-or-soda-bottle
@@ -50,9 +43,26 @@ class _AppState extends State<App> {
         weightGrams: 20,
         refreshParentState: _countRubbishGrams,
       ),
+      // https://www.quora.com/How-much-does-a-330ml-can-of-soda-weigh-in-grams
+      Item(
+        name: 'Aluminium soda can 0.33 L',
+        weightGrams: 30,
+        refreshParentState: _countRubbishGrams,
+      ),
       Item(
         name: 'PET Bottle 1.5 L',
         weightGrams: 30,
+        refreshParentState: _countRubbishGrams,
+      ),
+      Item(
+        name: 'Carton juice box 2 L',
+        weightGrams: 60,
+        refreshParentState: _countRubbishGrams,
+      ),
+      // https://en.m.wikipedia.org/wiki/Wine_bottle#Environmental_impact
+      Item(
+        name: 'Glass wine bottle 0.75 L',
+        weightGrams: 500,
         refreshParentState: _countRubbishGrams,
       ),
     ];
