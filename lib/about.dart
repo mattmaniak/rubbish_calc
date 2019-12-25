@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'url.dart';
 import 'bar.dart';
 import 'style.dart';
 
@@ -47,16 +47,8 @@ class AboutItem extends StatelessWidget {
           ),
           textAlign: TextAlign.center,
         ),
-        onTap: () => _openURL(url),
+        onTap: () => openURL(url),
       ),
     );
-  }
-
-  void _openURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Unable to open the license in a browser.';
-    }
   }
 }
