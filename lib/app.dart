@@ -55,7 +55,12 @@ class _AppState extends State<App> {
         refreshParentState: _countRubbishGrams,
       ),
       Item(
-        name: 'Carton juice box 2 L',
+        name: 'Juicebox 1.5 L',
+        weightGrams: 50,
+        refreshParentState: _countRubbishGrams,
+      ),
+      Item(
+        name: 'Juicebox 2 L',
         weightGrams: 60,
         refreshParentState: _countRubbishGrams,
       ),

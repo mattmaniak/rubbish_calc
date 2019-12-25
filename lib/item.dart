@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class Item extends StatefulWidget {
   final String name;
   final int weightGrams;
-  Function refreshParentState;
+  final Function refreshParentState;
   int numberInRubbish = 0;
 
   Item(
