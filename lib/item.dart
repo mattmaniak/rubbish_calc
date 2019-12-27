@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 class Item extends StatefulWidget {
+  final int idInDatabaseTable;
   final String name;
   final int weightGrams;
   final Function refreshParentState;
   int numberInRubbish = 0;
 
   Item(
-      {@required this.name,
+      {@required this.idInDatabaseTable,
+      @required this.name,
       @required this.weightGrams,
       @required this.refreshParentState});
 

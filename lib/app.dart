@@ -4,6 +4,7 @@ import 'item.dart';
 import 'about.dart';
 import 'style.dart';
 import 'bar.dart';
+import 'database.dart';
 
 class App extends StatefulWidget {
   @override
@@ -16,56 +17,66 @@ class _AppState extends State<App> {
   String _measurementStartDate;
   List<Item> _rubbish;
 
+
   @override
   void initState() {
     super.initState();
 
     _rubbish = [
       Item(
+        idInDatabaseTable: 0,
         name: 'Plastic bottle cap',
         weightGrams: 1,
         refreshParentState: _countRubbishGrams,
       ),
       // https://www.quora.com/How-much-does-a-single-metal-bottle-cap-weigh-from-a-beer-or-soda-bottle
       Item(
+        idInDatabaseTable: 1,
         name: 'Metal bottle cap',
         weightGrams: 2,
         refreshParentState: _countRubbishGrams,
       ),
       // https://www.quora.com/What-is-the-weight-of-1-5-liter-empty-pet-bottles
       Item(
+        idInDatabaseTable: 2,
         name: 'PET Bottle 0.5 L',
         weightGrams: 10,
         refreshParentState: _countRubbishGrams,
       ),
       Item(
+        idInDatabaseTable: 3,
         name: 'PET Bottle 1.0 L',
         weightGrams: 20,
         refreshParentState: _countRubbishGrams,
       ),
       // https://www.quora.com/How-much-does-a-330ml-can-of-soda-weigh-in-grams
       Item(
+        idInDatabaseTable: 3,
         name: 'Aluminium soda can 0.33 L',
         weightGrams: 30,
         refreshParentState: _countRubbishGrams,
       ),
       Item(
+        idInDatabaseTable: 4,
         name: 'PET Bottle 1.5 L',
         weightGrams: 30,
         refreshParentState: _countRubbishGrams,
       ),
       Item(
+        idInDatabaseTable: 5,
         name: 'Juicebox 1.5 L',
         weightGrams: 50,
         refreshParentState: _countRubbishGrams,
       ),
       Item(
+        idInDatabaseTable: 6,
         name: 'Juicebox 2 L',
         weightGrams: 60,
         refreshParentState: _countRubbishGrams,
       ),
       // https://en.m.wikipedia.org/wiki/Wine_bottle#Environmental_impact
       Item(
+        idInDatabaseTable: 7,
         name: 'Glass wine bottle 0.75 L',
         weightGrams: 500,
         refreshParentState: _countRubbishGrams,
@@ -106,6 +117,7 @@ class _AppState extends State<App> {
   }
 
   Future<void> _loadConfig() async {
+    DB database;
     final DateTime measurementStartDateTime = DateTime.now();
     final String currentDate = measurementStartDateTime.year.toString() +
         '-' +
@@ -125,10 +137,17 @@ class _AppState extends State<App> {
       numberOfItemsInRubbish = List<String>.filled(_rubbish.length, '0');
       _measurementStartDate = currentDate;
     }
-    for (int i = 0; i < _rubbish.length; i++) {
-      _rubbish[i].numberInRubbish =
-          int.tryParse(numberOfItemsInRubbish[i]) ?? 0;
-    }
+    database.exists().then((isCreated) {
+      if(!isCreated) {
+        database.create();
+      } else {
+        database.read();
+      }
+    });
+    // for (int i = 0; i < _rubbish.length; i++) {
+    //   _rubbish[i].numberInRubbish =
+    //       int.tryParse(numberOfItemsInRubbish[i]) ?? 0;
+    // }
     _countRubbishGrams();
   }
 
