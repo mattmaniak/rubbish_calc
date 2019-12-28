@@ -17,7 +17,6 @@ class _AppState extends State<App> {
   String _measurementStartDate;
   List<Item> _rubbish;
 
-
   @override
   void initState() {
     super.initState();
@@ -65,7 +64,7 @@ class _AppState extends State<App> {
       Item(
         idInDatabaseTable: 5,
         name: 'Juicebox 1.5 L',
-        weightGrams: 50,
+        weightGrams: 45,
         refreshParentState: _countRubbishGrams,
       ),
       Item(
@@ -81,7 +80,14 @@ class _AppState extends State<App> {
         weightGrams: 500,
         refreshParentState: _countRubbishGrams,
       ),
+      Item(
+        idInDatabaseTable: 8,
+        name: 'Juicebox 1.0 L',
+        weightGrams: 30,
+        refreshParentState: _countRubbishGrams,
+      ),
     ];
+    _rubbish.sort((a, b) => a.weightGrams.compareTo(b.weightGrams));
     _loadConfig();
   }
 
@@ -102,12 +108,7 @@ class _AppState extends State<App> {
                 'About',
                 style: TextStyle(color: textColor()),
               ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => About()),
-                );
-              },
+              onPressed: _navigateToAboutScreen,
               color: buttonColor(),
             ),
           ]),
@@ -117,7 +118,7 @@ class _AppState extends State<App> {
   }
 
   Future<void> _loadConfig() async {
-    DB database;
+    DB database = DB();
     final DateTime measurementStartDateTime = DateTime.now();
     final String currentDate = measurementStartDateTime.year.toString() +
         '-' +
@@ -137,11 +138,11 @@ class _AppState extends State<App> {
       numberOfItemsInRubbish = List<String>.filled(_rubbish.length, '0');
       _measurementStartDate = currentDate;
     }
-    database.exists().then((isCreated) {
-      if(!isCreated) {
-        database.create();
-      } else {
+    await database.exists().then((exists) {
+      if (exists) {
         database.read();
+      } else {
+        database.create();
       }
     });
     // for (int i = 0; i < _rubbish.length; i++) {
@@ -178,9 +179,16 @@ class _AppState extends State<App> {
   }
 
   String _renderMeasurementStartDate() {
-    if (_measurementStartDate.toString() != 'null') {
-      return 'Measured since ' + _measurementStartDate;
+    if (_measurementStartDate.toString() == 'null') {
+      return 'Loading data...';
     }
-    return 'Loading data...';
+    return 'Measured since ' + _measurementStartDate;
+  }
+
+  void _navigateToAboutScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => About()),
+    );
   }
 }
