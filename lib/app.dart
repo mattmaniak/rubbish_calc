@@ -13,11 +13,11 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  final Db _database = Db();
   final int _maxRubbishGrams = 1000000; // 1 metric ton.
   int _rubbishGrams = 0;
   String _measurementStartDate;
   List<Item> _rubbish;
-  DB _database = DB();
 
   @override
   void initState() {
@@ -65,7 +65,7 @@ class _AppState extends State<App> {
     _measurementStartDate =
         prefs.getString('_measurementStartDate') ?? currentDate;
 
-    await _database.exists().then((exists) {
+    await _database.exists.then((exists) {
       if (exists) {
         _database.read(_rubbish).then((rubbish) {
           _rubbish = rubbish;

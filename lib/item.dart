@@ -20,6 +20,17 @@ class Item extends StatefulWidget {
 }
 
 class _ItemState extends State<Item> {
+  int get weightInRubbishGrams {
+    return widget.numberInRubbish * widget.weightGrams;
+  }
+
+  String get wastedSubtitle {
+    return widget.numberInRubbish.toString() +
+        ' wasted - ' +
+        weightInRubbishGrams.toString() +
+        ' g';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -31,10 +42,7 @@ class _ItemState extends State<Item> {
             size: 40.0,
           ),
           title: Text(widget.name),
-          subtitle: Text(widget.numberInRubbish.toString() +
-              ' wasted - ' +
-              (widget.numberInRubbish * widget.weightGrams).toString() +
-              ' g'),
+          subtitle: Text(wastedSubtitle),
           trailing: Text(widget.weightGrams.toString() + ' g'),
           onTap: _incrementAmountInRubbish),
     );

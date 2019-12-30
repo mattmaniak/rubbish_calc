@@ -2,33 +2,34 @@ import 'package:flutter/widgets.dart';
 import 'package:sqflite/sqflite.dart';
 import 'item.dart';
 
-class DB {
-  static final String _databaseName = 'rubbish_calc.db';
+class Db {
+  static final String _name = 'rubbish_calc.db';
   final String _tableName = 'Items';
-  String _databaseFilename;
-  Database _databaseFile;
+  Database _file;
 
-  DB() {
-    _setDatabaseFilename();
+  Future<String> get filename async {
+    return await getDatabasesPath() + '/' + _name;
   }
 
-  void _setDatabaseFilename() async {
-    _databaseFilename = await getDatabasesPath() + '/' + _databaseName;
+  Future<bool> get exists async {
+    if (await databaseExists(await filename)) {
+      return true;
+    }
+    return false;
   }
 
   void create() async {
-    _databaseFile = await openDatabase(_databaseFilename, version: 1,
+    _file = await openDatabase(await filename, version: 1,
         onCreate: (Database db, int version) async {
       await db.execute('CREATE TABLE $_tableName('
           'id INTEGER NOT NULL PRIMARY KEY,'
           'numberInRubbish INTEGER NOT NULL)');
     });
-    await _databaseFile.close();
+    await _file.close();
   }
 
   Future<List<Item>> read(List<Item> rubbish) async {
-    _databaseFile =
-        await openDatabase(_databaseFilename, onOpen: (Database db) async {
+    _file = await openDatabase(await filename, onOpen: (Database db) async {
       int numberOfRows = Sqflite.firstIntValue(
           await db.rawQuery('SELECT COUNT(*) FROM  $_tableName'));
 
@@ -46,15 +47,14 @@ class DB {
         });
       });
     });
-    await _databaseFile.close();
+    await _file.close();
     return rubbish;
   }
 
   void save(List<Item> rubbish) async {
     rubbish.sort((a, b) => a.uniqueId.compareTo(b.uniqueId));
 
-    _databaseFile =
-        await openDatabase(_databaseFilename, onOpen: (Database db) async {
+    _file = await openDatabase(await filename, onOpen: (Database db) async {
       int numberOfRows = Sqflite.firstIntValue(
           await db.rawQuery('SELECT COUNT(*) FROM  $_tableName'));
 
@@ -75,13 +75,6 @@ class DB {
         debugPrint('UNIQUE constraint failed - repeated ID');
       }
     });
-    await _databaseFile.close();
-  }
-
-  Future<bool> exists() async {
-    if (await databaseExists(_databaseFilename)) {
-      return true;
-    }
-    return false;
+    await _file.close();
   }
 }
