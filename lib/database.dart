@@ -23,69 +23,56 @@ class DB {
           'id INTEGER NOT NULL PRIMARY KEY,'
           'numberInRubbish INTEGER NOT NULL)');
     });
-    debugPrint('HELLO_1'); // Works.
-
     await _databaseFile.close();
   }
 
   Future<List<Item>> read(List<Item> rubbish) async {
-    int numberOfRows = 0;
-
     _databaseFile =
         await openDatabase(_databaseFilename, onOpen: (Database db) async {
-      numberOfRows = Sqflite.firstIntValue(
+      int numberOfRows = Sqflite.firstIntValue(
           await db.rawQuery('SELECT COUNT(*) FROM  $_tableName'));
 
       // if(numberOfRows != rubbish.length) {
       //   return rubbish;
       // }
-      // debugPrint('HELLO_2'); // Works.
-      // List<Map<String, dynamic>> fetchedData = await db.query(_tableName);
 
-      db.rawQuery('SELECT * FROM $_tableName').then((data) {
-        rubbish.forEach((item) {
-          data.forEach((dbItem) {
-            if (item.uniqueId == dbItem['id']) {
-              item.numberInRubbish = dbItem['numberInRubbish'];
-            }
-          });
+      rubbish.forEach((item) {
+        db
+            .rawQuery('SELECT * FROM $_tableName '
+                'WHERE id = ${item.uniqueId}')
+            .then((dbItem) {
+          item.numberInRubbish = dbItem[0]['numberInRubbish'];
+          debugPrint(item.numberInRubbish.toString());
         });
       });
-      // debugPrint(fetchedData.toString());
     });
-
     await _databaseFile.close();
     return rubbish;
   }
 
   void save(List<Item> rubbish) async {
-    int numberOfRows = 0;
-
     rubbish.sort((a, b) => a.uniqueId.compareTo(b.uniqueId));
-
-    rubbish.forEach((f) {
-      debugPrint(f.toString());
-    });
-    // debugPrint(rubbish.toString());
 
     _databaseFile =
         await openDatabase(_databaseFilename, onOpen: (Database db) async {
-      numberOfRows = Sqflite.firstIntValue(
+      int numberOfRows = Sqflite.firstIntValue(
           await db.rawQuery('SELECT COUNT(*) FROM  $_tableName'));
 
-      if (numberOfRows == 0) {
-        rubbish.forEach((item) {
-          db.rawInsert('INSERT INTO $_tableName(id, numberInRubbish) '
-              'VALUES(${item.uniqueId}, ${item.numberInRubbish})');
-        });
-      } else {
-        rubbish.forEach((item) {
-          db.rawUpdate('UPDATE $_tableName '
-              'SET numberInRubbish = ${item.numberInRubbish} '
-              'WHERE id = ${item.uniqueId}');
-        });
-        // List<Map<String, dynamic>> fetchedData = await db.query(_tableName);
-        // debugPrint(fetchedData.toString());
+      try {
+        if (numberOfRows == 0) {
+          rubbish.forEach((item) {
+            db.rawInsert('INSERT INTO $_tableName(id, numberInRubbish) '
+                'VALUES(${item.uniqueId}, ${item.numberInRubbish})');
+          });
+        } else {
+          rubbish.forEach((item) {
+            db.rawUpdate('UPDATE $_tableName '
+                'SET numberInRubbish = ${item.numberInRubbish} '
+                'WHERE id = ${item.uniqueId}');
+          });
+        }
+      } catch (DatabaseException) {
+        debugPrint('UNIQUE constraint failed - repeated ID');
       }
     });
     await _databaseFile.close();
