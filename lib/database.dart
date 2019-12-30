@@ -29,22 +29,30 @@ class DB {
   }
 
   Future<List<Item>> read(List<Item> rubbish) async {
-    List<Item> loadedRubbishConfig = [];
     int numberOfRows = 0;
-    _databaseFile = await openReadOnlyDatabase(_databaseFilename);
 
-    numberOfRows = Sqflite.firstIntValue(
-        await _databaseFile.rawQuery('SELECT COUNT(*) FROM  $_tableName'));
+    _databaseFile =
+        await openDatabase(_databaseFilename, onOpen: (Database db) async {
+      numberOfRows = Sqflite.firstIntValue(
+          await db.rawQuery('SELECT COUNT(*) FROM  $_tableName'));
 
-    // if(numberOfRows != rubbish.length) {
-    //   return rubbish;
-    // }
-    debugPrint('HELLO_2'); // Works.
+      // if(numberOfRows != rubbish.length) {
+      //   return rubbish;
+      // }
+      // debugPrint('HELLO_2'); // Works.
+      // List<Map<String, dynamic>> fetchedData = await db.query(_tableName);
 
-    List<Map<String, dynamic>> fetchedData =
-        await _databaseFile.query(_tableName);
-
-    debugPrint(fetchedData.toString());
+      db.rawQuery('SELECT * FROM $_tableName').then((data) {
+        rubbish.forEach((item) {
+          data.forEach((dbItem) {
+            if (item.uniqueId == dbItem['id']) {
+              item.numberInRubbish = dbItem['numberInRubbish'];
+            }
+          });
+        });
+      });
+      // debugPrint(fetchedData.toString());
+    });
 
     await _databaseFile.close();
     return rubbish;
@@ -53,20 +61,33 @@ class DB {
   void save(List<Item> rubbish) async {
     int numberOfRows = 0;
 
-    _databaseFile = await openDatabase(_databaseFilename);
-    numberOfRows = Sqflite.firstIntValue(
-        await _databaseFile.rawQuery('SELECT COUNT(*) FROM  $_tableName'));
+    rubbish.sort((a, b) => a.uniqueId.compareTo(b.uniqueId));
 
-    if (numberOfRows == 0) {
-      rubbish.forEach((item) {
-        _databaseFile.insert(_tableName,
-            {'id': item.uniqueId, 'numberInRubbish': item.numberInRubbish});
-      });
-    } else {
-      // rubbish.forEach((item) {
-      //   _databaseFile.update(_tableName, );
-      // });
-    }
+    rubbish.forEach((f) {
+      debugPrint(f.toString());
+    });
+    // debugPrint(rubbish.toString());
+
+    _databaseFile =
+        await openDatabase(_databaseFilename, onOpen: (Database db) async {
+      numberOfRows = Sqflite.firstIntValue(
+          await db.rawQuery('SELECT COUNT(*) FROM  $_tableName'));
+
+      if (numberOfRows == 0) {
+        rubbish.forEach((item) {
+          db.rawInsert('INSERT INTO $_tableName(id, numberInRubbish) '
+              'VALUES(${item.uniqueId}, ${item.numberInRubbish})');
+        });
+      } else {
+        rubbish.forEach((item) {
+          db.rawUpdate('UPDATE $_tableName '
+              'SET numberInRubbish = ${item.numberInRubbish} '
+              'WHERE id = ${item.uniqueId}');
+        });
+        // List<Map<String, dynamic>> fetchedData = await db.query(_tableName);
+        // debugPrint(fetchedData.toString());
+      }
+    });
     await _databaseFile.close();
   }
 

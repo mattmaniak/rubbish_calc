@@ -17,11 +17,12 @@ class _AppState extends State<App> {
   int _rubbishGrams = 0;
   String _measurementStartDate;
   List<Item> _rubbish;
+  DB _database = DB();
 
   @override
   void initState() {
     super.initState();
-    _rubbish = generateRubbish(_countRubbishGrams);
+    _rubbish = generateRubbish(_maxRubbishGrams, _countRubbishGrams);
     _loadConfig();
   }
 
@@ -52,7 +53,6 @@ class _AppState extends State<App> {
   }
 
   Future<void> _loadConfig() async {
-    DB database = DB();
     final DateTime measurementStartDateTime = DateTime.now();
     final String currentDate = measurementStartDateTime.year.toString() +
         '-' +
@@ -60,47 +60,29 @@ class _AppState extends State<App> {
         '-' +
         measurementStartDateTime.day.toString();
 
-    final SharedPreferences appConfig = await SharedPreferences.getInstance();
-    List<String> numberOfItemsInRubbish = [];
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     _measurementStartDate =
-        appConfig.getString('_measurementStartDate') ?? currentDate;
-    try {
-      numberOfItemsInRubbish =
-          appConfig.getStringList('numberOfItemsInRubbish');
-    } catch (exception) {
-      numberOfItemsInRubbish = List<String>.filled(_rubbish.length, '0');
-      _measurementStartDate = currentDate;
-    }
-    await database.exists().then((exists) {
+        prefs.getString('_measurementStartDate') ?? currentDate;
+
+    await _database.exists().then((exists) {
       if (exists) {
-        database.read(_rubbish).then((rubbish) {
+        _database.read(_rubbish).then((rubbish) {
           _rubbish = rubbish;
         });
       } else {
-        database.create();
+        _database.create();
+        _measurementStartDate = currentDate;
       }
     });
-    // for (int i = 0; i < _rubbish.length; i++) {
-    //   _rubbish[i].numberInRubbish =
-    //       int.tryParse(numberOfItemsInRubbish[i]) ?? 0;
-    // }
     _countRubbishGrams();
   }
 
   Future<void> _saveConfig() async {
-    final SharedPreferences appConfig = await SharedPreferences.getInstance();
-    List<String> numberOfItemsInRubbish = [];
-    DB database = DB();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    appConfig.setString('_measurementStartDate', _measurementStartDate);
-
-    // for (int i = 0; i < _rubbish.length; i++) {
-    //   numberOfItemsInRubbish.add(_rubbish[i].numberInRubbish.toString());
-    // }
-    // appConfig.setStringList('numberOfItemsInRubbish', numberOfItemsInRubbish);
-
-    database.save(_rubbish);
+    prefs.setString('_measurementStartDate', _measurementStartDate);
+    _database.save(_rubbish);
   }
 
   void _countRubbishGrams() {

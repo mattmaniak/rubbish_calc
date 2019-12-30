@@ -4,6 +4,7 @@ class Item extends StatefulWidget {
   final int uniqueId;
   final String name;
   final int weightGrams;
+  final int maxWeightGrams;
   final Function refreshParentState;
   int numberInRubbish = 0;
 
@@ -11,6 +12,7 @@ class Item extends StatefulWidget {
       {@required this.uniqueId,
       @required this.name,
       @required this.weightGrams,
+      @required this.maxWeightGrams,
       @required this.refreshParentState});
 
   @override
@@ -40,7 +42,10 @@ class _ItemState extends State<Item> {
 
   void _incrementAmountInRubbish() {
     setState(() {
-      widget.numberInRubbish++;
+      if ((++widget.numberInRubbish * widget.weightGrams) >
+          widget.maxWeightGrams) {
+        widget.numberInRubbish--;
+      }
       widget.refreshParentState();
     });
   }
