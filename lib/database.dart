@@ -30,21 +30,21 @@ class Db {
 
   Future<List<Item>> read(List<Item> rubbish) async {
     _file = await openDatabase(await filename, onOpen: (Database db) async {
-      int numberOfRows = Sqflite.firstIntValue(
-          await db.rawQuery('SELECT COUNT(*) FROM  $_tableName'));
-
-      // if(numberOfRows != rubbish.length) {
-      //   return rubbish;
-      // }
-
       rubbish.forEach((item) {
-        db
-            .rawQuery('SELECT * FROM $_tableName '
-                'WHERE id = ${item.uniqueId}')
-            .then((dbItem) {
-          item.numberInRubbish = dbItem[0]['numberInRubbish'];
-          debugPrint(item.numberInRubbish.toString());
-        });
+        try {
+          db
+              .rawQuery('SELECT * FROM $_tableName '
+                  'WHERE id = ${item.uniqueId}')
+              .then((dbItems) {
+            if (dbItems.length > 0) {
+              item.numberInRubbish = dbItems[0]['numberInRubbish'];
+            } else {
+              item.numberInRubbish = 0;
+            }
+          });
+        } catch(DatabaseException) {
+          item.numberInRubbish = 0;
+        }
       });
     });
     await _file.close();

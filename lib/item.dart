@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 
 class Item extends StatefulWidget {
+  _ItemState state;
+
   final int uniqueId;
   final String name;
   final int weightGrams;
   final int maxWeightGrams;
   final Function refreshParentState;
   int numberInRubbish = 0;
+
+  int get weightInRubbishGrams {
+    return numberInRubbish * weightGrams;
+  }
 
   Item(
       {@required this.uniqueId,
@@ -16,18 +22,17 @@ class Item extends StatefulWidget {
       @required this.refreshParentState});
 
   @override
-  _ItemState createState() => _ItemState();
+  _ItemState createState() {
+    _ItemState state = _ItemState();
+    return state;
+  }
 }
 
 class _ItemState extends State<Item> {
-  int get weightInRubbishGrams {
-    return widget.numberInRubbish * widget.weightGrams;
-  }
-
-  String get wastedSubtitle {
+  String get wastedGramsSubtitle {
     return widget.numberInRubbish.toString() +
         ' wasted - ' +
-        weightInRubbishGrams.toString() +
+        widget.weightInRubbishGrams.toString() +
         ' g';
   }
 
@@ -42,7 +47,7 @@ class _ItemState extends State<Item> {
             size: 40.0,
           ),
           title: Text(widget.name),
-          subtitle: Text(wastedSubtitle),
+          subtitle: Text(wastedGramsSubtitle),
           trailing: Text(widget.weightGrams.toString() + ' g'),
           onTap: _incrementAmountInRubbish),
     );
@@ -56,5 +61,9 @@ class _ItemState extends State<Item> {
       }
       widget.refreshParentState();
     });
+  }
+
+  void update() {
+    setState(() {});
   }
 }

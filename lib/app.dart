@@ -26,13 +26,26 @@ class _AppState extends State<App> {
     _loadConfig();
   }
 
+  String get currentDate {
+    final DateTime measurementStartDateTime = DateTime.now();
+    return measurementStartDateTime.year.toString() +
+        '-' +
+        measurementStartDateTime.month.toString() +
+        '-' +
+        measurementStartDateTime.day.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
+    // _rubbish.forEach((item) {
+    //   item.state.update();
+    // });
+
     return Scaffold(
       backgroundColor: appColor(),
       body: CustomScrollView(slivers: [
         Bar(
-            text: _rubbishGrams.toString() + ' g wasted',
+            text: _renderRubbishGrams(),
             backgroundText: _renderMeasurementStartDate()),
         SliverList(delegate: SliverChildListDelegate(_rubbish)),
         SliverList(
@@ -53,13 +66,6 @@ class _AppState extends State<App> {
   }
 
   Future<void> _loadConfig() async {
-    final DateTime measurementStartDateTime = DateTime.now();
-    final String currentDate = measurementStartDateTime.year.toString() +
-        '-' +
-        measurementStartDateTime.month.toString() +
-        '-' +
-        measurementStartDateTime.day.toString();
-
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     _measurementStartDate =
@@ -90,9 +96,9 @@ class _AppState extends State<App> {
       _rubbishGrams = 0;
 
       _rubbish.forEach((item) {
-        _rubbishGrams += item.numberInRubbish * item.weightGrams;
+        _rubbishGrams += item.weightInRubbishGrams;
         if (_rubbishGrams > _maxRubbishGrams) {
-          _rubbishGrams = 0;
+          _rubbishGrams = _maxRubbishGrams;
         }
       });
     });
@@ -104,6 +110,10 @@ class _AppState extends State<App> {
       return 'Loading data...';
     }
     return 'Measured since ' + _measurementStartDate;
+  }
+
+  String _renderRubbishGrams() {
+    return _rubbishGrams.toString() + ' g wasted';
   }
 
   void _navigateToAboutScreen() {
