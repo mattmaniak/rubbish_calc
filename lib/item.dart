@@ -10,9 +10,7 @@ class Item extends StatefulWidget {
   final Function refreshParentState;
   int numberInRubbish = 0;
 
-  int get weightInRubbishGrams {
-    return numberInRubbish * weightGrams;
-  }
+  int get weightInRubbishGrams => numberInRubbish * weightGrams;
 
   Item(
       {@required this.uniqueId,
@@ -61,9 +59,5 @@ class _ItemState extends State<Item> {
       }
       widget.refreshParentState();
     });
-  }
-
-  void update() {
-    setState(() {});
   }
 }

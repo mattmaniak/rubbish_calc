@@ -7,9 +7,7 @@ class Db {
   final String _tableName = 'Items';
   Database _file;
 
-  Future<String> get filename async {
-    return await getDatabasesPath() + '/' + _name;
-  }
+  Future<String> get filename async => await getDatabasesPath() + '/' + _name;
 
   Future<bool> get exists async {
     if (await databaseExists(await filename)) {
