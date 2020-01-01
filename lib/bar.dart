@@ -17,7 +17,9 @@ class Bar extends StatelessWidget {
         centerTitle: true,
         title: Text(
           text,
-          style: TextStyle(color: textColor()),
+          style: TextStyle(
+            color: textColor(),
+          ),
         ),
         background: Center(
           child: Text(backgroundText),

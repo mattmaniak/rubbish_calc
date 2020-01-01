@@ -18,12 +18,25 @@ class About extends StatelessWidget {
           backgroundText: 'About',
         ),
         SliverList(
-            delegate: SliverChildListDelegate([
-          AboutItem(title: 'Created by mattmaniak', url: _authorURL),
-          AboutItem(title: 'Source code on GitLab', url: _repoURL),
-          AboutItem(title: 'MIT License', url: _licenseURL),
-          AboutItem(title: 'Terms of Use', url: _termsURL),
-        ])),
+          delegate: SliverChildListDelegate([
+            AboutItem(
+              title: 'Created by mattmaniak',
+              url: _authorURL,
+            ),
+            AboutItem(
+              title: 'Source code on GitLab',
+              url: _repoURL,
+            ),
+            AboutItem(
+              title: 'MIT License',
+              url: _licenseURL,
+            ),
+            AboutItem(
+              title: 'Terms of Use',
+              url: _termsURL,
+            ),
+          ]),
+        ),
       ]),
     );
   }
@@ -41,11 +54,11 @@ class AboutItem extends StatelessWidget {
       child: ListTile(
         title: Text(
           title,
+          textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.blue,
             decoration: TextDecoration.underline,
           ),
-          textAlign: TextAlign.center,
         ),
         onTap: () => openURL(url),
       ),
