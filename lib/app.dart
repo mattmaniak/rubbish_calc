@@ -35,21 +35,17 @@ class _AppState extends State<App> {
 
   List<Widget> get _rubbishPreloader {
     if (_rubbish.length == 0) {
-      if (_measuredSinceDate == 'never') {
-        return [
-          Card(
-            color: Colors.green[100],
-            child: ListTile(
-              title: Text('Click to start counting your rubbish'),
-              onTap: () {
-                setState(() {});
-              },
-            ),
+      return [
+        Card(
+          color: Colors.green[100],
+          child: ListTile(
+            title: Text('Click to start counting your rubbish'),
+            onTap: () {
+              setState(() {});
+            },
           ),
-        ];
-      } else {
-        return [];
-      }
+        ),
+      ];
     }
     return _rubbish;
   }
@@ -112,9 +108,10 @@ class _AppState extends State<App> {
           _countRubbishGrams();
         });
       } else {
-        _database.create();
-        _measuredSinceDate = _currentDate;
-        _rubbish = generateRubbish(_maxRubbishGrams, _countRubbishGrams);
+        _database.create().then((value) {
+          _measuredSinceDate = _currentDate;
+          _rubbish = generateRubbish(_maxRubbishGrams, _countRubbishGrams);
+        });
       }
     });
   }

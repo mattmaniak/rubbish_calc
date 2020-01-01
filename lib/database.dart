@@ -15,7 +15,7 @@ class Db {
     return false;
   }
 
-  void create() async {
+  Future<void> create() async {
     _file = await openDatabase(await filename, version: 1,
         onCreate: (Database db, int version) {
       db.execute('CREATE TABLE $_tableName('
