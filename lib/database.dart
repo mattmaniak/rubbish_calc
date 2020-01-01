@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:sqflite/sqflite.dart';
 import 'item.dart';
 
@@ -18,8 +17,8 @@ class Db {
 
   void create() async {
     _file = await openDatabase(await filename, version: 1,
-        onCreate: (Database db, int version) async {
-      await db.execute('CREATE TABLE $_tableName('
+        onCreate: (Database db, int version) {
+      db.execute('CREATE TABLE $_tableName('
           'id INTEGER NOT NULL PRIMARY KEY,'
           'numberInRubbish INTEGER NOT NULL)');
     });
@@ -27,7 +26,7 @@ class Db {
   }
 
   Future<List<Item>> read(List<Item> rubbish) async {
-    _file = await openDatabase(await filename, onOpen: (Database db) async {
+    _file = await openDatabase(await filename, onOpen: (Database db) {
       rubbish.forEach((item) {
         try {
           db
@@ -35,12 +34,13 @@ class Db {
                   'WHERE id = ${item.uniqueId}')
               .then((dbItems) {
             if (dbItems.length > 0) {
-              item.numberInRubbish = dbItems[0]['numberInRubbish'];
+              item.numberInRubbish = dbItems.first['numberInRubbish'];
             } else {
               item.numberInRubbish = 0;
             }
+            // debugPrint(item.numberInRubbish.toString());
           });
-        } catch(DatabaseException) {
+        } catch (DatabaseException) {
           item.numberInRubbish = 0;
         }
       });
@@ -56,21 +56,21 @@ class Db {
       int numberOfRows = Sqflite.firstIntValue(
           await db.rawQuery('SELECT COUNT(*) FROM  $_tableName'));
 
-      try {
-        if (numberOfRows == 0) {
-          rubbish.forEach((item) {
+      if (numberOfRows == 0) {
+        rubbish.forEach((item) {
+          try {
             db.rawInsert('INSERT INTO $_tableName(id, numberInRubbish) '
                 'VALUES(${item.uniqueId}, ${item.numberInRubbish})');
-          });
-        } else {
-          rubbish.forEach((item) {
-            db.rawUpdate('UPDATE $_tableName '
-                'SET numberInRubbish = ${item.numberInRubbish} '
-                'WHERE id = ${item.uniqueId}');
-          });
-        }
-      } catch (DatabaseException) {
-        debugPrint('UNIQUE constraint failed - repeated ID');
+          } catch (DatabaseException) {
+            // debugPrint('UNIQUE constraint failed - repeated ID');
+          }
+        });
+      } else {
+        rubbish.forEach((item) {
+          db.rawUpdate('UPDATE $_tableName '
+              'SET numberInRubbish = ${item.numberInRubbish} '
+              'WHERE id = ${item.uniqueId}');
+        });
       }
     });
     await _file.close();

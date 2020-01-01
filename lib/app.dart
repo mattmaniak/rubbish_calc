@@ -27,7 +27,7 @@ class _AppState extends State<App> {
   }
 
   String get _rubbishGramsText {
-    if(_rubbishGrams.toString() == 'null') {
+    if (_rubbishGrams.toString() == 'null') {
       return 'Loading data...';
     }
     return _rubbishGrams.toString() + ' g wasted';
@@ -51,16 +51,10 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    // _rubbish.forEach((item) {
-    //   item.state.update();
-    // });
-
     return Scaffold(
       backgroundColor: appColor(),
       body: CustomScrollView(slivers: [
-        Bar(
-            text: _rubbishGramsText,
-            backgroundText: _measuredSinceDateText),
+        Bar(text: _rubbishGramsText, backgroundText: _measuredSinceDateText),
         SliverList(delegate: SliverChildListDelegate(_rubbish)),
         SliverList(
             delegate: SliverChildListDelegate([
@@ -79,13 +73,12 @@ class _AppState extends State<App> {
     );
   }
 
-  Future<void> _loadConfig() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    _measuredSinceDate =
-        prefs.getString('_measuredSinceDate') ?? _currentDate;
-
-    await _database.exists.then((exists) {
+  void _loadConfig() {
+    SharedPreferences.getInstance().then((preferences) {
+      _measuredSinceDate =
+          preferences.getString('_measuredSinceDate') ?? _currentDate;
+    });
+    _database.exists.then((exists) {
       if (exists) {
         _database.read(_rubbish).then((rubbish) {
           _rubbish = rubbish;
@@ -98,17 +91,17 @@ class _AppState extends State<App> {
     });
   }
 
-  Future<void> _saveConfig() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    prefs.setString('_measuredSinceDate', _measuredSinceDate);
+  void _saveConfig() {
+    SharedPreferences.getInstance().then((preferences) {
+      preferences.setString('_measuredSinceDate', _measuredSinceDate);
+    });
     _database.save(_rubbish);
   }
 
   void _countRubbishGrams() {
-    setState(() {
-      _rubbishGrams = 0;
+    _rubbishGrams = 0;
 
+    setState(() {
       _rubbish.forEach((item) {
         _rubbishGrams += item.weightInRubbishGrams;
         if (_rubbishGrams > _maxRubbishGrams) {
