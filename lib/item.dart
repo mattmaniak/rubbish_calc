@@ -7,6 +7,7 @@ class Item extends StatefulWidget {
   final int maxWeightGrams;
   final Function refreshParentState;
   int numberInRubbish = 0;
+  _ItemState _state;
 
   int get weightInRubbishGrams => numberInRubbish * weightGrams;
 
@@ -18,7 +19,16 @@ class Item extends StatefulWidget {
       @required this.refreshParentState});
 
   @override
-  _ItemState createState() => _ItemState();
+  _ItemState createState() {
+    _state = _ItemState();
+    return _state;
+  }
+
+  void update() {
+    if (_state != null) {
+      _state.update();
+    }
+  }
 }
 
 class _ItemState extends State<Item> {
@@ -55,5 +65,9 @@ class _ItemState extends State<Item> {
       }
       widget.refreshParentState();
     });
+  }
+
+  void update() {
+    setState(() {});
   }
 }

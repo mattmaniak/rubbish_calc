@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'style.dart';
+import 'style.dart' as style;
 
 class Bar extends StatelessWidget {
   final String text;
@@ -9,7 +9,7 @@ class Bar extends StatelessWidget {
 
   Widget build(BuildContext buildContext) {
     return SliverAppBar(
-      backgroundColor: appColor(),
+      backgroundColor: style.backgroundColor,
       pinned: true,
       floating: true,
       expandedHeight: 128.0,
@@ -18,7 +18,7 @@ class Bar extends StatelessWidget {
         title: Text(
           text,
           style: TextStyle(
-            color: textColor(),
+            color: style.textColor,
           ),
         ),
         background: Center(

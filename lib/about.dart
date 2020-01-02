@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'url.dart';
 import 'bar.dart';
-import 'style.dart';
+import 'style.dart' as style;
 
 class About extends StatelessWidget {
   static final String _authorURL = 'https://gitlab.com/mattmaniak';
@@ -11,46 +11,50 @@ class About extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: appColor(),
-      body: CustomScrollView(slivers: <Widget>[
-        Bar(
-          text: 'Rubbish Calc v0.0.0',
-          backgroundText: 'About',
-        ),
-        SliverList(
-          delegate: SliverChildListDelegate([
-            AboutItem(
-              title: 'Created by mattmaniak',
-              url: _authorURL,
+      backgroundColor: style.backgroundColor,
+      body: CustomScrollView(
+        slivers: [
+          Bar(
+            text: 'Rubbish Calc v0.0.0',
+            backgroundText: 'About',
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                _AboutButton(
+                  title: 'Created by mattmaniak',
+                  url: _authorURL,
+                ),
+                _AboutButton(
+                  title: 'Source code on GitLab',
+                  url: _repoURL,
+                ),
+                _AboutButton(
+                  title: 'MIT License',
+                  url: _licenseURL,
+                ),
+                _AboutButton(
+                  title: 'Terms of Use',
+                  url: _termsURL,
+                ),
+              ],
             ),
-            AboutItem(
-              title: 'Source code on GitLab',
-              url: _repoURL,
-            ),
-            AboutItem(
-              title: 'MIT License',
-              url: _licenseURL,
-            ),
-            AboutItem(
-              title: 'Terms of Use',
-              url: _termsURL,
-            ),
-          ]),
-        ),
-      ]),
+          ),
+        ],
+      ),
     );
   }
 }
 
-class AboutItem extends StatelessWidget {
+class _AboutButton extends StatelessWidget {
   final String title;
   final String url;
 
-  AboutItem({@required this.title, @required this.url});
+  _AboutButton({@required this.title, @required this.url});
 
   Widget build(BuildContext context) {
     return Card(
-      color: buttonColor(),
+      color: style.buttonColor,
       child: ListTile(
         title: Text(
           title,

@@ -16,8 +16,8 @@ class Db {
   }
 
   Future<void> create() async {
-    _file = await openDatabase(await filename, version: 1,
-        onCreate: (Database db, int version) {
+    _file =
+        await openDatabase(await filename, version: 1, onCreate: (db, version) {
       db.execute('CREATE TABLE $_tableName('
           'id INTEGER NOT NULL PRIMARY KEY,'
           'numberInRubbish INTEGER NOT NULL)');
@@ -26,7 +26,7 @@ class Db {
   }
 
   Future<List<Item>> read(List<Item> rubbish) async {
-    _file = await openDatabase(await filename, onOpen: (Database db) {
+    _file = await openDatabase(await filename, onOpen: (db) {
       rubbish.forEach((item) {
         try {
           db
@@ -52,7 +52,7 @@ class Db {
   void save(List<Item> rubbish) async {
     rubbish.sort((a, b) => a.uniqueId.compareTo(b.uniqueId));
 
-    _file = await openDatabase(await filename, onOpen: (Database db) async {
+    _file = await openDatabase(await filename, onOpen: (db) async {
       int numberOfRows = Sqflite.firstIntValue(
           await db.rawQuery('SELECT COUNT(*) FROM  $_tableName'));
 

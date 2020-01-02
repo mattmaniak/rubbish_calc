@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'item.dart';
 import 'about.dart';
-import 'style.dart';
+import 'style.dart' as style;
 import 'bar.dart';
 import 'database.dart';
 import 'rubbish.dart';
@@ -22,6 +22,7 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
+    _rubbish = generateRubbish(_maxRubbishGrams, _countRubbishGrams);
     _loadConfig();
   }
 
@@ -31,23 +32,6 @@ class _AppState extends State<App> {
 
   String get _rubbishGramsPreloader {
     return _rubbishGrams.toString() + ' g';
-  }
-
-  List<Widget> get _rubbishPreloader {
-    if (_rubbish.length == 0) {
-      return [
-        Card(
-          color: Colors.green[100],
-          child: ListTile(
-            title: Text('Click to start counting your rubbish'),
-            onTap: () {
-              setState(() {});
-            },
-          ),
-        ),
-      ];
-    }
-    return _rubbish;
   }
 
   String get _currentDate {
@@ -62,35 +46,39 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: appColor(),
-      body: CustomScrollView(slivers: [
-        Bar(
-          text: _rubbishGramsPreloader,
-          backgroundText: _measuredSinceDatePreloader,
-        ),
-        SliverList(
-          delegate: SliverChildListDelegate(_rubbishPreloader),
-        ),
-        SliverList(
-          delegate: SliverChildListDelegate([
-            ButtonBar(
-              alignment: MainAxisAlignment.center,
-              children: [
-                FlatButton(
-                  child: Text(
-                    'About',
-                    style: TextStyle(
-                      color: textColor(),
+      backgroundColor: style.backgroundColor,
+      body: CustomScrollView(
+        slivers: [
+          Bar(
+            text: _rubbishGramsPreloader,
+            backgroundText: _measuredSinceDatePreloader,
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate(_rubbish),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                ButtonBar(
+                  alignment: MainAxisAlignment.center,
+                  children: [
+                    FlatButton(
+                      child: Text(
+                        'About',
+                        style: TextStyle(
+                          color: style.textColor,
+                        ),
+                      ),
+                      onPressed: _navigateToAboutScreen,
+                      color: style.buttonColor,
                     ),
-                  ),
-                  onPressed: _navigateToAboutScreen,
-                  color: buttonColor(),
+                  ],
                 ),
               ],
             ),
-          ]),
-        ),
-      ]),
+          ),
+        ],
+      ),
     );
   }
 
@@ -101,16 +89,13 @@ class _AppState extends State<App> {
     });
     _database.exists.then((exists) {
       if (exists) {
-        _database
-            .read(generateRubbish(_maxRubbishGrams, _countRubbishGrams))
-            .then((rubbish) {
+        _database.read(_rubbish).then((rubbish) {
           _rubbish = rubbish;
           _countRubbishGrams();
         });
       } else {
         _database.create().then((value) {
           _measuredSinceDate = _currentDate;
-          _rubbish = generateRubbish(_maxRubbishGrams, _countRubbishGrams);
         });
       }
     });
@@ -134,6 +119,11 @@ class _AppState extends State<App> {
         }
       });
     });
+    if (_rubbish.length > 0) {
+      _rubbish.forEach((item) {
+        item.update();
+      });
+    }
     _saveConfig();
   }
 
