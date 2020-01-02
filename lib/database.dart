@@ -2,8 +2,8 @@ import 'package:sqflite/sqflite.dart';
 import 'item.dart';
 
 class Db {
-  static final String _name = 'rubbish_calc.db';
-  final String _tableName = 'Items';
+  static const String _name = 'rubbish_calc.db';
+  static const String _tableName = 'Items';
   Database _file;
 
   Future<String> get filename async => await getDatabasesPath() + '/' + _name;
@@ -38,7 +38,6 @@ class Db {
             } else {
               item.numberInRubbish = 0;
             }
-            // debugPrint(item.numberInRubbish.toString());
           });
         } catch (DatabaseException) {
           item.numberInRubbish = 0;
@@ -57,14 +56,14 @@ class Db {
           await db.rawQuery('SELECT COUNT(*) FROM  $_tableName'));
 
       if (numberOfRows == 0) {
-        rubbish.forEach((item) {
+        for (int i = 0; i < rubbish.length; i++) {
           try {
             db.rawInsert('INSERT INTO $_tableName(id, numberInRubbish) '
-                'VALUES(${item.uniqueId}, ${item.numberInRubbish})');
+                'VALUES(${rubbish[i].uniqueId}, ${rubbish[i].numberInRubbish})');
           } catch (DatabaseException) {
-            // debugPrint('UNIQUE constraint failed - repeated ID');
+            continue;
           }
-        });
+        }
       } else {
         rubbish.forEach((item) {
           db.rawUpdate('UPDATE $_tableName '

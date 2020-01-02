@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'url.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'bar.dart';
+import 'error_dialog.dart';
 import 'style.dart' as style;
 
 class About extends StatelessWidget {
@@ -54,18 +55,27 @@ class _AboutButton extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Card(
-      color: style.buttonColor,
+      color: style.foregroundColor,
       child: ListTile(
         title: Text(
           title,
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: Colors.blue,
+            color: style.linkColor,
             decoration: TextDecoration.underline,
           ),
         ),
-        onTap: () => openURL(url),
+        onTap: () => _openURL(url, context),
       ),
     );
+  }
+
+  void _openURL(String url, BuildContext context) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      showErrorDialog(
+          'Unable to open the link in an external browser.', context);
+    }
   }
 }

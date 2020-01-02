@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'style.dart' as style;
 
 class Item extends StatefulWidget {
   final int uniqueId;
@@ -42,11 +43,11 @@ class _ItemState extends State<Item> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.green[100],
+      color: style.foregroundColor,
       child: ListTile(
         leading: Icon(
           Icons.restore_from_trash,
-          color: Colors.black,
+          color: style.textColor,
           size: 40.0,
         ),
         title: Text(widget.name),

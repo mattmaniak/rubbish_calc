@@ -70,7 +70,7 @@ class _AppState extends State<App> {
                         ),
                       ),
                       onPressed: _navigateToAboutScreen,
-                      color: style.buttonColor,
+                      color: style.foregroundColor,
                     ),
                   ],
                 ),
