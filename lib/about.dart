@@ -5,10 +5,12 @@ import 'error_dialog.dart';
 import 'style.dart' as style;
 
 class About extends StatelessWidget {
-  static final String _authorURL = 'https://gitlab.com/mattmaniak';
-  static final String _repoURL = _authorURL + '/rubbish_calc';
-  final String _licenseURL = _repoURL + '/blob/master/LICENSE';
-  final String _termsURL = _repoURL + '/blob/master/README.md#terms-of-use';
+  static const String _authorName = 'mattmaniak';
+  static const String _authorURL = 'https://gitlab.com/' + _authorName;
+  static const String _repoURL = _authorURL + '/rubbish_calc';
+  static const String _licenseURL = _repoURL + '/blob/master/LICENSE';
+  static const String _termsURL =
+      _repoURL + '/blob/master/README.md#terms-of-use';
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,12 +20,13 @@ class About extends StatelessWidget {
           Bar(
             text: 'Rubbish Calc v0.0.0',
             backgroundText: 'About',
+            showReturnArrow: true,
           ),
           SliverList(
             delegate: SliverChildListDelegate(
               [
                 _AboutButton(
-                  title: 'Created by mattmaniak',
+                  title: 'Created by ' + _authorName,
                   url: _authorURL,
                 ),
                 _AboutButton(
@@ -65,17 +68,16 @@ class _AboutButton extends StatelessWidget {
             decoration: TextDecoration.underline,
           ),
         ),
-        onTap: () => _openURL(url, context),
+        onTap: () => _openURL(context),
       ),
     );
   }
 
-  void _openURL(String url, BuildContext context) async {
+  void _openURL(BuildContext context) async {
     if (await canLaunch(url)) {
       await launch(url);
     } else {
-      showErrorDialog(
-          'Unable to open the link in an external browser.', context);
+      showErrorDialog(context, 'Unable to open the link in a web browser.');
     }
   }
 }

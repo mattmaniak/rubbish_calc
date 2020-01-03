@@ -4,11 +4,16 @@ import 'style.dart' as style;
 class Bar extends StatelessWidget {
   final String text;
   final String backgroundText;
+  final bool showReturnArrow;
 
-  Bar({@required this.text, @required this.backgroundText});
+  Bar(
+      {@required this.text,
+      @required this.backgroundText,
+      @required this.showReturnArrow});
 
-  Widget build(BuildContext buildContext) {
+  Widget build(BuildContext context) {
     return SliverAppBar(
+      leading: _renderReturnArrow(context),
       backgroundColor: style.backgroundColor,
       pinned: true,
       floating: true,
@@ -26,5 +31,16 @@ class Bar extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _renderReturnArrow(BuildContext context) {
+    if (showReturnArrow) {
+      return IconButton(
+        icon: Icon(Icons.arrow_back),
+        color: style.foregroundColor,
+        onPressed: () => Navigator.pop(context),
+      );
+    }
+    return Text('');
   }
 }

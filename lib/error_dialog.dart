@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'style.dart' as style;
 
-void showErrorDialog(String message, BuildContext context) {
+void showErrorDialog(BuildContext context, String message) {
   showDialog(
     context: context,
     barrierDismissible: false,

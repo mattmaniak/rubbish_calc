@@ -52,6 +52,7 @@ class _AppState extends State<App> {
           Bar(
             text: _rubbishGramsPreloader,
             backgroundText: _measuredSinceDatePreloader,
+            showReturnArrow: false,
           ),
           SliverList(
             delegate: SliverChildListDelegate(_rubbish),
