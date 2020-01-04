@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart'; // DEBUG
 import 'package:sqflite/sqflite.dart';
 import 'item.dart';
 
@@ -53,8 +54,6 @@ class Db {
   }
 
   void save(List<Item> rubbish) async {
-    rubbish.sort((a, b) => a.uniqueId.compareTo(b.uniqueId));
-
     _file = await openDatabase(await filename, onOpen: (db) async {
       int numberOfRows = Sqflite.firstIntValue(
           await db.rawQuery('SELECT COUNT(*) FROM  $_tableName'));
@@ -68,6 +67,17 @@ class Db {
             continue;
           }
         }
+      } else if (numberOfRows < rubbish.length) {
+        rubbish.sort((a, b) => a.uniqueId.compareTo(b.uniqueId));
+        for (int i = numberOfRows; i < rubbish.length; i++) {
+            db.rawInsert('INSERT INTO $_tableName(id, numberInRubbish) '
+                'VALUES(${rubbish[i].uniqueId}, ${rubbish[i].numberInRubbish})');
+        }
+      } else if (rubbish.length < numberOfRows) {
+        rubbish.sort((a, b) => a.uniqueId.compareTo(b.uniqueId));
+        for (int id = rubbish.length + 1; id <= numberOfRows; id++) {
+          db.rawDelete('DELETE FROM $_tableName WHERE ID = $id');
+        }
       } else {
         rubbish.forEach((item) {
           db.rawUpdate('UPDATE $_tableName '
@@ -76,6 +86,7 @@ class Db {
         });
       }
     });
+
     await _file.close();
   }
 }

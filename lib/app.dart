@@ -15,9 +15,10 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   final Db _database = Db();
   final int _maxRubbishGrams = 1000000; // 1 metric ton.
-  String _measuredSinceDate = 'never';
-  int _rubbishGrams = 0;
   List<Item> _rubbish = [];
+  int _rubbishGrams = 0;
+  String _measuredSinceDate = 'never';
+  bool _autoRefreshedOnStart = false;
 
   @override
   void initState() {
@@ -45,6 +46,8 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+    _rubbish.sort((a, b) => a.weightGrams.compareTo(b.weightGrams));
+
     return Scaffold(
       backgroundColor: style.backgroundColor,
       body: CustomScrollView(
@@ -120,10 +123,11 @@ class _AppState extends State<App> {
         }
       });
     });
-    if (_rubbish.isNotEmpty) {
+    if ((!_autoRefreshedOnStart) && _rubbish.isNotEmpty) {
       _rubbish.forEach((item) {
         item.update();
       });
+      _autoRefreshedOnStart = true;
     }
     _saveConfig();
   }

@@ -5,6 +5,7 @@ import 'error_dialog.dart';
 import 'style.dart' as style;
 
 class About extends StatelessWidget {
+  static const String _semanticVersion = '0.0.0';
   static const String _authorName = 'mattmaniak';
   static const String _authorURL = 'https://gitlab.com/' + _authorName;
   static const String _repoURL = _authorURL + '/rubbish_calc';
@@ -12,13 +13,14 @@ class About extends StatelessWidget {
   static const String _termsURL =
       _repoURL + '/blob/master/README.md#terms-of-use';
 
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: style.backgroundColor,
       body: CustomScrollView(
         slivers: [
           Bar(
-            text: 'Rubbish Calc v0.0.0',
+            text: 'Rubbish Calc v' + _semanticVersion,
             backgroundText: 'About',
             showReturnArrow: true,
           ),
