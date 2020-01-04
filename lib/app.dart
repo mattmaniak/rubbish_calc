@@ -95,7 +95,7 @@ class _AppState extends State<App> {
           _countRubbishGrams();
         });
       } else {
-        _database.create().then((value) {
+        _database.create().then((_) {
           _measuredSinceDate = _currentDate;
         });
       }
@@ -120,7 +120,7 @@ class _AppState extends State<App> {
         }
       });
     });
-    if (_rubbish.length > 0) {
+    if (_rubbish.isNotEmpty) {
       _rubbish.forEach((item) {
         item.update();
       });

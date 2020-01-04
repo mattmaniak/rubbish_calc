@@ -2,28 +2,20 @@ import 'package:flutter/material.dart';
 import 'style.dart' as style;
 
 class Item extends StatefulWidget {
-  final int uniqueId;
+  final _ItemState _state = _ItemState();
   final String name;
   final int weightGrams;
-  final int maxWeightGrams;
-  final Function refreshParentState;
+  int uniqueId;
+  int maxWeightGrams;
+  Function refreshParentState;
   int numberInRubbish = 0;
-  _ItemState _state;
 
   int get weightInRubbishGrams => numberInRubbish * weightGrams;
 
-  Item(
-      {@required this.uniqueId,
-      @required this.name,
-      @required this.weightGrams,
-      @required this.maxWeightGrams,
-      @required this.refreshParentState});
+  Item({@required this.name, @required this.weightGrams});
 
   @override
-  _ItemState createState() {
-    _state = _ItemState();
-    return _state;
-  }
+  _ItemState createState() => _state;
 
   void update() {
     if (_state != null) {

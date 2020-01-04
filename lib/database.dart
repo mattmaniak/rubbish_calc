@@ -33,8 +33,12 @@ class Db {
               .rawQuery('SELECT * FROM $_tableName '
                   'WHERE id = ${item.uniqueId}')
               .then((dbItems) {
-            if (dbItems.length > 0) {
-              item.numberInRubbish = dbItems.first['numberInRubbish'];
+            if (dbItems.isNotEmpty) {
+              try {
+                item.numberInRubbish = dbItems.single['numberInRubbish'];
+              } catch(StateError) {
+                item.numberInRubbish = 0;
+              }
             } else {
               item.numberInRubbish = 0;
             }
