@@ -29,12 +29,11 @@ class Item extends StatefulWidget {
 }
 
 class _ItemState extends State<Item> {
-  String get _wastedGramsSubtitle {
-    return widget.numberInRubbish.toString() +
-        ' wasted - ' +
-        widget.weightInRubbishGrams.toString() +
-        ' g';
-  }
+  String get _wastedGramsSubtitle =>
+      widget.numberInRubbish.toString() +
+      ' wasted - ' +
+      widget.weightInRubbishGrams.toString() +
+      ' g';
 
   @override
   Widget build(BuildContext context) {

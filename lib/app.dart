@@ -17,23 +17,13 @@ class _AppState extends State<App> {
   final int _maxRubbishGrams = 1000000; // 1 metric ton.
   List<Item> _rubbish = [];
   int _rubbishGrams = 0;
-  String _measuredSinceDate = 'never';
+  String _appInitDate = 'never';
   bool _autoRefreshedOnStart = false;
 
-  @override
-  void initState() {
-    super.initState();
-    _rubbish = generateRubbish(_maxRubbishGrams, _countRubbishGrams);
-    _loadConfig();
-  }
+  String get _measuredSinceDatePreloader =>
+      'Measured since ' + _appInitDate;
 
-  String get _measuredSinceDatePreloader {
-    return 'Measured since ' + _measuredSinceDate;
-  }
-
-  String get _rubbishGramsPreloader {
-    return _rubbishGrams.toString() + ' g';
-  }
+  String get _rubbishGramsPreloader => _rubbishGrams.toString() + ' g';
 
   String get _currentDate {
     final DateTime measurementStartDateTime = DateTime.now();
@@ -42,6 +32,13 @@ class _AppState extends State<App> {
         measurementStartDateTime.month.toString() +
         '-' +
         measurementStartDateTime.day.toString();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _rubbish = generateRubbish(_maxRubbishGrams, _countRubbishGrams);
+    _loadConfig();
   }
 
   @override
@@ -88,8 +85,8 @@ class _AppState extends State<App> {
 
   void _loadConfig() {
     SharedPreferences.getInstance().then((preferences) {
-      _measuredSinceDate =
-          preferences.getString('_measuredSinceDate') ?? _currentDate;
+      _appInitDate =
+          preferences.getString('_appInitDate') ?? _currentDate;
     });
     _database.exists.then((exists) {
       if (exists) {
@@ -99,7 +96,7 @@ class _AppState extends State<App> {
         });
       } else {
         _database.create().then((_) {
-          _measuredSinceDate = _currentDate;
+          _appInitDate = _currentDate;
         });
       }
     });
@@ -107,7 +104,7 @@ class _AppState extends State<App> {
 
   void _saveConfig() {
     SharedPreferences.getInstance().then((preferences) {
-      preferences.setString('_measuredSinceDate', _measuredSinceDate);
+      preferences.setString('_appInitDate', _appInitDate);
     });
     _database.save(_rubbish);
   }
