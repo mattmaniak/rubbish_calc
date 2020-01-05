@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'style.dart' as style;
 
 class Item extends StatefulWidget {
+  _ItemState _state;
+
   final String name;
   final int weightGrams;
-  _ItemState _state;
   int uniqueId;
   int maxWeightGrams;
   Function refreshParentState;

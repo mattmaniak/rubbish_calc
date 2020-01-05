@@ -13,7 +13,6 @@ class About extends StatelessWidget {
   static const String _termsURL =
       _repoURL + '/blob/master/README.md#terms-of-use';
 
-
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: style.backgroundColor,

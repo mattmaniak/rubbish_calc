@@ -50,10 +50,6 @@ List<Item> generateRubbish(int maxRubbishGrams, Function callback) {
       name: 'Candy Bar foil',
       weightGrams: 1,
     ),
-    // Item(
-    //   name: 'Neue item',
-    //   weightGrams: 8,
-    // ),
   ];
   for (int i = 0; i < rubbish.length; i++) {
     final int id = i + 1;

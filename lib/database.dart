@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart'; // DEBUG
 import 'package:sqflite/sqflite.dart';
 import 'item.dart';
 
@@ -31,20 +30,15 @@ class Db {
       rubbish.forEach((item) {
         try {
           db
-              .rawQuery('SELECT * FROM $_tableName '
-                  'WHERE id = ${item.uniqueId}')
-              .then((dbItems) {
-            if (dbItems.isNotEmpty) {
-              try {
-                item.numberInRubbish = dbItems.single['numberInRubbish'];
-              } catch(StateError) {
-                item.numberInRubbish = 0;
-              }
-            } else {
+              .rawQuery('SELECT * FROM $_tableName WHERE id = ${item.uniqueId}')
+              .then((items) {
+            try {
+              item.numberInRubbish = items.single['numberInRubbish'];
+            } on StateError {
               item.numberInRubbish = 0;
             }
           });
-        } catch (DatabaseException) {
+        } on DatabaseException {
           item.numberInRubbish = 0;
         }
       });
@@ -54,29 +48,34 @@ class Db {
   }
 
   void save(List<Item> rubbish) async {
+    void insertItems(Database db, List<Item> rubbish, int startIndex) {
+      rubbish.sort((a, b) => a.uniqueId.compareTo(b.uniqueId));
+      for (int i = startIndex; i < rubbish.length; i++) {
+        try {
+          db.rawInsert('INSERT INTO $_tableName(numberInRubbish) '
+              'VALUES(${rubbish[i].numberInRubbish})');
+        } on DatabaseException {
+          continue;
+        }
+      }
+    }
+
     _file = await openDatabase(await filename, onOpen: (db) async {
-      int numberOfRows = Sqflite.firstIntValue(
+      final int numberOfRows = Sqflite.firstIntValue(
           await db.rawQuery('SELECT COUNT(*) FROM  $_tableName'));
 
       if (numberOfRows == 0) {
-        for (int i = 0; i < rubbish.length; i++) {
-          try {
-            db.rawInsert('INSERT INTO $_tableName(id, numberInRubbish) '
-                'VALUES(${rubbish[i].uniqueId}, ${rubbish[i].numberInRubbish})');
-          } catch (DatabaseException) {
-            continue;
-          }
-        }
+        insertItems(db, rubbish, 0);
       } else if (numberOfRows < rubbish.length) {
-        rubbish.sort((a, b) => a.uniqueId.compareTo(b.uniqueId));
-        for (int i = numberOfRows; i < rubbish.length; i++) {
-            db.rawInsert('INSERT INTO $_tableName(id, numberInRubbish) '
-                'VALUES(${rubbish[i].uniqueId}, ${rubbish[i].numberInRubbish})');
-        }
+        insertItems(db, rubbish, numberOfRows);
       } else if (rubbish.length < numberOfRows) {
         rubbish.sort((a, b) => a.uniqueId.compareTo(b.uniqueId));
         for (int id = rubbish.length + 1; id <= numberOfRows; id++) {
-          db.rawDelete('DELETE FROM $_tableName WHERE ID = $id');
+          try {
+            db.rawDelete('DELETE FROM $_tableName WHERE ID = $id');
+          } on DatabaseException {
+            continue;
+          }
         }
       } else {
         rubbish.forEach((item) {
@@ -86,7 +85,6 @@ class Db {
         });
       }
     });
-
     await _file.close();
   }
 }
