@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'item.dart';
 import 'about.dart';
 import 'style.dart' as style;
@@ -13,15 +12,14 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  static const int _maxRubbishGrams = 1000000; // 1 metric ton.
   final Db _database = Db();
-  final int _maxRubbishGrams = 1000000; // 1 metric ton.
   List<Item> _rubbish = [];
   int _rubbishGrams = 0;
   String _appInitDate = 'never';
   bool _autoRefreshedOnStart = false;
 
-  String get _measuredSinceDatePreloader =>
-      'Measured since ' + _appInitDate;
+  String get _measuredSinceDatePreloader => 'Measured since ' + _appInitDate;
 
   String get _rubbishGramsPreloader => _rubbishGrams.toString() + ' g';
 
@@ -84,14 +82,14 @@ class _AppState extends State<App> {
   }
 
   void _loadConfig() {
-    SharedPreferences.getInstance().then((preferences) {
-      _appInitDate =
-          preferences.getString('_appInitDate') ?? _currentDate;
-    });
     _database.exists.then((exists) {
       if (exists) {
         _database.read(_rubbish).then((rubbish) {
           _rubbish = rubbish;
+
+          _database.readDate(_appInitDate, _currentDate).then((date) {
+            _appInitDate = date;
+          });
           _countRubbishGrams();
         });
       } else {
@@ -100,13 +98,6 @@ class _AppState extends State<App> {
         });
       }
     });
-  }
-
-  void _saveConfig() {
-    SharedPreferences.getInstance().then((preferences) {
-      preferences.setString('_appInitDate', _appInitDate);
-    });
-    _database.save(_rubbish);
   }
 
   void _countRubbishGrams() {
@@ -120,13 +111,13 @@ class _AppState extends State<App> {
         }
       });
     });
-    if ((!_autoRefreshedOnStart) && _rubbish.isNotEmpty) {
+    if (_rubbish.isNotEmpty && (!_autoRefreshedOnStart)) {
       _rubbish.forEach((item) {
         item.update();
       });
       _autoRefreshedOnStart = true;
     }
-    _saveConfig();
+    _database.save(_rubbish, _appInitDate);
   }
 
   void _navigateToAboutScreen() {
