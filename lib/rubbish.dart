@@ -56,7 +56,8 @@ List<Item> generateRubbish(int maxRubbishGrams, Function callback) {
     // ),
   ];
   for (int i = 0; i < rubbish.length; i++) {
-    rubbish[i].uniqueId = i + 1;
+    final int id = i + 1;
+    rubbish[i].uniqueId = id;
     rubbish[i].maxWeightGrams = maxRubbishGrams;
     rubbish[i].refreshParentState = callback;
   }

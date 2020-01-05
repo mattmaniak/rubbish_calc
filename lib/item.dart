@@ -28,7 +28,7 @@ class Item extends StatefulWidget {
 }
 
 class _ItemState extends State<Item> {
-  String get wastedGramsSubtitle {
+  String get _wastedGramsSubtitle {
     return widget.numberInRubbish.toString() +
         ' wasted - ' +
         widget.weightInRubbishGrams.toString() +
@@ -46,7 +46,7 @@ class _ItemState extends State<Item> {
           size: 40.0,
         ),
         title: Text(widget.name),
-        subtitle: Text(wastedGramsSubtitle),
+        subtitle: Text(_wastedGramsSubtitle),
         trailing: Text(widget.weightGrams.toString() + ' g'),
         onTap: _incrementAmountInRubbish,
       ),
@@ -64,6 +64,8 @@ class _ItemState extends State<Item> {
   }
 
   void update() {
-    setState(() {});
+    if (this.mounted) {
+      setState(() {});
+    }
   }
 }
