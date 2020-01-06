@@ -7,7 +7,7 @@ class Bar extends StatelessWidget {
   final String backgroundText;
   final bool displayReturnArrow;
 
-  Bar(
+  const Bar(
       {@required this.text,
       @required this.backgroundText,
       @required this.displayReturnArrow});

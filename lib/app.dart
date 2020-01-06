@@ -27,9 +27,9 @@ class _AppState extends State<App> {
     _loadConfig();
   }
 
-  String get _measuredSinceDatePreloader => 'Measured since ' + _appInitDate;
+  String get _measuredSinceDatePreloader => 'Since ' + _appInitDate;
 
-  String get _rubbishGramsPreloader => _rubbishGrams.toString() + ' g';
+  String get _rubbishGramsPreloader => _rubbishGrams.toString() + ' g overall';
 
   String get _currentDate {
     final DateTime measurementStartDateTime = DateTime.now();

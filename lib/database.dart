@@ -3,11 +3,10 @@ import 'package:sqflite/sqflite.dart';
 import 'item.dart';
 
 class Db {
-  static final Db _singleton = Db._internal();
-
   static const String _name = 'rubbish_calc.db';
   static const String _rubbishTableName = 'Rubbish';
   static const String _dateTableName = 'Date';
+  static final Db _singleton = Db._internal();
   Database _file;
 
   factory Db() => _singleton;

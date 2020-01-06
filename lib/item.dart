@@ -4,7 +4,6 @@ import 'style.dart' as style;
 
 class Item extends StatefulWidget {
   _ItemState _state;
-
   final String name;
   final int weightGrams;
   int uniqueId;
@@ -12,9 +11,9 @@ class Item extends StatefulWidget {
   Function refreshParentState;
   int numberInRubbish = 0;
 
-  int get weightInRubbishGrams => numberInRubbish * weightGrams;
-
   Item({@required this.name, @required this.weightGrams});
+
+  int get weightInRubbishGrams => numberInRubbish * weightGrams;
 
   @override
   _ItemState createState() {

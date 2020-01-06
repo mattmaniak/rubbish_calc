@@ -27,6 +27,7 @@ class About extends StatelessWidget {
           SliverList(
             delegate: SliverChildListDelegate(
               [
+                Image.asset('assets/icon_transparent.png'),
                 _AboutButton(
                   title: 'Created by ' + _authorName,
                   url: _authorURL,
