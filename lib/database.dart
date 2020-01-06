@@ -3,7 +3,7 @@ import 'item.dart';
 
 class Db {
   static const String _name = 'rubbish_calc.db';
-  static const String _itemsTableName = 'Items';
+  static const String _rubbishTableName = 'Rubbish';
   static const String _dateTableName = 'Date';
   Database _file;
 
@@ -20,29 +20,30 @@ class Db {
     _file =
         await openDatabase(await filename, version: 1, onCreate: (db, version) {
       const String idSql = 'id INTEGER NOT NULL PRIMARY KEY';
-
       db
-          .execute('CREATE TABLE $_itemsTableName('
+          .execute('CREATE TABLE $_rubbishTableName('
               '$idSql, numberInRubbish INTEGER NOT NULL)')
           .then((_) {
-        db.execute(
-            'CREATE TABLE $_dateTableName($idSql, appInitDate TEXT NOT NULL)');
+        db.execute('CREATE TABLE $_dateTableName('
+            '$idSql, appInitDate TEXT NOT NULL)');
       });
     });
     await _file.close();
   }
 
-  Future<List<Item>> read(List<Item> rubbish) async {
+  Future<List<Item>> loadRubbish(List<Item> rubbish) async {
     _file = await openDatabase(await filename, onOpen: (db) {
       rubbish.forEach((item) {
         try {
-          db
-              .rawQuery(
-                  'SELECT * FROM $_itemsTableName WHERE id = ${item.uniqueId}')
-              .then((items) {
-            try {
-              item.numberInRubbish = items.single['numberInRubbish'];
-            } on StateError {
+          db.rawQuery('SELECT * FROM $_rubbishTableName WHERE id = ?',
+              [item.uniqueId]).then((items) {
+            if (items.isNotEmpty) {
+              try {
+                item.numberInRubbish = items.single['numberInRubbish'];
+              } on StateError {
+                item.numberInRubbish = 0;
+              }
+            } else {
               item.numberInRubbish = 0;
             }
           });
@@ -55,10 +56,11 @@ class Db {
     return rubbish;
   }
 
-  Future<String> readDate(String appInitDate, String currentDate) async {
+  Future<String> loadAppInitDate(String appInitDate, String currentDate) async {
     _file = await openDatabase(await filename, onOpen: (db) {
       try {
-        db.rawQuery('SELECT * FROM $_dateTableName WHERE id = 1').then((date) {
+        db.rawQuery('SELECT * FROM $_dateTableName WHERE id = ?', [1]).then(
+            (date) {
           try {
             appInitDate = date.single['appInitDate'];
           } on StateError {
@@ -78,18 +80,19 @@ class Db {
       rubbish.sort((a, b) => a.uniqueId.compareTo(b.uniqueId));
       for (int i = startIndex; i < rubbish.length; i++) {
         try {
-          db.rawInsert('INSERT INTO $_itemsTableName(numberInRubbish) '
-              'VALUES(${rubbish[i].numberInRubbish})');
+          db.rawInsert(
+              'INSERT INTO $_rubbishTableName(numberInRubbish) VALUES(?)',
+              [rubbish[i].numberInRubbish]);
         } on DatabaseException {
           db.rawInsert(
-              'INSERT INTO $_itemsTableName(numberInRubbish) VALUES(0)');
+              'INSERT INTO $_rubbishTableName(numberInRubbish) VALUES(0)');
         }
       }
     }
 
     _file = await openDatabase(await filename, onOpen: (db) async {
       int numberOfRows = Sqflite.firstIntValue(
-          await db.rawQuery('SELECT COUNT(*) FROM  $_itemsTableName'));
+          await db.rawQuery('SELECT COUNT(*) FROM $_rubbishTableName'));
 
       if (numberOfRows == 0) {
         insertItems(db, rubbish, 0);
@@ -99,28 +102,28 @@ class Db {
         rubbish.sort((a, b) => a.uniqueId.compareTo(b.uniqueId));
         for (int id = rubbish.length + 1; id <= numberOfRows; id++) {
           try {
-            db.rawDelete('DELETE FROM $_itemsTableName WHERE ID = $id');
+            db.rawDelete('DELETE FROM $_rubbishTableName WHERE ID = ?', [id]);
           } on DatabaseException {
             continue;
           }
         }
       } else {
         rubbish.forEach((item) {
-          db.rawUpdate('UPDATE $_itemsTableName '
-              'SET numberInRubbish = ${item.numberInRubbish} '
-              'WHERE id = ${item.uniqueId}');
+          db.rawUpdate(
+              'UPDATE $_rubbishTableName SET numberInRubbish = ? WHERE id = ?',
+              [item.numberInRubbish, item.uniqueId]);
         });
       }
 
       numberOfRows = Sqflite.firstIntValue(
-          await db.rawQuery('SELECT COUNT(*) FROM  $_dateTableName'));
+          await db.rawQuery('SELECT COUNT(*) FROM $_dateTableName'));
 
       if (numberOfRows == 0) {
         db.rawInsert(
-            'INSERT INTO $_dateTableName(appInitDate) VALUES("$date")');
+            'INSERT INTO $_dateTableName(appInitDate) VALUES(?)', [date]);
       } else {
         db.rawUpdate(
-            'UPDATE $_dateTableName SET appInitDate = "$date" WHERE id = 1');
+            'UPDATE $_dateTableName SET appInitDate = ? WHERE id = 1', [date]);
       }
     });
     await _file.close();

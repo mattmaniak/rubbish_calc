@@ -84,13 +84,13 @@ class _AppState extends State<App> {
   void _loadConfig() {
     _database.exists.then((exists) {
       if (exists) {
-        _database.read(_rubbish).then((rubbish) {
+        _database.loadRubbish(_rubbish).then((rubbish) {
           _rubbish = rubbish;
 
-          _database.readDate(_appInitDate, _currentDate).then((date) {
+          _database.loadAppInitDate(_appInitDate, _currentDate).then((date) {
             _appInitDate = date;
+            _countRubbishGrams();
           });
-          _countRubbishGrams();
         });
       } else {
         _database.create().then((_) {
