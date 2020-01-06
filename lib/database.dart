@@ -7,18 +7,18 @@ class Db {
   static const String _dateTableName = 'Date';
   Database _file;
 
-  Future<String> get filename async => await getDatabasesPath() + '/' + _name;
+  Future<String> get _filename async => await getDatabasesPath() + '/' + _name;
 
   Future<bool> get exists async {
-    if (await databaseExists(await filename)) {
+    if (await databaseExists(await _filename)) {
       return true;
     }
     return false;
   }
 
   Future<void> create() async {
-    _file =
-        await openDatabase(await filename, version: 1, onCreate: (db, version) {
+    _file = await openDatabase(await _filename, version: 1,
+        onCreate: (db, version) {
       const String idSql = 'id INTEGER NOT NULL PRIMARY KEY';
       db
           .execute('CREATE TABLE $_rubbishTableName('
@@ -32,7 +32,7 @@ class Db {
   }
 
   Future<List<Item>> loadRubbish(List<Item> rubbish) async {
-    _file = await openDatabase(await filename, onOpen: (db) {
+    _file = await openDatabase(await _filename, onOpen: (db) {
       rubbish.forEach((item) {
         try {
           db.rawQuery('SELECT * FROM $_rubbishTableName WHERE id = ?',
@@ -57,7 +57,7 @@ class Db {
   }
 
   Future<String> loadAppInitDate(String appInitDate, String currentDate) async {
-    _file = await openDatabase(await filename, onOpen: (db) {
+    _file = await openDatabase(await _filename, onOpen: (db) {
       try {
         db.rawQuery('SELECT * FROM $_dateTableName WHERE id = ?', [1]).then(
             (date) {
@@ -90,7 +90,7 @@ class Db {
       }
     }
 
-    _file = await openDatabase(await filename, onOpen: (db) async {
+    _file = await openDatabase(await _filename, onOpen: (db) async {
       int numberOfRows = Sqflite.firstIntValue(
           await db.rawQuery('SELECT COUNT(*) FROM $_rubbishTableName'));
 

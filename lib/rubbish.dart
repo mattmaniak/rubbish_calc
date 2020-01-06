@@ -13,11 +13,11 @@ List<Item> generateRubbish(int maxRubbishGrams, Function callback) {
     ),
     // https://www.quora.com/What-is-the-weight-of-1-5-liter-empty-pet-bottles
     Item(
-      name: 'PET bottle 0.5 L',
+      name: 'Plastic bottle 0.5 L',
       weightGrams: 10,
     ),
     Item(
-      name: 'PET bottle 1.0 L',
+      name: 'Plastic bottle 1.0 L',
       weightGrams: 20,
     ),
     // https://www.quora.com/How-much-does-a-330ml-can-of-soda-weigh-in-grams
@@ -26,7 +26,7 @@ List<Item> generateRubbish(int maxRubbishGrams, Function callback) {
       weightGrams: 30,
     ),
     Item(
-      name: 'PET bottle 1.5 L',
+      name: 'Plastic bottle 1.5 L',
       weightGrams: 30,
     ),
     Item(
@@ -49,6 +49,10 @@ List<Item> generateRubbish(int maxRubbishGrams, Function callback) {
     Item(
       name: 'Candy Bar foil',
       weightGrams: 1,
+    ),
+    Item(
+      name: 'Corn flakes foil 500 g',
+      weightGrams: 10,
     ),
   ];
   for (int i = 0; i < rubbish.length; i++) {
