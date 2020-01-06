@@ -20,6 +20,13 @@ class _AppState extends State<App> {
   String _appInitDate = 'never';
   bool _autoRefreshedOnStart = false;
 
+  @override
+  void initState() {
+    super.initState();
+    _rubbish = generateRubbish(_maxRubbishGrams, _countRubbishGrams);
+    _loadConfig();
+  }
+
   String get _measuredSinceDatePreloader => 'Measured since ' + _appInitDate;
 
   String get _rubbishGramsPreloader => _rubbishGrams.toString() + ' g';
@@ -31,13 +38,6 @@ class _AppState extends State<App> {
         measurementStartDateTime.month.toString() +
         '-' +
         measurementStartDateTime.day.toString();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _rubbish = generateRubbish(_maxRubbishGrams, _countRubbishGrams);
-    _loadConfig();
   }
 
   @override

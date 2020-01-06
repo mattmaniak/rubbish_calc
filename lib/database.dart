@@ -3,12 +3,15 @@ import 'package:sqflite/sqflite.dart';
 import 'item.dart';
 
 class Db {
-  // static final Db _singleton = Db._internal();
+  static final Db _singleton = Db._internal();
 
   static const String _name = 'rubbish_calc.db';
   static const String _rubbishTableName = 'Rubbish';
   static const String _dateTableName = 'Date';
   Database _file;
+
+  factory Db() => _singleton;
+  Db._internal();
 
   Future<String> get _filename async => await getDatabasesPath() + '/' + _name;
 
@@ -19,8 +22,28 @@ class Db {
     return false;
   }
 
-  // factory Db() => _singleton;
-  // Db._internal();
+  Future<dynamic> _fetchValue(Database db, String sql, List<dynamic> args,
+      String rowName, dynamic onErrorValue) async {
+    dynamic value;
+    try {
+      var fetchedData = await db.rawQuery(sql, args);
+      if (fetchedData.isNotEmpty) {
+        try {
+          value = fetchedData.single[rowName];
+        } on StateError {
+          value = 0;
+        }
+      } else {
+        value = 0;
+      }
+    } on DatabaseException {
+      value = 0;
+    }
+    if (value == null) {
+      value = 0;
+    }
+    return value;
+  }
 
   Future<void> create() async {
     _file = await openDatabase(await _filename, version: 1,
@@ -32,77 +55,60 @@ class Db {
       db.execute('CREATE TABLE IF NOT EXISTS $_dateTableName('
           '$idSql, appInitDate TEXT NOT NULL)');
     });
-    await _file.close();
+    _file.close();
   }
 
   Future<List<Item>> loadRubbish(List<Item> rubbish) async {
     _file = await openDatabase(await _filename, onOpen: (db) {
-      rubbish.forEach((item) {
-        try {
-          db.rawQuery('SELECT * FROM $_rubbishTableName WHERE id = ?',
-              [item.uniqueId]).then((items) {
-            if (items.isNotEmpty) {
-              try {
-                item.numberInRubbish = items.single['numberInRubbish'];
-              } on StateError {
-                item.numberInRubbish = 0;
-              }
-            } else {
-              item.numberInRubbish = 0;
-            }
-          });
-        } on DatabaseException {
-          item.numberInRubbish = 0;
-        }
+      rubbish.forEach((item) async {
+        item.numberInRubbish = await _fetchValue(
+            db,
+            'SELECT * FROM $_rubbishTableName WHERE id = ?',
+            [item.uniqueId],
+            'numberInRubbish',
+            0);
       });
     });
-    await _file.close();
+    _file.close();
     return rubbish;
   }
 
   Future<String> loadAppInitDate(String appInitDate, String currentDate) async {
     _file = await openDatabase(await _filename, onOpen: (db) async {
-      try {
-        var date = await db
-            .rawQuery('SELECT * FROM $_dateTableName WHERE id = ?', [1]);
-        if (date.isNotEmpty) {
-          try {
-            appInitDate = date.single['appInitDate'];
-          } on StateError {
-            appInitDate = currentDate;
-          }
-        }
-      } on DatabaseException {
-        appInitDate = currentDate;
-      }
+      appInitDate = await _fetchValue(
+          db,
+          'SELECT * FROM $_dateTableName WHERE id = ?',
+          [1],
+          'appInitDate',
+          currentDate);
     });
-    await _file.close();
+    _file.close();
     return appInitDate;
   }
 
   void save(List<Item> rubbish, String date) async {
-    void insertItems(Database db, List<Item> rubbish, int startIndex) {
-      rubbish.sort((a, b) => a.uniqueId.compareTo(b.uniqueId));
-      for (int i = startIndex; i < rubbish.length; i++) {
-        try {
-          db.rawInsert(
-              'INSERT INTO $_rubbishTableName(numberInRubbish) VALUES(?)',
-              [rubbish[i].numberInRubbish]);
-        } on DatabaseException {
-          db.rawInsert(
-              'INSERT INTO $_rubbishTableName(numberInRubbish) VALUES(0)');
-        }
-      }
-    }
-
     _file = await openDatabase(await _filename, onOpen: (db) async {
       int numberOfRows = Sqflite.firstIntValue(
           await db.rawQuery('SELECT COUNT(*) FROM $_rubbishTableName'));
 
+      void insertItems(int startIndex) {
+        rubbish.sort((a, b) => a.uniqueId.compareTo(b.uniqueId));
+        for (int i = startIndex; i < rubbish.length; i++) {
+          try {
+            db.rawInsert(
+                'INSERT INTO $_rubbishTableName(numberInRubbish) VALUES(?)',
+                [rubbish[i].numberInRubbish]);
+          } on DatabaseException {
+            db.rawInsert(
+                'INSERT INTO $_rubbishTableName(numberInRubbish) VALUES(0)');
+          }
+        }
+      }
+
       if (numberOfRows == 0) {
-        insertItems(db, rubbish, 0);
+        insertItems(0);
       } else if (numberOfRows < rubbish.length) {
-        insertItems(db, rubbish, numberOfRows);
+        insertItems(numberOfRows);
       } else if (rubbish.length < numberOfRows) {
         rubbish.sort((a, b) => a.uniqueId.compareTo(b.uniqueId));
         for (int id = rubbish.length + 1; id <= numberOfRows; id++) {
@@ -131,6 +137,6 @@ class Db {
             'UPDATE $_dateTableName SET appInitDate = ? WHERE id = 1', [date]);
       }
     });
-    await _file.close();
+    _file.close();
   }
 }
