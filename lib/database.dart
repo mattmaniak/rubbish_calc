@@ -30,16 +30,16 @@ class Db {
         try {
           value = fetchedData.single[rowName];
         } on StateError {
-          value = 0;
+          value = onErrorValue;
         }
       } else {
-        value = 0;
+        value = onErrorValue;
       }
     } on DatabaseException {
-      value = 0;
+      value = onErrorValue;
     }
     if (value == null) {
-      value = 0;
+      value = onErrorValue;
     }
     return value;
   }

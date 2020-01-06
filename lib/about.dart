@@ -20,7 +20,7 @@ class About extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           Bar(
-            text: 'Rubbish Calc v' + _semanticVersion,
+            text: 'Rubbish Calc ' + _semanticVersion,
             backgroundText: 'About',
             displayReturnArrow: true,
           ),

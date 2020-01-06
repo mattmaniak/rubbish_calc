@@ -27,8 +27,7 @@ class _AppState extends State<App> {
     _loadConfig();
   }
 
-  String get _measuredSinceDatePreloader => 'Since ' + _appInitDate;
-
+  String get _appInitDatePreloader => 'Since ' + _appInitDate;
   String get _rubbishGramsPreloader => _rubbishGrams.toString() + ' g overall';
 
   String get _currentDate {
@@ -50,7 +49,7 @@ class _AppState extends State<App> {
         slivers: [
           Bar(
             text: _rubbishGramsPreloader,
-            backgroundText: _measuredSinceDatePreloader,
+            backgroundText: _appInitDatePreloader,
             displayReturnArrow: false,
           ),
           SliverList(
