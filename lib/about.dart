@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import 'bar.dart';
 import 'error_dialog.dart';
 import 'style.dart' as style;
@@ -21,7 +22,7 @@ class About extends StatelessWidget {
           Bar(
             text: 'Rubbish Calc v' + _semanticVersion,
             backgroundText: 'About',
-            showReturnArrow: true,
+            displayReturnArrow: true,
           ),
           SliverList(
             delegate: SliverChildListDelegate(

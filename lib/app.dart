@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'item.dart';
+
 import 'about.dart';
-import 'style.dart' as style;
 import 'bar.dart';
 import 'database.dart';
+import 'item.dart';
 import 'rubbish.dart';
+import 'style.dart' as style;
 
 class App extends StatefulWidget {
   @override
@@ -50,7 +51,7 @@ class _AppState extends State<App> {
           Bar(
             text: _rubbishGramsPreloader,
             backgroundText: _measuredSinceDatePreloader,
-            showReturnArrow: false,
+            displayReturnArrow: false,
           ),
           SliverList(
             delegate: SliverChildListDelegate(_rubbish),

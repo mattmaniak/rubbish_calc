@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+
 import 'style.dart' as style;
 
 class Bar extends StatelessWidget {
   final String text;
   final String backgroundText;
-  final bool showReturnArrow;
+  final bool displayReturnArrow;
 
   Bar(
       {@required this.text,
       @required this.backgroundText,
-      @required this.showReturnArrow});
+      @required this.displayReturnArrow});
 
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -34,7 +35,7 @@ class Bar extends StatelessWidget {
   }
 
   Widget _renderReturnArrow(BuildContext context) {
-    if (showReturnArrow) {
+    if (displayReturnArrow) {
       return IconButton(
         icon: Icon(Icons.arrow_back),
         color: style.foregroundColor,

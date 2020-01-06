@@ -1,7 +1,10 @@
 import 'package:sqflite/sqflite.dart';
+
 import 'item.dart';
 
 class Db {
+  // static final Db _singleton = Db._internal();
+
   static const String _name = 'rubbish_calc.db';
   static const String _rubbishTableName = 'Rubbish';
   static const String _dateTableName = 'Date';
@@ -16,17 +19,18 @@ class Db {
     return false;
   }
 
+  // factory Db() => _singleton;
+  // Db._internal();
+
   Future<void> create() async {
     _file = await openDatabase(await _filename, version: 1,
         onCreate: (db, version) {
       const String idSql = 'id INTEGER NOT NULL PRIMARY KEY';
-      db
-          .execute('CREATE TABLE $_rubbishTableName('
-              '$idSql, numberInRubbish INTEGER NOT NULL)')
-          .then((_) {
-        db.execute('CREATE TABLE $_dateTableName('
-            '$idSql, appInitDate TEXT NOT NULL)');
-      });
+
+      db.execute('CREATE TABLE IF NOT EXISTS $_rubbishTableName('
+          '$idSql, numberInRubbish INTEGER NOT NULL)');
+      db.execute('CREATE TABLE IF NOT EXISTS $_dateTableName('
+          '$idSql, appInitDate TEXT NOT NULL)');
     });
     await _file.close();
   }
@@ -57,16 +61,17 @@ class Db {
   }
 
   Future<String> loadAppInitDate(String appInitDate, String currentDate) async {
-    _file = await openDatabase(await _filename, onOpen: (db) {
+    _file = await openDatabase(await _filename, onOpen: (db) async {
       try {
-        db.rawQuery('SELECT * FROM $_dateTableName WHERE id = ?', [1]).then(
-            (date) {
+        var date = await db
+            .rawQuery('SELECT * FROM $_dateTableName WHERE id = ?', [1]);
+        if (date.isNotEmpty) {
           try {
             appInitDate = date.single['appInitDate'];
           } on StateError {
             appInitDate = currentDate;
           }
-        });
+        }
       } on DatabaseException {
         appInitDate = currentDate;
       }

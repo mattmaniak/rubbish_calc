@@ -20,21 +20,21 @@ List<Item> generateRubbish(int maxRubbishGrams, Function callback) {
       name: 'Plastic bottle 1.0 L',
       weightGrams: 20,
     ),
-    // https://www.quora.com/How-much-does-a-330ml-can-of-soda-weigh-in-grams
+    // http://www.chymist.com/Aluminum%20can.pdf
     Item(
-      name: 'Aluminium soda can 0.33 L',
-      weightGrams: 30,
+      name: 'Aluminium can 0.33 L',
+      weightGrams: 13,
     ),
     Item(
       name: 'Plastic bottle 1.5 L',
       weightGrams: 30,
     ),
     Item(
-      name: 'Juicebox 1.5 L',
+      name: 'Carton juicebox 1.5 L',
       weightGrams: 45,
     ),
     Item(
-      name: 'Juicebox 2.0 L',
+      name: 'Carton juicebox 2.0 L',
       weightGrams: 60,
     ),
     // https://en.m.wikipedia.org/wiki/Wine_bottle#Environmental_impact
@@ -43,7 +43,7 @@ List<Item> generateRubbish(int maxRubbishGrams, Function callback) {
       weightGrams: 500,
     ),
     Item(
-      name: 'Juicebox 1.0 L',
+      name: 'Carton juicebox 1.0 L',
       weightGrams: 30,
     ),
     Item(
@@ -53,6 +53,14 @@ List<Item> generateRubbish(int maxRubbishGrams, Function callback) {
     Item(
       name: 'Corn flakes foil 500 g',
       weightGrams: 10,
+    ),
+    Item(
+      name: 'Steel tin can 0.425 L',
+      weightGrams: 55,
+    ),
+    Item(
+      name: 'Aluminium can 0.5 L',
+      weightGrams: 17,
     ),
   ];
   for (int i = 0; i < rubbish.length; i++) {
