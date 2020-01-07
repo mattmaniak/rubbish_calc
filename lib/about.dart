@@ -9,8 +9,11 @@ class About extends StatelessWidget {
   static const String _semanticVersion = '0.0.0';
   static const String _authorName = 'mattmaniak';
   static const String _authorURL = 'https://gitlab.com/' + _authorName;
-  static const String _repoURL = _authorURL + '/rubbish_calc';
+  static const String _changelogURL = _repoURL + '/blob/master/CHANGELOG.md';
   static const String _licenseURL = _repoURL + '/blob/master/LICENSE';
+  static const String _policyURL =
+      _repoURL + '/blob/master/README.md#privacy-policy';
+  static const String _repoURL = _authorURL + '/rubbish_calc';
   static const String _termsURL =
       _repoURL + '/blob/master/README.md#terms-of-use';
 
@@ -37,12 +40,20 @@ class About extends StatelessWidget {
                   url: _repoURL,
                 ),
                 _AboutButton(
+                  title: 'Changelog',
+                  url: _changelogURL,
+                ),
+                _AboutButton(
                   title: 'MIT License',
                   url: _licenseURL,
                 ),
                 _AboutButton(
                   title: 'Terms of Use',
                   url: _termsURL,
+                ),
+                _AboutButton(
+                  title: 'Privacy Policy',
+                  url: _policyURL,
                 ),
               ],
             ),

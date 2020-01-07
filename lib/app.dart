@@ -81,23 +81,29 @@ class _AppState extends State<App> {
     );
   }
 
-  void _loadConfig() {
-    _database.exists.then((exists) {
-      if (exists) {
-        _database.loadRubbish(_rubbish).then((rubbish) {
-          _rubbish = rubbish;
-
-          _database.loadAppInitDate(_appInitDate, _currentDate).then((date) {
-            _appInitDate = date;
-            _countRubbishGrams();
-          });
-        });
-      } else {
-        _database.create().then((_) {
-          _appInitDate = _currentDate;
-        });
-      }
-    });
+  void _loadConfig() async {
+    if (await _database.exists) {
+      _rubbish = await _database.loadRubbish(_rubbish);
+      _appInitDate =
+          await _database.loadAppInitDate(_appInitDate, _currentDate);
+      _countRubbishGrams();
+    } else {
+      _database.create();
+      _appInitDate = _currentDate;
+    }
+    // _database.exists.then((exists) {
+    //   if (exists) {
+    //     _database.loadRubbish(_rubbish).then((rubbish) async {
+    //       _rubbish = rubbish;
+    //       _appInitDate =
+    //           await _database.loadAppInitDate(_appInitDate, _currentDate);
+    //       _countRubbishGrams();
+    //     });
+    //   } else {
+    //     _database.create();
+    //     _appInitDate = _currentDate;
+    //   }
+    // });
   }
 
   void _countRubbishGrams() {

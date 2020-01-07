@@ -3,27 +3,12 @@ import 'item.dart';
 List<Item> generateRubbish(int maxRubbishGrams, Function callback) {
   List<Item> rubbish = [
     Item(
-      name: 'Plastic bottle cap',
+      name: 'Plastic bottle screw cap',
       weightGrams: 1,
     ),
-    // https://www.quora.com/How-much-does-a-single-metal-bottle-cap-weigh-from-a-beer-or-soda-bottle
-    Item(
-      name: 'Metal bottle cap',
-      weightGrams: 2,
-    ),
-    // https://www.quora.com/What-is-the-weight-of-1-5-liter-empty-pet-bottles
     Item(
       name: 'Plastic bottle 0.5 L',
-      weightGrams: 10,
-    ),
-    Item(
-      name: 'Plastic bottle 1.0 L',
-      weightGrams: 20,
-    ),
-    // http://www.chymist.com/Aluminum%20can.pdf
-    Item(
-      name: 'Aluminium can 0.33 L',
-      weightGrams: 13,
+      weightGrams: 15,
     ),
     Item(
       name: 'Plastic bottle 1.5 L',
@@ -31,16 +16,11 @@ List<Item> generateRubbish(int maxRubbishGrams, Function callback) {
     ),
     Item(
       name: 'Carton juicebox 1.5 L',
-      weightGrams: 45,
+      weightGrams: 48,
     ),
     Item(
       name: 'Carton juicebox 2.0 L',
       weightGrams: 60,
-    ),
-    // https://en.m.wikipedia.org/wiki/Wine_bottle#Environmental_impact
-    Item(
-      name: 'Glass bottle 0.75 L',
-      weightGrams: 500,
     ),
     Item(
       name: 'Carton juicebox 1.0 L',
@@ -61,6 +41,14 @@ List<Item> generateRubbish(int maxRubbishGrams, Function callback) {
     Item(
       name: 'Aluminium can 0.5 L',
       weightGrams: 17,
+    ),
+    Item(
+      name: 'Metal jar lid',
+      weightGrams: 10,
+    ),
+    Item(
+      name: 'Small plastic bag',
+      weightGrams: 1,
     ),
   ];
   for (int i = 0; i < rubbish.length; i++) {
