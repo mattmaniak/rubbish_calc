@@ -6,11 +6,7 @@ class Db {
   static const String _name = 'rubbish_calc.db';
   static const String _rubbishTableName = 'Rubbish';
   static const String _dateTableName = 'Date';
-  static final Db _singleton = Db._internal();
   Database _file;
-
-  factory Db() => _singleton;
-  Db._internal();
 
   Future<String> get _filename async => await getDatabasesPath() + '/' + _name;
 

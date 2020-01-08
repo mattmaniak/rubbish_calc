@@ -13,7 +13,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  static const int _maxRubbishGrams = 1000000; // 1 metric ton.
+  static const int _maxSingleItemRubbishGrams = 1000000; // 1 metric ton.;
   final Db _database = Db();
   List<Item> _rubbish = [];
   int _rubbishGrams = 0;
@@ -23,7 +23,7 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
-    _rubbish = generateRubbish(_maxRubbishGrams, _countRubbishGrams);
+    _rubbish = generateRubbish(_maxSingleItemRubbishGrams, _countRubbishGrams);
     _loadConfig();
   }
 
@@ -91,19 +91,6 @@ class _AppState extends State<App> {
       _database.create();
       _appInitDate = _currentDate;
     }
-    // _database.exists.then((exists) {
-    //   if (exists) {
-    //     _database.loadRubbish(_rubbish).then((rubbish) async {
-    //       _rubbish = rubbish;
-    //       _appInitDate =
-    //           await _database.loadAppInitDate(_appInitDate, _currentDate);
-    //       _countRubbishGrams();
-    //     });
-    //   } else {
-    //     _database.create();
-    //     _appInitDate = _currentDate;
-    //   }
-    // });
   }
 
   void _countRubbishGrams() {
@@ -112,9 +99,6 @@ class _AppState extends State<App> {
     setState(() {
       _rubbish.forEach((item) {
         _rubbishGrams += item.weightInRubbishGrams;
-        if (_rubbishGrams > _maxRubbishGrams) {
-          _rubbishGrams = _maxRubbishGrams;
-        }
       });
     });
     if (_rubbish.isNotEmpty && (!_autoRefreshedOnStart)) {

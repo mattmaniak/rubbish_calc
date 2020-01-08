@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'snack_bar_info.dart';
 import 'style.dart' as style;
 
 class Item extends StatefulWidget {
@@ -57,6 +58,11 @@ class _ItemState extends State<Item> {
     setState(() {
       if ((++widget.numberInRubbish * widget.weightGrams) >
           widget.maxWeightGrams) {
+        displaySnackBarInfo(
+            context,
+            'Cannot waste more than ' +
+                widget.maxWeightGrams.toString() +
+                ' g for a single item.');
         widget.numberInRubbish--;
       }
       widget.refreshParentState();
