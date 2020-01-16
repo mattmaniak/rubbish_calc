@@ -43,40 +43,42 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     _rubbish.sort((a, b) => a.weightGrams.compareTo(b.weightGrams));
 
-    return Scaffold(
-      backgroundColor: style.backgroundColor,
-      body: CustomScrollView(
-        slivers: [
-          Bar(
-            text: _rubbishGramsPreloader,
-            backgroundText: _appInitDatePreloader,
-            displayReturnArrow: false,
-          ),
-          SliverList(
-            delegate: SliverChildListDelegate(_rubbish),
-          ),
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                ButtonBar(
-                  alignment: MainAxisAlignment.center,
-                  children: [
-                    FlatButton(
-                      child: Text(
-                        'About',
-                        style: TextStyle(
-                          color: style.textColor,
-                        ),
-                      ),
-                      onPressed: _navigateToAboutScreen,
-                      color: style.foregroundColor,
-                    ),
-                  ],
-                ),
-              ],
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: style.backgroundColor,
+        body: CustomScrollView(
+          slivers: [
+            Bar(
+              text: _rubbishGramsPreloader,
+              backgroundText: _appInitDatePreloader,
+              displayReturnArrow: false,
             ),
-          ),
-        ],
+            SliverList(
+              delegate: SliverChildListDelegate(_rubbish),
+            ),
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  ButtonBar(
+                    alignment: MainAxisAlignment.center,
+                    children: [
+                      FlatButton(
+                        child: Text(
+                          'About',
+                          style: TextStyle(
+                            color: style.textColor,
+                          ),
+                        ),
+                        onPressed: _navigateToAboutScreen,
+                        color: style.foregroundColor,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -7,7 +7,7 @@ import 'error_dialog.dart';
 import 'style.dart' as style;
 
 class About extends StatelessWidget {
-  static const String _semanticVersion = '0.0.0';
+  static const String _semanticVersion = '0.1.0';
   static const String _authorName = 'mattmaniak';
   static const String _authorURL = 'https://gitlab.com/' + _authorName;
   static const String _changelogURL = _repoURL + '/blob/master/CHANGELOG.md';

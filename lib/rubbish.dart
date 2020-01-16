@@ -50,6 +50,10 @@ List<Item> generateRubbish(int maxSingleItemRubbishGrams, Function callback) {
       name: 'Small plastic bag',
       weightGrams: 1,
     ),
+    Item(
+      name: 'Plastic bottle 5.0 L',
+      weightGrams: 70,
+    ),
   ];
   for (int i = 0; i < rubbish.length; i++) {
     final int id = i + 1;

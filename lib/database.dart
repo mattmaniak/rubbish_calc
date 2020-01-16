@@ -43,7 +43,7 @@ class Db {
   Future<void> create() async {
     _file = await openDatabase(await _filename, version: 1,
         onCreate: (db, version) {
-      const String idSql = 'id INTEGER NOT NULL PRIMARY KEY';
+      const String idSql = 'id INTEGER PRIMARY KEY';
 
       db.execute('CREATE TABLE IF NOT EXISTS $_rubbishTableName('
           '$idSql, numberInRubbish INTEGER NOT NULL)');

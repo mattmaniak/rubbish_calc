@@ -7,7 +7,9 @@ void showErrorDialog(BuildContext context, String message) {
   showDialog(
     context: context,
     barrierDismissible: false,
-    builder: (context) => ErrorDialog(message: message),
+    builder: (context) => ErrorDialog(
+      message: message,
+    ),
   );
 }
 
