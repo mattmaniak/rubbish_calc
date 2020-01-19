@@ -1,9 +1,9 @@
 import 'item.dart';
 
-List<Item> generateRubbish(int maxSingleItemRubbishGrams, Function callback) {
+List<Item> generateRubbish(Function callback) {
   List<Item> rubbish = [
     Item(
-      name: 'Plastic bottle screw cap',
+      name: 'Plastic bottle cap',
       weightGrams: 1,
     ),
     Item(
@@ -31,7 +31,7 @@ List<Item> generateRubbish(int maxSingleItemRubbishGrams, Function callback) {
       weightGrams: 1,
     ),
     Item(
-      name: 'Corn flakes foil 500 g',
+      name: '500 g corn flakes foil',
       weightGrams: 10,
     ),
     Item(
@@ -43,7 +43,7 @@ List<Item> generateRubbish(int maxSingleItemRubbishGrams, Function callback) {
       weightGrams: 17,
     ),
     Item(
-      name: 'Jar metal lid',
+      name: 'Steel jar lid',
       weightGrams: 10,
     ),
     Item(
@@ -57,8 +57,7 @@ List<Item> generateRubbish(int maxSingleItemRubbishGrams, Function callback) {
   ];
   for (int i = 0; i < rubbish.length; i++) {
     final int id = i + 1;
-    rubbish[i].uniqueId = id;
-    rubbish[i].maxWeightGrams = maxSingleItemRubbishGrams;
+    rubbish[i].id = id;
     rubbish[i].refreshParentState = callback;
   }
   return rubbish;

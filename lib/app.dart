@@ -13,22 +13,21 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  static const int _maxSingleItemRubbishGrams = 1000000; // 1 metric ton.;
   final Db _database = Db();
   List<Item> _rubbish = [];
   int _rubbishGrams = 0;
   String _appInitDate = 'never';
   bool _autoRefreshedOnStart = false;
 
+  String get _appInitDatePreloader => 'Since ' + _appInitDate;
+  String get _rubbishGramsPreloader => _rubbishGrams.toString() + ' g overall';
+
   @override
   void initState() {
     super.initState();
-    _rubbish = generateRubbish(_maxSingleItemRubbishGrams, _countRubbishGrams);
+    _rubbish = generateRubbish(_countRubbishGrams);
     _loadConfig();
   }
-
-  String get _appInitDatePreloader => 'Since ' + _appInitDate;
-  String get _rubbishGramsPreloader => _rubbishGrams.toString() + ' g overall';
 
   String get _currentDate {
     final DateTime measurementStartDateTime = DateTime.now();

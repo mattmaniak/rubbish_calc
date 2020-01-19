@@ -8,14 +8,14 @@ class Db {
   static const String _dateTableName = 'Date';
   Database _file;
 
-  Future<String> get _filename async => await getDatabasesPath() + '/' + _name;
-
   Future<bool> get exists async {
     if (await databaseExists(await _filename)) {
       return true;
     }
     return false;
   }
+
+  Future<String> get _filename async => await getDatabasesPath() + '/' + _name;
 
   Future<dynamic> _fetchValue(Database db, String sql, List<dynamic> args,
       String rowName, dynamic onErrorValue) async {
@@ -43,7 +43,9 @@ class Db {
   Future<void> create() async {
     _file = await openDatabase(await _filename, version: 1,
         onCreate: (db, version) {
-      const String idSql = 'id INTEGER PRIMARY KEY';
+      /* 'SQLite allows NULL values in a PRIMARY KEY column.'
+      https://sqlite.org/lang_createtable.html */
+      const String idSql = 'id INTEGER PRIMARY KEY NOT NULL';
 
       db.execute('CREATE TABLE IF NOT EXISTS $_rubbishTableName('
           '$idSql, numberInRubbish INTEGER NOT NULL)');
@@ -59,7 +61,7 @@ class Db {
         item.numberInRubbish = await _fetchValue(
             db,
             'SELECT * FROM $_rubbishTableName WHERE id = ?',
-            [item.uniqueId],
+            [item.id],
             'numberInRubbish',
             0);
       });
@@ -87,7 +89,7 @@ class Db {
           await db.rawQuery('SELECT COUNT(*) FROM $_rubbishTableName'));
 
       void insertItems(int startIndex) {
-        rubbish.sort((a, b) => a.uniqueId.compareTo(b.uniqueId));
+        rubbish.sort((a, b) => a.id.compareTo(b.id));
         for (int i = startIndex; i < rubbish.length; i++) {
           try {
             db.rawInsert(
@@ -105,7 +107,7 @@ class Db {
       } else if (numberOfRows < rubbish.length) {
         insertItems(numberOfRows);
       } else if (rubbish.length < numberOfRows) {
-        rubbish.sort((a, b) => a.uniqueId.compareTo(b.uniqueId));
+        rubbish.sort((a, b) => a.id.compareTo(b.id));
         for (int id = rubbish.length + 1; id <= numberOfRows; id++) {
           try {
             db.rawDelete('DELETE FROM $_rubbishTableName WHERE ID = ?', [id]);
@@ -117,10 +119,9 @@ class Db {
         rubbish.forEach((item) {
           db.rawUpdate(
               'UPDATE $_rubbishTableName SET numberInRubbish = ? WHERE id = ?',
-              [item.numberInRubbish, item.uniqueId]);
+              [item.numberInRubbish, item.id]);
         });
       }
-
       numberOfRows = Sqflite.firstIntValue(
           await db.rawQuery('SELECT COUNT(*) FROM $_dateTableName'));
 

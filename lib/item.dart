@@ -4,17 +4,16 @@ import 'snack_bar_info.dart';
 import 'style.dart' as style;
 
 class Item extends StatefulWidget {
-  _ItemState _state;
   final String name;
   final int weightGrams;
-  int uniqueId;
-  int maxWeightGrams;
+  int id;
   Function refreshParentState;
   int numberInRubbish = 0;
-
-  Item({@required this.name, @required this.weightGrams});
+  _ItemState _state;
 
   int get weightInRubbishGrams => numberInRubbish * weightGrams;
+
+  Item({@required this.name, @required this.weightGrams});
 
   @override
   _ItemState createState() {
@@ -30,6 +29,8 @@ class Item extends StatefulWidget {
 }
 
 class _ItemState extends State<Item> {
+  static const int _maxWeightGrams = 1000000; // 1 metric ton.
+
   String get _wastedGramsSubtitle =>
       widget.numberInRubbish.toString() +
       ' wasted - ' +
@@ -56,12 +57,11 @@ class _ItemState extends State<Item> {
 
   void _incrementAmountInRubbish() {
     setState(() {
-      if ((++widget.numberInRubbish * widget.weightGrams) >
-          widget.maxWeightGrams) {
+      if ((++widget.numberInRubbish * widget.weightGrams) > _maxWeightGrams) {
         displaySnackBarInfo(
             context,
             'Cannot waste more than ' +
-                widget.maxWeightGrams.toString() +
+                _maxWeightGrams.toString() +
                 ' g for a single item.');
         widget.numberInRubbish--;
       }
@@ -70,7 +70,7 @@ class _ItemState extends State<Item> {
   }
 
   void update() {
-    if (this.mounted) {
+    if (mounted) {
       setState(() {});
     }
   }
