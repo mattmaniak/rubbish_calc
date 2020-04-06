@@ -5,6 +5,7 @@ import 'app.dart';
 void main() {
   runApp(
     MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Rubbish Calc',
       home: App(),
     ),
