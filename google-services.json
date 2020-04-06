@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "70300162622",
+    "firebase_url": "https://rubbish-calc.firebaseio.com",
+    "project_id": "rubbish-calc",
+    "storage_bucket": "rubbish-calc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:70300162622:android:4b469d0abfeebab5a04f6f",
+        "android_client_info": {
+          "package_name": "com.mattmaniak.rubbishCalc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "70300162622-99lt68vlicmcbcc924hav2jkad7m57cj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mattmaniak.rubbishCalc",
+            "certificate_hash": "929e9908923ddc8830115561959de531a2edc41b"
+          }
+        },
+        {
+          "client_id": "70300162622-5k7ib9v6nd0oui0orhejubte4bir2gc6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBK23rEPMYf_asDeireFahhme2zECFyyjw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "70300162622-5k7ib9v6nd0oui0orhejubte4bir2gc6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
