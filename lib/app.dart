@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'about.dart';
 import 'bar.dart';
-import 'database.dart';
 import 'item.dart';
 import 'rubbish.dart';
 import 'style.dart' as style;
@@ -13,102 +12,95 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  final Db _database = Db();
-  List<Item> _rubbish = [];
   int _rubbishGrams = 0;
+  List<Widget> _items;
+  List<Item> _rubbish = generateRubbish();
   String _appInitDate = 'never';
-  bool _autoRefreshedOnStart = false;
 
   String get _appInitDatePreloader => 'Since ' + _appInitDate;
   String get _rubbishGramsPreloader => _rubbishGrams.toString() + ' g overall';
 
-  @override
+  // String get _currentDate {
+  //   final DateTime measurementStartDateTime = DateTime.now();
+  //   return measurementStartDateTime.year.toString() +
+  //       '-' +
+  //       measurementStartDateTime.month.toString() +
+  //       '-' +
+  //       measurementStartDateTime.day.toString();
+  // }
+
   void initState() {
     super.initState();
-    _rubbish = generateRubbish(_countRubbishGrams);
-    _loadConfig();
-  }
-
-  String get _currentDate {
-    final DateTime measurementStartDateTime = DateTime.now();
-    return measurementStartDateTime.year.toString() +
-        '-' +
-        measurementStartDateTime.month.toString() +
-        '-' +
-        measurementStartDateTime.day.toString();
+    _rubbish.sort((a, b) => a.weightGrams.compareTo(b.weightGrams));
   }
 
   @override
   Widget build(BuildContext context) {
-    _rubbish.sort((a, b) => a.weightGrams.compareTo(b.weightGrams));
-
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: style.backgroundColor,
-        body: CustomScrollView(
-          slivers: [
-            Bar(
-              text: _rubbishGramsPreloader,
-              backgroundText: _appInitDatePreloader,
-              displayReturnArrow: false,
-            ),
-            SliverList(
-              delegate: SliverChildListDelegate(_rubbish),
-            ),
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  ButtonBar(
-                    alignment: MainAxisAlignment.center,
-                    children: [
-                      FlatButton(
-                        child: Text(
-                          'About',
-                          style: TextStyle(
-                            color: style.textColor,
-                          ),
-                        ),
-                        onPressed: _navigateToAboutScreen,
-                        color: style.foregroundColor,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
+    _items = _rubbish.map((item) =>
+      Card(
+        color: style.foregroundColor,
+        child: ListTile(
+          leading: Icon(
+            Icons.restore_from_trash,
+            color: style.textColor,
+            size: 40.0,
+          ),
+          title: Text(item.name),
+          subtitle: Text(
+            item.numberInRubbish.toString() +
+            ' wasted - ' +
+            (item.numberInRubbish * item.weightGrams).toString() +
+            ' g'
+          ),
+          trailing: Text(item.weightGrams.toString() + ' g'),
+          onTap: () => _countRubbishGrams(item)
         ),
+      ),
+    ).toList();
+
+    return Scaffold(
+      backgroundColor: style.backgroundColor,
+      body: CustomScrollView(
+        slivers: [
+          Bar(
+            text: _rubbishGramsPreloader,
+            backgroundText: _appInitDatePreloader,
+            displayReturnArrow: false,
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate(_items),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                ButtonBar(
+                  alignment: MainAxisAlignment.center,
+                  children: [
+                    FlatButton(
+                      child: Text(
+                        'About',
+                        style: TextStyle(
+                          color: style.textColor,
+                        ),
+                      ),
+                      onPressed: _navigateToAboutScreen,
+                      color: style.foregroundColor,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  void _loadConfig() async {
-    if (await _database.exists) {
-      _rubbish = await _database.loadRubbish(_rubbish);
-      _appInitDate =
-          await _database.loadAppInitDate(_appInitDate, _currentDate);
-      _countRubbishGrams();
-    } else {
-      _database.create();
-      _appInitDate = _currentDate;
-    }
-  }
-
-  void _countRubbishGrams() {
-    _rubbishGrams = 0;
-
+  void _countRubbishGrams(Item item) {
     setState(() {
-      _rubbish.forEach((item) {
-        _rubbishGrams += item.weightInRubbishGrams;
-      });
+      item.numberInRubbish++;
+      _rubbishGrams += item.weightGrams;
     });
-    if (_rubbish.isNotEmpty && (!_autoRefreshedOnStart)) {
-      _rubbish.forEach((item) {
-        item.update();
-      });
-      _autoRefreshedOnStart = true;
-    }
-    _database.save(_rubbish, _appInitDate);
   }
 
   void _navigateToAboutScreen() {

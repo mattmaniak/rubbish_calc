@@ -1,6 +1,6 @@
 import 'item.dart';
 
-List<Item> generateRubbish(Function callback) {
+List<Item> generateRubbish() {
   List<Item> rubbish = [
     Item(
       name: 'Plastic bottle cap',
@@ -58,7 +58,6 @@ List<Item> generateRubbish(Function callback) {
   for (int i = 0; i < rubbish.length; i++) {
     final int id = i + 1;
     rubbish[i].id = id;
-    rubbish[i].refreshParentState = callback;
   }
   return rubbish;
 }
