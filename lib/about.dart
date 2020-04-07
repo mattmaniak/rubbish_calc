@@ -6,60 +6,56 @@ import 'bar.dart';
 import 'error_dialog.dart';
 
 class About extends StatelessWidget {
-  static const String _semanticVersion = '1.0.0-dev';
   static const String _authorName = 'mattmaniak';
   static const String _authorURL = 'https://gitlab.com/$_authorName';
-  static const String _changelogURL = '$_repoURL/blob/master/CHANGELOG.md';
-  static const String _licenseURL = '$_repoURL/blob/master/LICENSE';
-  static const String _policyURL =
-      '$_repoURL/blob/master/README.md#privacy-policy';
   static const String _repoURL = '$_authorURL/rubbish_calc';
-  static const String _termsURL =
-      '$_repoURL/blob/master/README.md#terms-of-use';
+  static const String _semanticVersion = '1.0.0-dev';
+  final String _changelogURL = '$_repoURL/blob/master/CHANGELOG.md';
+  final String _licenseURL = '$_repoURL/blob/master/LICENSE';
+  final String _policyURL = '$_repoURL/blob/master/README.md#privacy-policy';
+  final String _termsURL = '$_repoURL/blob/master/README.md#terms-of-use';
 
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: CustomScrollView(
-          slivers: [
-            Bar(
-              text: 'Rubbish Calc $_semanticVersion',
-              backgroundText: 'About',
-              displayReturnArrow: true,
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          Bar(
+            text: 'Rubbish Calc $_semanticVersion',
+            backgroundText: 'About',
+            displayReturnArrow: true,
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                Image.asset('assets/icon_transparent.png'),
+                _AboutButton(
+                  title: 'Created by $_authorName',
+                  url: _authorURL,
+                ),
+                _AboutButton(
+                  title: 'Source code on GitLab',
+                  url: _repoURL,
+                ),
+                _AboutButton(
+                  title: 'Changelog',
+                  url: _changelogURL,
+                ),
+                _AboutButton(
+                  title: 'MIT License',
+                  url: _licenseURL,
+                ),
+                _AboutButton(
+                  title: 'Terms of Use',
+                  url: _termsURL,
+                ),
+                _AboutButton(
+                  title: 'Privacy Policy',
+                  url: _policyURL,
+                ),
+              ],
             ),
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  Image.asset('assets/icon_transparent.png'),
-                  _AboutButton(
-                    title: 'Created by $_authorName',
-                    url: _authorURL,
-                  ),
-                  _AboutButton(
-                    title: 'Source code on GitLab',
-                    url: _repoURL,
-                  ),
-                  _AboutButton(
-                    title: 'Changelog',
-                    url: _changelogURL,
-                  ),
-                  _AboutButton(
-                    title: 'MIT License',
-                    url: _licenseURL,
-                  ),
-                  _AboutButton(
-                    title: 'Terms of Use',
-                    url: _termsURL,
-                  ),
-                  _AboutButton(
-                    title: 'Privacy Policy',
-                    url: _policyURL,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -69,7 +65,7 @@ class _AboutButton extends StatelessWidget {
   final String title;
   final String url;
 
-  _AboutButton({@required this.title, @required this.url});
+  const _AboutButton({@required this.title, @required this.url});
 
   Widget build(BuildContext context) {
     return Card(
