@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import 'style.dart' as style;
-
 void showErrorDialog(BuildContext context, String message) {
   showDialog(
     context: context,
@@ -21,18 +19,11 @@ class ErrorDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: style.errorColor,
       title: Text('Something broke...'),
       content: Text(message),
       actions: [
         FlatButton(
-          color: style.foregroundColor,
-          child: Text(
-            'Ok',
-            style: TextStyle(
-              color: style.textColor,
-            ),
-          ),
+          child: Text('Ok'),
           onPressed: () => _close(context),
         ),
       ],

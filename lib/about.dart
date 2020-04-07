@@ -4,7 +4,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'bar.dart';
 import 'error_dialog.dart';
-import 'style.dart' as style;
 
 class About extends StatelessWidget {
   static const String _semanticVersion = '1.0.0-dev';
@@ -21,7 +20,6 @@ class About extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: style.backgroundColor,
         body: CustomScrollView(
           slivers: [
             Bar(
@@ -75,13 +73,11 @@ class _AboutButton extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Card(
-      color: style.foregroundColor,
       child: ListTile(
         title: Text(
           title,
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: style.linkColor,
             decoration: TextDecoration.underline,
           ),
         ),

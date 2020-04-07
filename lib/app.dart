@@ -4,7 +4,6 @@ import 'about.dart';
 import 'bar.dart';
 import 'item.dart';
 import 'rubbish.dart';
-import 'style.dart' as style;
 
 class App extends StatefulWidget {
   @override
@@ -36,30 +35,26 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    _items = _rubbish.map((item) =>
-      Card(
-        color: style.foregroundColor,
-        child: ListTile(
-          leading: Icon(
-            Icons.restore_from_trash,
-            color: style.textColor,
-            size: 40.0,
+    _items = _rubbish
+        .map(
+          (item) => Card(
+            child: ListTile(
+                leading: Icon(
+                  Icons.restore_from_trash,
+                  size: 40.0,
+                ),
+                title: Text(item.name),
+                subtitle: Text(item.numberInRubbish.toString() +
+                    ' wasted - ' +
+                    (item.numberInRubbish * item.weightGrams).toString() +
+                    ' g'),
+                trailing: Text(item.weightGrams.toString() + ' g'),
+                onTap: () => _countRubbishGrams(item)),
           ),
-          title: Text(item.name),
-          subtitle: Text(
-            item.numberInRubbish.toString() +
-            ' wasted - ' +
-            (item.numberInRubbish * item.weightGrams).toString() +
-            ' g'
-          ),
-          trailing: Text(item.weightGrams.toString() + ' g'),
-          onTap: () => _countRubbishGrams(item)
-        ),
-      ),
-    ).toList();
+        )
+        .toList();
 
     return Scaffold(
-      backgroundColor: style.backgroundColor,
       body: CustomScrollView(
         slivers: [
           Bar(
@@ -77,14 +72,8 @@ class _AppState extends State<App> {
                   alignment: MainAxisAlignment.center,
                   children: [
                     FlatButton(
-                      child: Text(
-                        'About',
-                        style: TextStyle(
-                          color: style.textColor,
-                        ),
-                      ),
+                      child: Text('About'),
                       onPressed: _navigateToAboutScreen,
-                      color: style.foregroundColor,
                     ),
                   ],
                 ),
