@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
-import 'bar.dart';
-import 'error_dialog.dart';
+import 'package:rubbish_calc/src/bar.dart';
+import 'package:rubbish_calc/src/error_dialog.dart';
 
 class About extends StatelessWidget {
   static const String _authorName = 'mattmaniak';

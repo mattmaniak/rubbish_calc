@@ -1,4 +1,4 @@
-import 'item.dart';
+import 'package:rubbish_calc/src/item.dart';
 
 List<Item> generateRubbish() {
   List<Item> rubbish = [

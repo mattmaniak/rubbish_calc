@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'about.dart';
-import 'bar.dart';
-import 'item.dart';
-import 'rubbish.dart';
-import 'login_page.dart';
+import 'package:rubbish_calc/src/about.dart';
+import 'package:rubbish_calc/src/bar.dart';
+import 'package:rubbish_calc/src/item.dart';
+import 'package:rubbish_calc/src/rubbish.dart';
+import 'package:rubbish_calc/src/login_page.dart';
 
 class App extends StatefulWidget {
   @override

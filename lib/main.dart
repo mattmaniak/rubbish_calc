@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'app.dart';
+import 'package:rubbish_calc/src/app.dart';
 
 void main() {
   runApp(
