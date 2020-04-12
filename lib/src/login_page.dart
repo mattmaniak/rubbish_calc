@@ -47,47 +47,50 @@ class _LoginPageState extends State<LoginPage> {
             ),
             child: Form(
               key: _formKey,
-              child: ListView(
-                children: [
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Email',
+              child: Center(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                      ),
+                      maxLines: 1,
+                      enableSuggestions: false,
+                      keyboardType: TextInputType.emailAddress,
+                      controller: _emailController,
+                      validator: _validateEmail,
                     ),
-                    maxLines: 1,
-                    enableSuggestions: false,
-                    keyboardType: TextInputType.emailAddress,
-                    controller: _emailController,
-                    validator: _validateEmail,
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Password',
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                      ),
+                      maxLines: 1,
+                      enableSuggestions: false,
+                      obscureText: true,
+                      controller: _passwordController,
+                      validator: _validatePassword,
                     ),
-                    maxLines: 1,
-                    enableSuggestions: false,
-                    obscureText: true,
-                    controller: _passwordController,
-                    validator: _validatePassword,
-                  ),
-                  RaisedButton(
-                    child: Text('Sign in'),
-                    onPressed: () {},
-                  ),
-                  FlatButton(
-                    child: Text('Sign up'),
-                    onPressed: () => _signUp(context),
-                  ),
-                  FlatButton(
-                    child: Text('Use anonymously'),
-                    onPressed: () {},
-                  ),
-                ],
+                    RaisedButton(
+                      child: Text('Sign in'),
+                      onPressed: () {},
+                    ),
+                    FlatButton(
+                      child: Text('Sign up'),
+                      onPressed: _signUp,
+                    ),
+                    FlatButton(
+                      child: Text('Use anonymously'),
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
               ),
             ),
           );
   }
 
-  void _signUp(BuildContext context) async {
+  void _signUp() async {
     if (_formKey.currentState.validate()) {
       _switchToLoadingMode = true;
 
