@@ -79,9 +79,10 @@ class _LoginPageState extends State<LoginPage> {
                       child: Text('Sign up'),
                       onPressed: _signUp,
                     ),
-                    FlatButton(
-                      child: Text('Use anonymously'),
-                      onPressed: () {},
+                    Divider(),
+                    RaisedButton(
+                      child: Text('Sign in anonymously'),
+                      onPressed: _signInAnonymously,
                     ),
                   ],
                 ),
@@ -107,7 +108,15 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  // void _signInAnonymously() async {}
+  void _signInAnonymously() async {
+    _switchToLoadingMode = true;
+
+    _userUid = await _auth.signInAnonymously();
+    await _auth.signOut();
+
+    widget.showScaffoldSnackbar('Anon token: $_userUid'); // TODO: DEBUG.
+    _switchToLoadingMode = false;
+  }
 
   void _signUp() async {
     if (_formKey.currentState.validate()) {
