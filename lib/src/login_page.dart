@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:email_validator/email_validator.dart';
 
 import 'package:rubbish_calc/src/auth.dart';
+import 'package:rubbish_calc/src/dialog_box.dart';
 import 'package:rubbish_calc/src/loading_animation.dart';
 
 class LoginPage extends StatefulWidget {
@@ -132,6 +133,8 @@ class _LoginPageState extends State<LoginPage> {
         widget.showScaffoldSnackbar(ex.message);
       }
       _switchToLoadingMode = false;
+      showDialogBox(context, 'Confirm account',
+          'Check your mailbox and verify your account in order to sign in.');
     } else {
       widget.showScaffoldSnackbar('Invalid data format.');
     }

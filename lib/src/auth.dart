@@ -20,7 +20,8 @@ class Auth {
         password: password,
       );
       if (!(await _currentUser).isEmailVerified) {
-        throw AuthException('', 'Unable to sign in. Verify your email.');
+        throw AuthException('',
+            'Unable to sign in. Check your mailbox and verify your account.');
       }
       return result.user.uid;
     } on AuthException {
@@ -58,7 +59,7 @@ class Auth {
         (await _currentUser).sendEmailVerification();
       } on PlatformException {
         throw AuthException('',
-            'Unable to send an verification email because this address is not connected to any account.');
+            'Unable to send a verification email because this address is not connected with any account.');
       }
     }
   }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:rubbish_calc/src/error_dialog.dart';
+// import 'package:rubbish_calc/src/error_dialog.dart';
 
 class About extends StatelessWidget {
   static const String _authorName = 'mattmaniak';
@@ -79,7 +79,7 @@ class _AboutButton extends StatelessWidget {
     if (await canLaunch(url)) {
       await launch(url);
     } else {
-      showErrorDialog(context, 'Unable to open the link in a web browser.');
+      // showDialogBox(context, 'Something broke...', 'Unable to open the link in a web browser.');
     }
   }
 }
