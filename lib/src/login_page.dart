@@ -91,7 +91,24 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _signIn() async {
-    if (_formKey.currentState.validate()) {}
+    if (_formKey.currentState.validate()) {
+      _switchToLoadingMode = true;
+
+      try {
+        _auth
+            .signIn(
+                _emailController.text.trim(), _passwordController.text.trim())
+            .then((id) {
+          _userUid = id;
+          widget.showScaffoldSnackbar('Sign in token: $_userUid'); // TODO: DEBUG.
+
+          _auth.signOut();
+        });
+      } on AuthException catch (ex) {
+        widget.showScaffoldSnackbar(ex.message);
+      }
+      _switchToLoadingMode = false;
+    }
   }
 
   // void _signInAnonymously() async {}
@@ -106,15 +123,15 @@ class _LoginPageState extends State<LoginPage> {
                 _emailController.text.trim(), _passwordController.text.trim())
             .then((id) {
           _userUid = id;
-          _auth.verifyByEmail();
-        });
-        widget.showScaffoldSnackbar('Success: $_userUid'); // TODO: DEBUG.
+          widget.showScaffoldSnackbar('Sign up token: $_userUid'); // TODO: DEBUG.
 
+          _auth.verifyByEmail();
+          _auth.signOut();
+        });
       } on AuthException catch (ex) {
         widget.showScaffoldSnackbar(ex.message);
       }
       _switchToLoadingMode = false;
-      _auth.signOut();
     } else {
       widget.showScaffoldSnackbar('Invalid data format.');
     }

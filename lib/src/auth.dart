@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 
 class Auth {
+  /// Firebase handler.
   final _firebaseAuth = FirebaseAuth.instance;
 
   /// Check if the user is signed in.
@@ -13,15 +14,15 @@ class Auth {
 
   /// Log into the Firebase.
   Future<String> signIn(String email, String password) async {
-    if ((await _currentUser).isEmailVerified) {
-      final AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      return result.user.uid;
-    } else {
+    final AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+
+    if (!(await _currentUser).isEmailVerified) {
       throw AuthException('', 'Unable to sign in. Verify your email.');
     }
+    return result.user.uid;
   }
 
   /// Log in without providing any credentials.
