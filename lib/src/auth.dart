@@ -14,15 +14,20 @@ class Auth {
 
   /// Log into the Firebase.
   Future<String> signIn(String email, String password) async {
-    final AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-
-    if (!(await _currentUser).isEmailVerified) {
-      throw AuthException('', 'Unable to sign in. Verify your email.');
+    try {
+      final AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      if (!(await _currentUser).isEmailVerified) {
+        throw AuthException('', 'Unable to sign in. Verify your email.');
+      }
+      return result.user.uid;
+    } on AuthException {
+      rethrow;
+    } on PlatformException {
+      throw AuthException('', 'Unable to sign in. User not found.');
     }
-    return result.user.uid;
   }
 
   /// Log in without providing any credentials.
@@ -43,16 +48,18 @@ class Auth {
     }
   }
 
-  /// Say bye-bye to the Firebase safely.
-  void signOut() async => await _firebaseAuth.signOut();
+  /// Say bye-bye to the Firebase safely and clear the disk cache.
+  Future<void> signOut() async => await _firebaseAuth.signOut();
 
   /// Send an verification email to an active user.
-  void verifyByEmail() async {
-    try {
-      (await _currentUser).sendEmailVerification();
-    } on PlatformException {
-      throw AuthException('',
-          'Unable to send an verification email because this address is not connected with any account.');
+  Future<void> verifyByEmail() async {
+    if (await _isSignedIn) {
+      try {
+        (await _currentUser).sendEmailVerification();
+      } on PlatformException {
+        throw AuthException('',
+            'Unable to send an verification email because this address is not connected to any account.');
+      }
     }
   }
 }

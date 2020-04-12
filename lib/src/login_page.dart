@@ -95,15 +95,11 @@ class _LoginPageState extends State<LoginPage> {
       _switchToLoadingMode = true;
 
       try {
-        _auth
-            .signIn(
-                _emailController.text.trim(), _passwordController.text.trim())
-            .then((id) {
-          _userUid = id;
-          widget.showScaffoldSnackbar('Sign in token: $_userUid'); // TODO: DEBUG.
+        _userUid = await _auth.signIn(
+            _emailController.text.trim(), _passwordController.text.trim());
+        await _auth.signOut();
 
-          _auth.signOut();
-        });
+        widget.showScaffoldSnackbar('Sign in token: $_userUid'); // TODO: DEBUG.
       } on AuthException catch (ex) {
         widget.showScaffoldSnackbar(ex.message);
       }
@@ -118,16 +114,12 @@ class _LoginPageState extends State<LoginPage> {
       _switchToLoadingMode = true;
 
       try {
-        _auth
-            .signUp(
-                _emailController.text.trim(), _passwordController.text.trim())
-            .then((id) {
-          _userUid = id;
-          widget.showScaffoldSnackbar('Sign up token: $_userUid'); // TODO: DEBUG.
+        _userUid = await _auth.signUp(
+            _emailController.text.trim(), _passwordController.text.trim());
+        await _auth.verifyByEmail();
+        await _auth.signOut();
 
-          _auth.verifyByEmail();
-          _auth.signOut();
-        });
+        widget.showScaffoldSnackbar('Sign up token: $_userUid'); // TODO: DEBUG.
       } on AuthException catch (ex) {
         widget.showScaffoldSnackbar(ex.message);
       }
