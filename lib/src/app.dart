@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:rubbish_calc/src/about.dart';
-import 'package:rubbish_calc/src/bar.dart';
 import 'package:rubbish_calc/src/item.dart';
 import 'package:rubbish_calc/src/rubbish.dart';
 import 'package:rubbish_calc/src/login_page.dart';
@@ -12,13 +10,8 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  int _rubbishGrams = 0;
-  List<Widget> _items;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   List<Item> _rubbish = generateRubbish();
-  String _appInitDate = 'never';
-
-  String get _appInitDatePreloader => 'Since ' + _appInitDate;
-  String get _rubbishGramsPreloader => _rubbishGrams.toString() + ' g overall';
 
   // String get _currentDate {
   //   final DateTime measurementStartDateTime = DateTime.now();
@@ -36,8 +29,26 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return LoginPage();
+    return Scaffold(
+      key: _scaffoldKey,
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text('Rubbish Calc'),
+      ),
+      body: LoginPage(
+        showScaffoldSnackbar: _showSnackbar,
+      ),
+    );
   }
+
+  void _showSnackbar(String text) {
+    _scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        content: Text(text),
+      ),
+    );
+  }
+
   // _items = _rubbish
   //     .map(
   //       (item) => Card(

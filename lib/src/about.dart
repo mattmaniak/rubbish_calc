@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:rubbish_calc/src/bar.dart';
 import 'package:rubbish_calc/src/error_dialog.dart';
 
 class About extends StatelessWidget {
   static const String _authorName = 'mattmaniak';
   static const String _authorURL = 'https://gitlab.com/$_authorName';
   static const String _repoURL = '$_authorURL/rubbish_calc';
-  static const String _semanticVersion = '1.0.0-dev';
+  // static const String _semanticVersion = '1.0.0-dev';
   final String _changelogURL = '$_repoURL/blob/master/CHANGELOG.md';
   final String _licenseURL = '$_repoURL/blob/master/LICENSE';
   final String _policyURL = '$_repoURL/blob/master/README.md#privacy-policy';
@@ -19,11 +18,6 @@ class About extends StatelessWidget {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          Bar(
-            text: 'Rubbish Calc $_semanticVersion',
-            backgroundText: 'About',
-            displayReturnArrow: true,
-          ),
           SliverList(
             delegate: SliverChildListDelegate(
               [
