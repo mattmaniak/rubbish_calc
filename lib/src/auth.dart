@@ -4,27 +4,31 @@ import 'package:flutter/services.dart';
 class Auth {
   final _firebaseAuth = FirebaseAuth.instance;
 
-  Future<bool> get _isSignedIn async =>
-      await _firebaseAuth.currentUser() != null;
+  /// Check if the user is signed in.
+  Future<bool> get _isSignedIn async => await _currentUser != null;
 
+  /// Try to fetch a current user.
   Future<FirebaseUser> get _currentUser async =>
       await _firebaseAuth.currentUser();
 
+  /// Log into the Firebase.
   Future<String> signIn(String email, String password) async {
-    final AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    return result.user.uid;
+    if ((await _currentUser).isEmailVerified) {
+      final AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return result.user.uid;
+    } else {
+      throw AuthException('', 'Unable to sign in. Verify your email.');
+    }
   }
 
-  Future<String> signInAnonymously() async {
-    final AuthResult result = await _firebaseAuth.signInAnonymously();
-    return result.user.uid;
-  }
+  /// Log in without providing any credentials.
+  Future<String> signInAnonymously() async =>
+      (await _firebaseAuth.signInAnonymously()).user.uid;
 
-  void signOut() async => await _firebaseAuth.signOut();
-
+  /// Create an account.
   Future<String> signUp(String email, String password) async {
     try {
       final AuthResult result =
@@ -38,15 +42,16 @@ class Auth {
     }
   }
 
+  /// Say bye-bye to the Firebase safely.
+  void signOut() async => await _firebaseAuth.signOut();
+
+  /// Send an verification email to an active user.
   void verifyByEmail() async {
-    final FirebaseUser user = await _currentUser;
-    if (await _isSignedIn) {
-      try {
-        user.sendEmailVerification();
-      } on PlatformException {
-        throw AuthException(
-            '', 'Unable to verify this account. Email is not registered.');
-      }
+    try {
+      (await _currentUser).sendEmailVerification();
+    } on PlatformException {
+      throw AuthException('',
+          'Unable to send an verification email because this address is not connected with any account.');
     }
   }
 }

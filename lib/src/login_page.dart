@@ -73,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     RaisedButton(
                       child: Text('Sign in'),
-                      onPressed: () {},
+                      onPressed: _signIn,
                     ),
                     FlatButton(
                       child: Text('Sign up'),
@@ -90,16 +90,26 @@ class _LoginPageState extends State<LoginPage> {
           );
   }
 
+  void _signIn() async {
+    if (_formKey.currentState.validate()) {}
+  }
+
+  // void _signInAnonymously() async {}
+
   void _signUp() async {
     if (_formKey.currentState.validate()) {
       _switchToLoadingMode = true;
 
       try {
-        _userUid = await _auth.signUp(
-            _emailController.text.trim(), _passwordController.text.trim());
+        _auth
+            .signUp(
+                _emailController.text.trim(), _passwordController.text.trim())
+            .then((id) {
+          _userUid = id;
+          _auth.verifyByEmail();
+        });
+        widget.showScaffoldSnackbar('Success: $_userUid'); // TODO: DEBUG.
 
-        _auth.verifyByEmail();
-        widget.showScaffoldSnackbar('Success: $_userUid');
       } on AuthException catch (ex) {
         widget.showScaffoldSnackbar(ex.message);
       }
@@ -110,16 +120,12 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  // void _signIn() async {}
-
-  // void _signInAnonymously() async {}
-
   String _validateEmail(String email) {
-    final bool isCorrect = EmailValidator.validate(email);
+    final bool hasCorrectFormat = EmailValidator.validate(email);
 
     if (email.isEmpty) {
       return 'Email field can\'t be empty.';
-    } else if (isCorrect) {
+    } else if (hasCorrectFormat) {
       return null;
     } else {
       return 'Invalid email format.';
@@ -130,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
     // final bool isReasonablySafe =
     //     RegExp('((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{12,})').hasMatch(password);
 
-    final bool isReasonablySafe = true; // TODO: DEBUG ONLY
+    final bool isReasonablySafe = true; // TODO: DEBUG.
 
     if (password.isEmpty) {
       return 'Password field can\'t be empty.';

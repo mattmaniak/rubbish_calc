@@ -44,6 +44,9 @@ class _AppState extends State<App> {
   void _showSnackbar(String text) {
     _scaffoldKey.currentState.showSnackBar(
       SnackBar(
+        duration: Duration(
+          seconds: 7,
+        ),
         content: Text(text),
       ),
     );
