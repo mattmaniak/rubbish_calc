@@ -83,7 +83,7 @@ class _ScreenLoginState extends State<ScreenLogin> {
               Divider(),
               FlatButton(
                 child: Text('Sign in with an email or anonymously?'),
-                onPressed: () {},
+                onPressed: _showSignInDifferencesDialogBox,
               ),
             ],
           ),
@@ -105,7 +105,7 @@ class _ScreenLoginState extends State<ScreenLogin> {
       } on AuthException catch (ex) {
         widget.changeScreenState(ScreenState.signedOut);
         if (ex.code == 'email_confirmation_request') {
-          _showEmailConfirmationInfo();
+          _showEmailConfirmationDialogBox();
         } else {
           widget.showScaffoldSnackBar(ex.message);
         }
@@ -141,15 +141,22 @@ class _ScreenLoginState extends State<ScreenLogin> {
         return;
       }
       widget.changeScreenState(ScreenState.signedOut);
-      _showEmailConfirmationInfo();
+      _showEmailConfirmationDialogBox();
     } else {
       widget.showScaffoldSnackBar('Invalid data format or no data at all.');
     }
   }
 
-  void _showEmailConfirmationInfo() => widget.showScaffoldDialogBox(
+  void _showEmailConfirmationDialogBox() => widget.showScaffoldDialogBox(
       'Confirm account',
       'Check your mailbox and verify your account in order to sign in.');
+
+  void _showSignInDifferencesDialogBox() => widget.showScaffoldDialogBox(
+      'Sign in  - differences',
+      'Creating an account gives you an option to save your data automatically '
+          'on the server and to fully enjoy the app. Anon login makes adding '
+          'a new trash impossible. Once you log out, you will lost all your '
+          'app data.');
 
   String _validateEmail(String email) {
     final bool hasCorrectFormat = EmailValidator.validate(email);
