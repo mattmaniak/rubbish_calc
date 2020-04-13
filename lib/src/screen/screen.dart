@@ -3,9 +3,9 @@ import 'package:flutter/widgets.dart';
 enum ScreenState {
   about,
   loading,
-  signed_out,
-  signed_in,
-  signed_in_anonymously,
+  signedOut,
+  signedIn,
+  signedInAnonymously,
 }
 
 class ScreenProperties {

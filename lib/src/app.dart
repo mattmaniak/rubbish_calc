@@ -18,12 +18,12 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   ScreenProperties _currentScreen;
-  var _currentScreenState = ScreenState.signed_out;
+  var _currentScreenState = ScreenState.signedOut;
 
   @override
   Widget build(BuildContext context) {
     switch (_currentScreenState) {
-      case ScreenState.signed_out:
+      case ScreenState.signedOut:
         _currentScreen = ScreenProperties(
           appBarTitleSufix: 'login',
           ui: ScreenLogin(
@@ -34,13 +34,13 @@ class _AppState extends State<App> {
         );
         break;
 
-      case ScreenState.signed_in:
+      case ScreenState.signedIn:
         // _body = ScreenLogin(
         //   showScaffoldSnackbar: _showSnackbar,
         // );
         break;
 
-      case ScreenState.signed_in_anonymously:
+      case ScreenState.signedInAnonymously:
         // _body = ScreenLogin(
         //   showScaffoldSnackbar: _showSnackbar,
         // );
@@ -84,7 +84,7 @@ class _AppState extends State<App> {
 
   void _updateScreenState(ScreenState state) {
     setState(() {
-      _currentScreenState = state ?? ScreenState.signed_out;
+      _currentScreenState = state ?? ScreenState.signedOut;
       // TODO: LOG OUT FOR THE SAKE OF SECURITY.
     });
   }

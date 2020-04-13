@@ -99,7 +99,7 @@ class _ScreenLoginState extends State<ScreenLogin> {
       } on AuthException catch (ex) {
         widget.showScaffoldSnackBar(ex.message);
       }
-      widget.updateScreenState(ScreenState.signed_out);
+      widget.updateScreenState(ScreenState.signedOut);
     }
   }
 
@@ -110,7 +110,7 @@ class _ScreenLoginState extends State<ScreenLogin> {
     await widget.auth.signOut();
 
     widget.showScaffoldSnackBar('Anon token: $_userUid'); // TODO: DEBUG.
-    widget.updateScreenState(ScreenState.signed_out);
+    widget.updateScreenState(ScreenState.signedOut);
   }
 
   void _signUp() async {
@@ -127,7 +127,7 @@ class _ScreenLoginState extends State<ScreenLogin> {
       } on AuthException catch (ex) {
         widget.showScaffoldSnackBar(ex.message);
       }
-      widget.updateScreenState(ScreenState.signed_out);
+      widget.updateScreenState(ScreenState.signedOut);
       widget.showScaffoldDialogBox('Confirm account',
           'Check your mailbox and verify your account in order to sign in.');
     } else {
