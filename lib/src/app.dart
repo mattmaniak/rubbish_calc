@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+
 import 'package:rubbish_calc/src/about.dart';
 import 'package:rubbish_calc/src/dialog_box.dart';
-
 import 'package:rubbish_calc/src/loading_animation.dart';
-import 'package:rubbish_calc/src/login_page.dart';
-import 'package:rubbish_calc/src/screen.dart';
+import 'package:rubbish_calc/src/screen/login.dart';
+import 'package:rubbish_calc/src/screen/screen.dart';
 
 class App extends StatefulWidget {
+  final appName;
+
+  const App({this.appName});
+
   @override
   _AppState createState() => _AppState();
 }
@@ -21,8 +25,8 @@ class _AppState extends State<App> {
     switch (_currentScreenState) {
       case ScreenState.signed_out:
         _currentScreen = ScreenProperties(
-          appBarTitle: 'login',
-          ui: LoginPage(
+          appBarTitleSufix: 'login',
+          ui: ScreenLogin(
             updateScreenState: _updateScreenState,
             showScaffoldSnackBar: _showSnackBar,
             showScaffoldDialogBox: _showDialogBox,
@@ -31,27 +35,27 @@ class _AppState extends State<App> {
         break;
 
       case ScreenState.signed_in:
-        // _body = LoginPage(
+        // _body = ScreenLogin(
         //   showScaffoldSnackbar: _showSnackbar,
         // );
         break;
 
       case ScreenState.signed_in_anonymously:
-        // _body = LoginPage(
+        // _body = ScreenLogin(
         //   showScaffoldSnackbar: _showSnackbar,
         // );
         break;
 
       case ScreenState.about:
         _currentScreen = ScreenProperties(
-          appBarTitle: 'about',
+          appBarTitleSufix: 'about',
           ui: About(),
         );
         break;
 
       case ScreenState.loading:
         _currentScreen = ScreenProperties(
-          appBarTitle: 'connecting...',
+          appBarTitleSufix: 'connecting...',
           ui: showLoadingAnimation(),
         );
     }
@@ -60,7 +64,7 @@ class _AppState extends State<App> {
       key: _scaffoldKey,
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Rubbish Calc - ${_currentScreen.appBarTitle}'),
+        title: Text('${widget.appName} - ${_currentScreen.appBarTitleSufix}'),
       ),
       body: _currentScreen.ui,
     );

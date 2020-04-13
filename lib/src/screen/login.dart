@@ -5,9 +5,9 @@ import 'package:flutter/widgets.dart';
 import 'package:email_validator/email_validator.dart';
 
 import 'package:rubbish_calc/src/auth.dart';
-import 'package:rubbish_calc/src/screen.dart';
+import 'package:rubbish_calc/src/screen/screen.dart';
 
-class LoginPage extends StatefulWidget {
+class ScreenLogin extends StatefulWidget {
   final auth = Auth();
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
@@ -17,16 +17,16 @@ class LoginPage extends StatefulWidget {
   final Function showScaffoldSnackBar;
   final Function updateScreenState;
 
-  LoginPage(
+  ScreenLogin(
       {@required this.updateScreenState,
       @required this.showScaffoldSnackBar,
       @required this.showScaffoldDialogBox});
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _ScreenLoginState createState() => _ScreenLoginState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _ScreenLoginState extends State<ScreenLogin> {
   String _userUid;
 
   void dispose() {

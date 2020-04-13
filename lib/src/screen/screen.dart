@@ -9,8 +9,8 @@ enum ScreenState {
 }
 
 class ScreenProperties {
-  final String appBarTitle;
+  final String appBarTitleSufix;
   final Widget ui;
 
-  const ScreenProperties({this.appBarTitle, this.ui});
+  const ScreenProperties({this.appBarTitleSufix, this.ui});
 }
