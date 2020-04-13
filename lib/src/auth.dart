@@ -27,7 +27,8 @@ class Auth {
     } on AuthException {
       rethrow;
     } on PlatformException {
-      throw AuthException('', 'Unable to sign in. User not found.');
+      throw AuthException(
+          '', 'Unable to sign in. User with given credentials not found.');
     }
   }
 
