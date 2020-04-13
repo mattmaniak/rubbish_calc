@@ -5,9 +5,13 @@ class Auth {
   /// Firebase handler.
   final _firebaseAuth = FirebaseAuth.instance;
 
-  /// Try to get a currently signed in user.
+  /// Try to get a currently logged user.
   Future<FirebaseUser> get currentUser async =>
       await _firebaseAuth.currentUser();
+
+  /// Check if an user's email is verified an is able to log into an account.
+  Future<bool> get _isEmailVerified async =>
+      await _isSignedIn && (await currentUser).isEmailVerified;
 
   /// Check if the user is signed in.
   Future<bool> get _isSignedIn async => await currentUser != null;
@@ -19,11 +23,10 @@ class Auth {
         email: email,
         password: password,
       );
-      if (!(await currentUser).isEmailVerified) {
-        throw AuthException('',
-            'Unable to sign in. Check your mailbox and verify your account.');
+      if (!await _isEmailVerified) {
+        throw AuthException('email_confirmation_request', '');
       }
-      return result.user.uid;
+      return result.user?.uid;
     } on AuthException {
       rethrow;
     } on PlatformException {
@@ -34,7 +37,7 @@ class Auth {
 
   /// Log in without providing any credentials.
   Future<String> signInAnonymously() async =>
-      (await _firebaseAuth.signInAnonymously()).user.uid;
+      (await _firebaseAuth.signInAnonymously()).user?.uid;
 
   /// Create an account.
   Future<String> signUp(String email, String password) async {
@@ -44,9 +47,13 @@ class Auth {
         email: email,
         password: password,
       );
-      return result.user.uid;
+      await _verifyByEmail();
+      return result.user?.uid;
+    } on AuthException {
+      rethrow;
     } on PlatformException {
-      throw AuthException('', 'This email is already in use.');
+      throw AuthException(
+          '', 'An account with this email exists. Use another one.');
     }
   }
 
@@ -54,13 +61,12 @@ class Auth {
   Future<void> signOut() async => await _firebaseAuth.signOut();
 
   /// Send an verification email to an active user.
-  Future<void> verifyByEmail() async {
-    if (await _isSignedIn) {
+  Future<void> _verifyByEmail() async {
+    if (!await _isEmailVerified) {
       try {
         (await currentUser).sendEmailVerification();
       } on PlatformException {
-        throw AuthException('',
-            'Unable to send a verification email because this address is not connected with any account.');
+        throw AuthException('', 'Unable to send a verification email.');
       }
     }
   }

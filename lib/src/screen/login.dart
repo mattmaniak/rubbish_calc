@@ -80,6 +80,11 @@ class _ScreenLoginState extends State<ScreenLogin> {
                 child: Text('Sign in anonymously'),
                 onPressed: _signInAnonymously,
               ),
+              Divider(),
+              FlatButton(
+                child: Text('Sign in with an email or anonymously?'),
+                onPressed: () {},
+              ),
             ],
           ),
         ),
@@ -99,7 +104,12 @@ class _ScreenLoginState extends State<ScreenLogin> {
         widget.showScaffoldSnackBar('Sign in token: $_userUid'); // TODO: DEBUG.
       } on AuthException catch (ex) {
         widget.changeScreenState(ScreenState.signedOut);
-        widget.showScaffoldSnackBar(ex.message);
+        if (ex.code == 'email_confirmation_request') {
+          _showEmailConfirmationInfo();
+        } else {
+          widget.showScaffoldSnackBar(ex.message);
+        }
+        return;
       }
       widget.changeScreenState(ScreenState.signedIn);
     }
@@ -122,20 +132,24 @@ class _ScreenLoginState extends State<ScreenLogin> {
       try {
         _userUid = await widget.auth.signUp(widget.emailController.text.trim(),
             widget.passwordController.text.trim());
-        await widget.auth.verifyByEmail();
         await widget.auth.signOut();
 
         widget.showScaffoldSnackBar('Sign up token: $_userUid'); // TODO: DEBUG.
       } on AuthException catch (ex) {
+        widget.changeScreenState(ScreenState.signedOut);
         widget.showScaffoldSnackBar(ex.message);
+        return;
       }
       widget.changeScreenState(ScreenState.signedOut);
-      widget.showScaffoldDialogBox('Confirm account',
-          'Check your mailbox and verify your account in order to sign in.');
+      _showEmailConfirmationInfo();
     } else {
       widget.showScaffoldSnackBar('Invalid data format or no data at all.');
     }
   }
+
+  void _showEmailConfirmationInfo() => widget.showScaffoldDialogBox(
+      'Confirm account',
+      'Check your mailbox and verify your account in order to sign in.');
 
   String _validateEmail(String email) {
     final bool hasCorrectFormat = EmailValidator.validate(email);
