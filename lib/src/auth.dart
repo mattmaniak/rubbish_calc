@@ -5,12 +5,12 @@ class Auth {
   /// Firebase handler.
   final _firebaseAuth = FirebaseAuth.instance;
 
-  /// Check if the user is signed in.
-  Future<bool> get _isSignedIn async => await _currentUser != null;
-
-  /// Try to fetch a current user.
-  Future<FirebaseUser> get _currentUser async =>
+  /// Try to get a currently signed in user.
+  Future<FirebaseUser> get currentUser async =>
       await _firebaseAuth.currentUser();
+
+  /// Check if the user is signed in.
+  Future<bool> get _isSignedIn async => await currentUser != null;
 
   /// Log into the Firebase.
   Future<String> signIn(String email, String password) async {
@@ -19,7 +19,7 @@ class Auth {
         email: email,
         password: password,
       );
-      if (!(await _currentUser).isEmailVerified) {
+      if (!(await currentUser).isEmailVerified) {
         throw AuthException('',
             'Unable to sign in. Check your mailbox and verify your account.');
       }
@@ -57,7 +57,7 @@ class Auth {
   Future<void> verifyByEmail() async {
     if (await _isSignedIn) {
       try {
-        (await _currentUser).sendEmailVerification();
+        (await currentUser).sendEmailVerification();
       } on PlatformException {
         throw AuthException('',
             'Unable to send a verification email because this address is not connected with any account.');

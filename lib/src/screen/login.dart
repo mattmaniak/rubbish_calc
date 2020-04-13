@@ -8,17 +8,18 @@ import 'package:rubbish_calc/src/auth.dart';
 import 'package:rubbish_calc/src/screen/screen.dart';
 
 class ScreenLogin extends StatefulWidget {
-  final auth = Auth();
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
+  final Auth auth;
   final Function showScaffoldDialogBox;
   final Function showScaffoldSnackBar;
-  final Function updateScreenState;
+  final Function changeScreenState;
 
   ScreenLogin(
-      {@required this.updateScreenState,
+      {@required this.auth,
+      @required this.changeScreenState,
       @required this.showScaffoldSnackBar,
       @required this.showScaffoldDialogBox});
 
@@ -88,7 +89,7 @@ class _ScreenLoginState extends State<ScreenLogin> {
 
   void _signIn() async {
     if (widget.formKey.currentState.validate()) {
-      widget.updateScreenState(ScreenState.loading);
+      widget.changeScreenState(ScreenState.loading);
 
       try {
         _userUid = await widget.auth.signIn(widget.emailController.text.trim(),
@@ -97,26 +98,26 @@ class _ScreenLoginState extends State<ScreenLogin> {
 
         widget.showScaffoldSnackBar('Sign in token: $_userUid'); // TODO: DEBUG.
       } on AuthException catch (ex) {
-        widget.updateScreenState(ScreenState.signedOut);
+        widget.changeScreenState(ScreenState.signedOut);
         widget.showScaffoldSnackBar(ex.message);
       }
-      widget.updateScreenState(ScreenState.signedIn);
+      widget.changeScreenState(ScreenState.signedIn);
     }
   }
 
   void _signInAnonymously() async {
-    widget.updateScreenState(ScreenState.loading);
+    widget.changeScreenState(ScreenState.loading);
 
     _userUid = await widget.auth.signInAnonymously();
     await widget.auth.signOut();
 
     widget.showScaffoldSnackBar('Anon token: $_userUid'); // TODO: DEBUG.
-    widget.updateScreenState(ScreenState.signedInAnonymously);
+    widget.changeScreenState(ScreenState.signedInAnonymously);
   }
 
   void _signUp() async {
     if (widget.formKey.currentState.validate()) {
-      widget.updateScreenState(ScreenState.loading);
+      widget.changeScreenState(ScreenState.loading);
 
       try {
         _userUid = await widget.auth.signUp(widget.emailController.text.trim(),
@@ -128,7 +129,7 @@ class _ScreenLoginState extends State<ScreenLogin> {
       } on AuthException catch (ex) {
         widget.showScaffoldSnackBar(ex.message);
       }
-      widget.updateScreenState(ScreenState.signedOut);
+      widget.changeScreenState(ScreenState.signedOut);
       widget.showScaffoldDialogBox('Confirm account',
           'Check your mailbox and verify your account in order to sign in.');
     } else {

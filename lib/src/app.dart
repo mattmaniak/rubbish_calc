@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:rubbish_calc/src/auth.dart';
 import 'package:rubbish_calc/src/dialog_box.dart';
 import 'package:rubbish_calc/src/screen/loading_animation.dart';
 import 'package:rubbish_calc/src/screen/about.dart';
@@ -8,9 +9,10 @@ import 'package:rubbish_calc/src/screen/screen.dart';
 import 'package:rubbish_calc/src/screen/user_area.dart';
 
 class App extends StatefulWidget {
-  final appName;
+  final auth = Auth();
+  final String appName;
 
-  const App({this.appName});
+  App({this.appName});
 
   @override
   _AppState createState() => _AppState();
@@ -28,7 +30,8 @@ class _AppState extends State<App> {
         _currentScreen = ScreenProperties(
           appBarTitleSufix: 'login',
           ui: ScreenLogin(
-            updateScreenState: _updateScreenState,
+            auth: widget.auth,
+            changeScreenState: _changeScreenState,
             showScaffoldSnackBar: _showSnackBar,
             showScaffoldDialogBox: _showDialogBox,
           ),
@@ -37,7 +40,7 @@ class _AppState extends State<App> {
 
       case ScreenState.signedIn:
         _currentScreen = ScreenProperties(
-          appBarTitleSufix: '[username]', // TODO.
+          appBarTitleSufix: widget.auth.currentUser.toString(),
           ui: UserArea(),
         );
         break;
@@ -80,6 +83,13 @@ class _AppState extends State<App> {
     );
   }
 
+  void _changeScreenState(ScreenState state) {
+    setState(() {
+      _currentScreenState = state ?? ScreenState.signedOut;
+      // TODO: LOG OUT FOR THE SAKE OF SECURITY.
+    });
+  }
+
   void _showDialogBox(String title, String content) {
     showDialogBox(context, title, content);
   }
@@ -90,12 +100,5 @@ class _AppState extends State<App> {
         content: Text(text ?? ''),
       ),
     );
-  }
-
-  void _updateScreenState(ScreenState state) {
-    setState(() {
-      _currentScreenState = state ?? ScreenState.signedOut;
-      // TODO: LOG OUT FOR THE SAKE OF SECURITY.
-    });
   }
 }
