@@ -5,13 +5,17 @@ import 'package:flutter/widgets.dart';
 import 'package:email_validator/email_validator.dart';
 
 import 'package:rubbish_calc/src/auth.dart';
-import 'package:rubbish_calc/src/dialog_box.dart';
-import 'package:rubbish_calc/src/loading_animation.dart';
+import 'package:rubbish_calc/src/screen.dart';
 
 class LoginPage extends StatefulWidget {
-  final Function showScaffoldSnackbar;
+  final Function showScaffoldDialogBox;
+  final Function showScaffoldSnackBar;
+  final Function updateScreenState;
 
-  const LoginPage({this.showScaffoldSnackbar});
+  const LoginPage(
+      {@required this.updateScreenState,
+      @required this.showScaffoldSnackBar,
+      @required this.showScaffoldDialogBox});
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -22,14 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _isLoading = false;
   String _userUid;
-
-  set _switchToLoadingMode(bool option) {
-    setState(() {
-      _isLoading = option;
-    });
-  }
 
   void dispose() {
     _auth.signOut();
@@ -39,88 +36,86 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget build(BuildContext context) {
-    return _isLoading
-        ? showLoadingAnimation()
-        : Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 20.0,
-            ),
-            child: Form(
-              key: _formKey,
-              child: Center(
-                child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Email',
-                      ),
-                      maxLines: 1,
-                      enableSuggestions: false,
-                      keyboardType: TextInputType.emailAddress,
-                      controller: _emailController,
-                      validator: _validateEmail,
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                      ),
-                      maxLines: 1,
-                      enableSuggestions: false,
-                      obscureText: true,
-                      controller: _passwordController,
-                      validator: _validatePassword,
-                    ),
-                    RaisedButton(
-                      child: Text('Sign in'),
-                      onPressed: _signIn,
-                    ),
-                    FlatButton(
-                      child: Text('Sign up'),
-                      onPressed: _signUp,
-                    ),
-                    Divider(),
-                    RaisedButton(
-                      child: Text('Sign in anonymously'),
-                      onPressed: _signInAnonymously,
-                    ),
-                  ],
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: 20.0,
+      ),
+      child: Form(
+        key: _formKey,
+        child: Center(
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Email',
                 ),
+                maxLines: 1,
+                enableSuggestions: false,
+                keyboardType: TextInputType.emailAddress,
+                controller: _emailController,
+                validator: _validateEmail,
               ),
-            ),
-          );
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                ),
+                maxLines: 1,
+                enableSuggestions: false,
+                obscureText: true,
+                controller: _passwordController,
+                validator: _validatePassword,
+              ),
+              RaisedButton(
+                child: Text('Sign in'),
+                onPressed: _signIn,
+              ),
+              FlatButton(
+                child: Text('Sign up'),
+                onPressed: _signUp,
+              ),
+              Divider(),
+              RaisedButton(
+                child: Text('Sign in anonymously'),
+                onPressed: _signInAnonymously,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   void _signIn() async {
     if (_formKey.currentState.validate()) {
-      _switchToLoadingMode = true;
+      widget.updateScreenState(ScreenState.loading);
 
       try {
         _userUid = await _auth.signIn(
             _emailController.text.trim(), _passwordController.text.trim());
         await _auth.signOut();
 
-        widget.showScaffoldSnackbar('Sign in token: $_userUid'); // TODO: DEBUG.
+        widget.showScaffoldSnackBar('Sign in token: $_userUid'); // TODO: DEBUG.
       } on AuthException catch (ex) {
-        widget.showScaffoldSnackbar(ex.message);
+        widget.showScaffoldSnackBar(ex.message);
       }
-      _switchToLoadingMode = false;
+      widget.updateScreenState(ScreenState.signed_out);
     }
   }
 
   void _signInAnonymously() async {
-    _switchToLoadingMode = true;
+    widget.updateScreenState(ScreenState.loading);
 
     _userUid = await _auth.signInAnonymously();
     await _auth.signOut();
 
-    widget.showScaffoldSnackbar('Anon token: $_userUid'); // TODO: DEBUG.
-    _switchToLoadingMode = false;
+    widget.showScaffoldSnackBar('Anon token: $_userUid'); // TODO: DEBUG.
+    widget.updateScreenState(ScreenState.signed_out);
   }
 
   void _signUp() async {
     if (_formKey.currentState.validate()) {
-      _switchToLoadingMode = true;
+      widget.updateScreenState(ScreenState.loading);
 
       try {
         _userUid = await _auth.signUp(
@@ -128,15 +123,15 @@ class _LoginPageState extends State<LoginPage> {
         await _auth.verifyByEmail();
         await _auth.signOut();
 
-        widget.showScaffoldSnackbar('Sign up token: $_userUid'); // TODO: DEBUG.
+        widget.showScaffoldSnackBar('Sign up token: $_userUid'); // TODO: DEBUG.
       } on AuthException catch (ex) {
-        widget.showScaffoldSnackbar(ex.message);
+        widget.showScaffoldSnackBar(ex.message);
       }
-      _switchToLoadingMode = false;
-      showDialogBox(context, 'Confirm account',
+      widget.updateScreenState(ScreenState.signed_out);
+      widget.showScaffoldDialogBox('Confirm account',
           'Check your mailbox and verify your account in order to sign in.');
     } else {
-      widget.showScaffoldSnackbar('Invalid data format.');
+      widget.showScaffoldSnackBar('Invalid data format or no data at all.');
     }
   }
 

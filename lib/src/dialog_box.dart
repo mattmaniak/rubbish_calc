@@ -5,18 +5,18 @@ void showDialogBox(BuildContext context, String title, String content) {
   showDialog(
     context: context,
     barrierDismissible: false,
-    builder: (context) => DialogBox(
-      title: title,
-      content: content,
+    builder: (context) => _DialogBox(
+      title: title ?? 'Something broke...',
+      content: content ?? 'Unknown error.',
     ),
   );
 }
 
-class DialogBox extends StatelessWidget {
+class _DialogBox extends StatelessWidget {
   final String title;
   final String content;
 
-  const DialogBox({this.title, this.content});
+  const _DialogBox({this.title, this.content});
 
   @override
   Widget build(BuildContext context) {

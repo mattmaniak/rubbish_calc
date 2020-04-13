@@ -7,10 +7,6 @@ Widget showLoadingAnimation() => Center(
           CircularProgressIndicator(
             semanticsLabel: 'Animated circle as a loading indicator',
           ),
-          Padding(
-            padding: EdgeInsets.only(top: 10.0),
-            child: Text('Loading...'),
-          ),
         ],
       ),
     );
