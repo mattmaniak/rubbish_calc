@@ -8,11 +8,16 @@ import 'package:rubbish_calc/src/auth.dart';
 import 'package:rubbish_calc/src/screen.dart';
 
 class LoginPage extends StatefulWidget {
+  final auth = Auth();
+  final formKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
   final Function showScaffoldDialogBox;
   final Function showScaffoldSnackBar;
   final Function updateScreenState;
 
-  const LoginPage(
+  LoginPage(
       {@required this.updateScreenState,
       @required this.showScaffoldSnackBar,
       @required this.showScaffoldDialogBox});
@@ -22,16 +27,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _auth = Auth();
-  final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
   String _userUid;
 
   void dispose() {
-    _auth.signOut();
-    _passwordController.dispose();
-    _emailController.dispose();
+    widget.passwordController.dispose();
+    widget.emailController.dispose();
     super.dispose();
   }
 
@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
         horizontal: 20.0,
       ),
       child: Form(
-        key: _formKey,
+        key: widget.formKey,
         child: Center(
           child: ListView(
             shrinkWrap: true,
@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
                 maxLines: 1,
                 enableSuggestions: false,
                 keyboardType: TextInputType.emailAddress,
-                controller: _emailController,
+                controller: widget.emailController,
                 validator: _validateEmail,
               ),
               TextFormField(
@@ -63,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
                 maxLines: 1,
                 enableSuggestions: false,
                 obscureText: true,
-                controller: _passwordController,
+                controller: widget.passwordController,
                 validator: _validatePassword,
               ),
               RaisedButton(
@@ -87,13 +87,13 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _signIn() async {
-    if (_formKey.currentState.validate()) {
+    if (widget.formKey.currentState.validate()) {
       widget.updateScreenState(ScreenState.loading);
 
       try {
-        _userUid = await _auth.signIn(
-            _emailController.text.trim(), _passwordController.text.trim());
-        await _auth.signOut();
+        _userUid = await widget.auth.signIn(widget.emailController.text.trim(),
+            widget.passwordController.text.trim());
+        await widget.auth.signOut();
 
         widget.showScaffoldSnackBar('Sign in token: $_userUid'); // TODO: DEBUG.
       } on AuthException catch (ex) {
@@ -106,22 +106,22 @@ class _LoginPageState extends State<LoginPage> {
   void _signInAnonymously() async {
     widget.updateScreenState(ScreenState.loading);
 
-    _userUid = await _auth.signInAnonymously();
-    await _auth.signOut();
+    _userUid = await widget.auth.signInAnonymously();
+    await widget.auth.signOut();
 
     widget.showScaffoldSnackBar('Anon token: $_userUid'); // TODO: DEBUG.
     widget.updateScreenState(ScreenState.signed_out);
   }
 
   void _signUp() async {
-    if (_formKey.currentState.validate()) {
+    if (widget.formKey.currentState.validate()) {
       widget.updateScreenState(ScreenState.loading);
 
       try {
-        _userUid = await _auth.signUp(
-            _emailController.text.trim(), _passwordController.text.trim());
-        await _auth.verifyByEmail();
-        await _auth.signOut();
+        _userUid = await widget.auth.signUp(widget.emailController.text.trim(),
+            widget.passwordController.text.trim());
+        await widget.auth.verifyByEmail();
+        await widget.auth.signOut();
 
         widget.showScaffoldSnackBar('Sign up token: $_userUid'); // TODO: DEBUG.
       } on AuthException catch (ex) {

@@ -73,7 +73,7 @@ class _AppState extends State<App> {
   void _showSnackBar(String text) {
     _scaffoldKey.currentState.showSnackBar(
       SnackBar(
-        content: Text(text),
+        content: Text(text ?? ''),
       ),
     );
   }
