@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:rubbish_calc/src/about.dart';
 import 'package:rubbish_calc/src/dialog_box.dart';
-import 'package:rubbish_calc/src/loading_animation.dart';
+import 'package:rubbish_calc/src/screen/loading_animation.dart';
+import 'package:rubbish_calc/src/screen/about.dart';
 import 'package:rubbish_calc/src/screen/login.dart';
 import 'package:rubbish_calc/src/screen/screen.dart';
+import 'package:rubbish_calc/src/screen/user_area.dart';
 
 class App extends StatefulWidget {
   final appName;
@@ -35,15 +36,17 @@ class _AppState extends State<App> {
         break;
 
       case ScreenState.signedIn:
-        // _body = ScreenLogin(
-        //   showScaffoldSnackbar: _showSnackbar,
-        // );
+        _currentScreen = ScreenProperties(
+          appBarTitleSufix: '[username]', // TODO.
+          ui: UserArea(),
+        );
         break;
 
       case ScreenState.signedInAnonymously:
-        // _body = ScreenLogin(
-        //   showScaffoldSnackbar: _showSnackbar,
-        // );
+        _currentScreen = ScreenProperties(
+          appBarTitleSufix: 'anonymous user',
+          ui: UserArea(),
+        );
         break;
 
       case ScreenState.about:
@@ -67,6 +70,13 @@ class _AppState extends State<App> {
         title: Text('${widget.appName} - ${_currentScreen.appBarTitleSufix}'),
       ),
       body: _currentScreen.ui,
+      floatingActionButton: _currentScreenState == ScreenState.signedIn
+          ? FloatingActionButton.extended(
+              icon: Icon(Icons.add),
+              label: Text('Add'),
+              onPressed: () {},
+            )
+          : null,
     );
   }
 

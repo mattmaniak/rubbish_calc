@@ -97,9 +97,10 @@ class _ScreenLoginState extends State<ScreenLogin> {
 
         widget.showScaffoldSnackBar('Sign in token: $_userUid'); // TODO: DEBUG.
       } on AuthException catch (ex) {
+        widget.updateScreenState(ScreenState.signedOut);
         widget.showScaffoldSnackBar(ex.message);
       }
-      widget.updateScreenState(ScreenState.signedOut);
+      widget.updateScreenState(ScreenState.signedIn);
     }
   }
 
@@ -110,7 +111,7 @@ class _ScreenLoginState extends State<ScreenLogin> {
     await widget.auth.signOut();
 
     widget.showScaffoldSnackBar('Anon token: $_userUid'); // TODO: DEBUG.
-    widget.updateScreenState(ScreenState.signedOut);
+    widget.updateScreenState(ScreenState.signedInAnonymously);
   }
 
   void _signUp() async {
