@@ -53,7 +53,7 @@ class Auth {
       rethrow;
     } on PlatformException {
       throw AuthException(
-          '', 'An account with this email exists. Use another one.');
+          '', 'An account with this email exists. Use another one.'); // TODO: NO INTERNECT CONNECTION TOO.
     }
   }
 
