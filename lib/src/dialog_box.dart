@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 void showDialogBox(BuildContext context, String title, String content) {
   showDialog(
@@ -13,10 +12,10 @@ void showDialogBox(BuildContext context, String title, String content) {
 }
 
 class _DialogBox extends StatelessWidget {
-  final String title;
   final String content;
+  final String title;
 
-  const _DialogBox({this.title, this.content});
+  const _DialogBox({@required this.title, @required this.content});
 
   @override
   Widget build(BuildContext context) {

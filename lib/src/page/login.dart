@@ -6,21 +6,21 @@ class Login extends StatefulWidget {
   final passwordController = TextEditingController();
 
   final Auth auth;
-  final Function showScaffoldDialogBox;
-  final Function showScaffoldSnackBar;
   final Function changeScreenState;
+  final Function showAppDialogBox;
+  final Function showAppSnackBar;
 
   Login(
       {@required this.auth,
       @required this.changeScreenState,
-      @required this.showScaffoldSnackBar,
-      @required this.showScaffoldDialogBox});
+      @required this.showAppSnackBar,
+      @required this.showAppDialogBox});
 
   @override
   _LoginState createState() => _LoginState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginState extends State<Login> with _PageTemplateMixin {
   String _userUid;
 
   void dispose() {
@@ -30,55 +30,58 @@ class _LoginState extends State<Login> {
   }
 
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: 20.0,
+    return Scaffold(
+      appBar: _displayAppBar(
+        titleSufix: 'login',
       ),
-      child: Form(
-        key: widget.formKey,
-        child: Center(
-          child: ListView(
-            shrinkWrap: true,
-            children: [
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Email',
+      body: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: 20.0,
+        ),
+        child: Form(
+          key: widget.formKey,
+          child: Center(
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                  ),
+                  maxLines: 1,
+                  keyboardType: TextInputType.emailAddress,
+                  controller: widget.emailController,
+                  validator: _validateEmail,
                 ),
-                maxLines: 1,
-                enableSuggestions: false,
-                keyboardType: TextInputType.emailAddress,
-                controller: widget.emailController,
-                validator: _validateEmail,
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Password',
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                  ),
+                  maxLines: 1,
+                  obscureText: true,
+                  controller: widget.passwordController,
+                  validator: _validatePassword,
                 ),
-                maxLines: 1,
-                enableSuggestions: false,
-                obscureText: true,
-                controller: widget.passwordController,
-                validator: _validatePassword,
-              ),
-              RaisedButton(
-                child: Text('Sign in'),
-                onPressed: _signIn,
-              ),
-              FlatButton(
-                child: Text('Sign up'),
-                onPressed: _signUp,
-              ),
-              Divider(),
-              RaisedButton(
-                child: Text('Sign in anonymously'),
-                onPressed: _signInAnonymously,
-              ),
-              Divider(),
-              FlatButton(
-                child: Text('Sign in with an email or anonymously?'),
-                onPressed: _showSignInDifferencesDialogBox,
-              ),
-            ],
+                RaisedButton(
+                  child: Text('Sign in'),
+                  onPressed: _signIn,
+                ),
+                FlatButton(
+                  child: Text('Sign up'),
+                  onPressed: _signUp,
+                ),
+                Divider(),
+                RaisedButton(
+                  child: Text('Sign in anonymously'),
+                  onPressed: _signInAnonymously,
+                ),
+                Divider(),
+                FlatButton(
+                  child: Text('What is an anonymous sign in?'),
+                  onPressed: _showSignInDifferencesDialogBox,
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -94,13 +97,13 @@ class _LoginState extends State<Login> {
             widget.passwordController.text.trim());
         await widget.auth.signOut();
 
-        widget.showScaffoldSnackBar('Sign in token: $_userUid'); // TODO: DEBUG.
+        widget.showAppSnackBar('Sign in token: $_userUid'); // TODO: DEBUG.
       } on AuthException catch (ex) {
         widget.changeScreenState(Mode.signedOut);
-        if (ex.code == 'email_confirmation_request') {
-          _showEmailConfirmationDialogBox();
+        if (ex.code == 'email_verification_request') {
+          _showEmailVerificationDialogBox();
         } else {
-          widget.showScaffoldSnackBar(ex.message);
+          widget.showAppSnackBar(ex.message);
         }
         return;
       }
@@ -114,7 +117,7 @@ class _LoginState extends State<Login> {
     _userUid = await widget.auth.signInAnonymously();
     await widget.auth.signOut();
 
-    widget.showScaffoldSnackBar('Anon token: $_userUid'); // TODO: DEBUG.
+    widget.showAppSnackBar('Anon token: $_userUid'); // TODO: DEBUG.
     widget.changeScreenState(Mode.signedInAnonymously);
   }
 
@@ -127,24 +130,24 @@ class _LoginState extends State<Login> {
             widget.passwordController.text.trim());
         await widget.auth.signOut();
 
-        widget.showScaffoldSnackBar('Sign up token: $_userUid'); // TODO: DEBUG.
+        widget.showAppSnackBar('Sign up token: $_userUid'); // TODO: DEBUG.
       } on AuthException catch (ex) {
         widget.changeScreenState(Mode.signedOut);
-        widget.showScaffoldSnackBar(ex.message);
+        widget.showAppSnackBar(ex.message);
         return;
       }
       widget.changeScreenState(Mode.signedOut);
-      _showEmailConfirmationDialogBox();
+      _showEmailVerificationDialogBox();
     } else {
-      widget.showScaffoldSnackBar('Invalid data format or no data at all.');
+      widget.showAppSnackBar('Invalid data format or no data at all.');
     }
   }
 
-  void _showEmailConfirmationDialogBox() => widget.showScaffoldDialogBox(
+  void _showEmailVerificationDialogBox() => widget.showAppDialogBox(
       'Confirm account',
       'Check your mailbox and verify your account in order to sign in.');
 
-  void _showSignInDifferencesDialogBox() => widget.showScaffoldDialogBox(
+  void _showSignInDifferencesDialogBox() => widget.showAppDialogBox(
       'Sign in  - differences',
       'Creating an account gives you an option to save your data automatically '
           'on the server and to fully enjoy the app. Anon login makes adding '
@@ -164,10 +167,10 @@ class _LoginState extends State<Login> {
   }
 
   String _validatePassword(String password) {
-    // final bool isReasonablySafe =
+    // final isReasonablySafe =
     //     RegExp('((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{12,})').hasMatch(password);
 
-    final bool isReasonablySafe = true; // TODO: DEBUG.
+    final isReasonablySafe = true; // TODO: DEBUG.
 
     if (password.isEmpty) {
       return 'Password field can\'t be empty.';

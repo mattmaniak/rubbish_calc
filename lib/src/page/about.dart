@@ -1,6 +1,6 @@
 part of page;
 
-class About extends StatelessWidget {
+class About extends StatelessWidget with _PageTemplateMixin {
   static const String _authorName = 'mattmaniak';
   static const String _authorURL = 'https://gitlab.com/$_authorName';
   static const String _repoURL = '$_authorURL/rubbish_calc';
@@ -12,6 +12,9 @@ class About extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: _displayAppBar(
+        titleSufix: 'about',
+      ),
       body: CustomScrollView(
         slivers: [
           SliverList(
@@ -75,7 +78,8 @@ class _AboutButton extends StatelessWidget {
     if (await canLaunch(url)) {
       await launch(url);
     } else {
-      // showDialogBox(context, 'Something broke...', 'Unable to open the link in a web browser.');
+      showDialogBox(context, 'Something broke...',
+          'Unable to open the link in a web browser.');
     }
   }
 }

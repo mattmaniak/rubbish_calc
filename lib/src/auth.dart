@@ -24,7 +24,7 @@ class Auth {
         password: password,
       );
       if (!await _isEmailVerified) {
-        throw AuthException('email_confirmation_request', '');
+        throw AuthException('email_verification_request', '');
       }
       return result.user?.uid;
     } on AuthException {

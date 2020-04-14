@@ -5,16 +5,21 @@ class UserArea extends StatefulWidget {
   _UserAreaState createState() => _UserAreaState();
 }
 
-class _UserAreaState extends State<UserArea> {
+class _UserAreaState extends State<UserArea> with _PageTemplateMixin {
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        Container(
-          height: 100.0,
-          color: Colors.black,
-        ),
-      ],
+    return Scaffold(
+      appBar: _displayAppBar(
+        titleSufix: 'signed in',
+      ),
+      body: ListView(
+        children: [
+          Container(
+            height: 100.0,
+            color: Colors.black,
+          ),
+        ],
+      ),
     );
   }
 }
