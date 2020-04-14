@@ -31,7 +31,9 @@ class _AppState extends State<App> {
         break;
 
       case page.Mode.signedIn:
-        _ui = page.UserArea();
+        _ui = page.UserArea(
+          isUserAnonymous: false,
+        );
         break;
 
       case page.Mode.signedInAnonymously:

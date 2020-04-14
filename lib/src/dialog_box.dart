@@ -20,8 +20,8 @@ class _DialogBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(this.title),
-      content: Text(this.content),
+      title: Text(title),
+      content: Text(content),
       actions: [
         FlatButton(
           child: Text('Ok'),
