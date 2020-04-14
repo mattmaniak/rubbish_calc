@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 
-void showDialogBox(BuildContext context, String title, String content) {
+/// The highly simplified AlertDialog renderer.
+void showSimpleAlertDialog(BuildContext context, String title, String content) {
   showDialog(
     context: context,
     barrierDismissible: false,
-    builder: (context) => _DialogBox(
+    builder: (context) => _SimpleAlertDialog(
       title: title ?? 'Something broke...',
       content: content ?? 'Unknown error.',
     ),
   );
 }
 
-class _DialogBox extends StatelessWidget {
+/// The unified wrapper for the AlertDialog.
+class _SimpleAlertDialog extends StatelessWidget {
   final String content;
   final String title;
 
-  const _DialogBox({@required this.title, @required this.content});
+  const _SimpleAlertDialog({@required this.title, @required this.content});
 
   @override
   Widget build(BuildContext context) {

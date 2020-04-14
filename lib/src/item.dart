@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// The simplified legacy rubbish' item implementation.
 class Item {
   final int weightGrams;
   final String name;

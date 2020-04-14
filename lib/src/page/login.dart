@@ -8,14 +8,14 @@ class Login extends StatefulWidget {
 
   final Auth auth;
   final Function changeScreenState;
-  final Function showAppDialogBox;
+  final Function showAppSimpleAlertDialog;
   final Function showAppSnackBar;
 
   Login(
       {@required this.auth,
       @required this.changeScreenState,
       @required this.showAppSnackBar,
-      @required this.showAppDialogBox});
+      @required this.showAppSimpleAlertDialog});
 
   @override
   _LoginState createState() => _LoginState();
@@ -25,7 +25,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> with _PageTemplateMixin {
   String _userUid;
 
-  /// Destroy all the input controllers as they are not needed.
+  /// Destroy all input controllers as they are not needed.
   void dispose() {
     widget.passwordController.dispose();
     widget.emailController.dispose();
@@ -150,12 +150,12 @@ class _LoginState extends State<Login> with _PageTemplateMixin {
   }
 
   /// Tell user about email verification by showing a display box.
-  void _showEmailVerificationDialogBox() => widget.showAppDialogBox(
+  void _showEmailVerificationDialogBox() => widget.showAppSimpleAlertDialog(
       'Confirm account',
       'Check your mailbox and verify your account in order to sign in.');
 
   /// Tell user about 'sign in' and 'anonymous sign in' in a display box.
-  void _showSignInDifferencesDialogBox() => widget.showAppDialogBox(
+  void _showSignInDifferencesDialogBox() => widget.showAppSimpleAlertDialog(
       'Sign in  - differences',
       'Creating an account gives you an option to save your data automatically '
           'on the server and to fully enjoy the app. Anon login makes adding '

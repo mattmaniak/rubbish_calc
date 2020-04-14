@@ -3,9 +3,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:rubbish_calc/src/auth.dart';
-import 'package:rubbish_calc/src/dialog_box.dart';
 import 'package:rubbish_calc/src/page.dart' as page;
+import 'package:rubbish_calc/src/simple_dialog_box.dart';
 
+/// Control all crucial modules and make an interaction between them possible.
 class App extends StatefulWidget {
   final auth = Auth();
 
@@ -13,56 +14,65 @@ class App extends StatefulWidget {
   _AppState createState() => _AppState();
 }
 
+/// Handle a state of the App.
 class _AppState extends State<App> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  page.Mode _currentScreenState = page.Mode.signedOut;
-  Widget _ui;
+  page.Mode _currentPage = page.Mode.signedOut;
+  Widget _pageUi;
 
   @override
   Widget build(BuildContext context) {
-    switch (_currentScreenState) {
+    _chooseCurrentPage();
+    return Scaffold(
+      key: _scaffoldKey,
+      body: _pageUi,
+    );
+  }
+
+  /// Decide which page will be displayed.
+  void _chooseCurrentPage() {
+    switch (_currentPage) {
       case page.Mode.signedOut:
-        _ui = page.Login(
+        _pageUi = page.Login(
           auth: widget.auth,
           changeScreenState: _changeScreenState,
           showAppSnackBar: _showScaffoldSnackBar,
-          showAppDialogBox: _showScaffoldDialogBox,
+          showAppSimpleAlertDialog: _showScaffoldSimpleAlertDialog,
         );
         break;
 
       case page.Mode.signedIn:
-        _ui = page.UserArea(
+        _pageUi = page.UserArea(
           isUserAnonymous: false,
         );
         break;
 
       case page.Mode.signedInAnonymously:
-        _ui = page.UserArea();
+        _pageUi = page.UserArea();
         break;
 
       case page.Mode.about:
-        _ui = page.About();
+        _pageUi = page.About();
         break;
 
       case page.Mode.loading:
-        _ui = page.LoadingAnimation();
+        _pageUi = page.LoadingAnimation();
     }
-    return Scaffold(
-      key: _scaffoldKey,
-      body: _ui,
-    );
   }
 
+  /// Method used as a callback that provides switching between pages.
   void _changeScreenState(page.Mode state) {
     setState(() {
-      _currentScreenState = state ?? page.Mode.signedOut;
+      _currentPage = state ?? page.Mode.signedOut;
       // TODO: LOG OUT FOR THE SAKE OF SECURITY.
     });
   }
 
-  void _showScaffoldDialogBox(String title, String content) =>
-      showDialogBox(context, title, content);
+  /// Method used as a callback that shows a dialog box in the App's Scaffold.
+  void _showScaffoldSimpleAlertDialog(String title, String content) =>
+      showSimpleAlertDialog(context, title, content);
 
+  /// Method used as a callback that shows a snack bar in the App's Scaffold.
   void _showScaffoldSnackBar(String text) {
     _scaffoldKey.currentState.showSnackBar(
       SnackBar(

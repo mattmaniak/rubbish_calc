@@ -81,7 +81,7 @@ class _AboutButton extends StatelessWidget {
     if (await canLaunch(url)) {
       await launch(url);
     } else {
-      showDialogBox(context, 'Something broke...',
+      showSimpleAlertDialog(context, 'Something broke...',
           'Unable to open the link in a web browser.');
     }
   }

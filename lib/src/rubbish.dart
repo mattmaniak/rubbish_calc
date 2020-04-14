@@ -1,5 +1,6 @@
 import 'package:rubbish_calc/src/item.dart';
 
+/// The legacy implementation of the rubbish.
 List<Item> generateRubbish() {
   List<Item> rubbish = [
     Item(
