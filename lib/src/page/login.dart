@@ -1,5 +1,6 @@
 part of page;
 
+/// The page when an user is able to log into the app.
 class Login extends StatefulWidget {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
@@ -20,9 +21,11 @@ class Login extends StatefulWidget {
   _LoginState createState() => _LoginState();
 }
 
+/// Hold a state of the login screen.
 class _LoginState extends State<Login> with _PageTemplateMixin {
   String _userUid;
 
+  /// Destroy all the input controllers as they are not needed.
   void dispose() {
     widget.passwordController.dispose();
     widget.emailController.dispose();
@@ -88,6 +91,7 @@ class _LoginState extends State<Login> with _PageTemplateMixin {
     );
   }
 
+  /// Sign into the app using only valid credentials from the form.
   void _signIn() async {
     if (widget.formKey.currentState.validate()) {
       widget.changeScreenState(Mode.loading);
@@ -111,6 +115,7 @@ class _LoginState extends State<Login> with _PageTemplateMixin {
     }
   }
 
+  /// Sign into the app without giving any credentials.
   void _signInAnonymously() async {
     widget.changeScreenState(Mode.loading);
 
@@ -121,6 +126,7 @@ class _LoginState extends State<Login> with _PageTemplateMixin {
     widget.changeScreenState(Mode.signedInAnonymously);
   }
 
+  /// Sign up to the app using only valid credentials from the form.
   void _signUp() async {
     if (widget.formKey.currentState.validate()) {
       widget.changeScreenState(Mode.loading);
@@ -143,10 +149,12 @@ class _LoginState extends State<Login> with _PageTemplateMixin {
     }
   }
 
+  /// Tell user about email verification by showing a display box.
   void _showEmailVerificationDialogBox() => widget.showAppDialogBox(
       'Confirm account',
       'Check your mailbox and verify your account in order to sign in.');
 
+  /// Tell user about 'sign in' and 'anonymous sign in' in a display box.
   void _showSignInDifferencesDialogBox() => widget.showAppDialogBox(
       'Sign in  - differences',
       'Creating an account gives you an option to save your data automatically '
@@ -154,18 +162,20 @@ class _LoginState extends State<Login> with _PageTemplateMixin {
           'a new trash impossible. Once you log out, you will lost all your '
           'app data.');
 
+  /// Check if a given email has got valid format.
   String _validateEmail(String email) {
-    final bool hasCorrectFormat = EmailValidator.validate(email);
+    final bool isFormattedCorrectly = EmailValidator.validate(email);
 
     if (email.isEmpty) {
       return 'Email field can\'t be empty.';
-    } else if (hasCorrectFormat) {
+    } else if (isFormattedCorrectly) {
       return null;
     } else {
       return 'Invalid email format.';
     }
   }
 
+  /// Measure a password strength.
   String _validatePassword(String password) {
     // final isReasonablySafe =
     //     RegExp('((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{12,})').hasMatch(password);

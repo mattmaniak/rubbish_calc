@@ -1,5 +1,6 @@
 part of page;
 
+/// Display info about a current version of the app.
 class About extends StatelessWidget with _PageTemplateMixin {
   static const String _authorName = 'mattmaniak';
   static const String _authorURL = 'https://gitlab.com/$_authorName';
@@ -53,6 +54,7 @@ class About extends StatelessWidget with _PageTemplateMixin {
   }
 }
 
+/// A specific button that enables URL opening.
 class _AboutButton extends StatelessWidget {
   final String title;
   final String url;
@@ -74,6 +76,7 @@ class _AboutButton extends StatelessWidget {
     );
   }
 
+  /// Launch an external browser and open a specified link.
   void _openURL(BuildContext context) async {
     if (await canLaunch(url)) {
       await launch(url);

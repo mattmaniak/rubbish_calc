@@ -1,5 +1,6 @@
 part of page;
 
+/// The most important page where user can navigate through main app's content.
 class UserArea extends StatefulWidget {
   final bool isUserAnonymous;
 
@@ -9,6 +10,10 @@ class UserArea extends StatefulWidget {
   _UserAreaState createState() => _UserAreaState();
 }
 
+/// Hold a state of the UserArea.
+///
+/// Choose between anonymous user UI and email user UI during rendering which
+/// are slightly different.
 class _UserAreaState extends State<UserArea> with _PageTemplateMixin {
   @override
   Widget build(BuildContext context) {
