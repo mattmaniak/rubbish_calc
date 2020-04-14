@@ -1,7 +1,7 @@
 # Changelog
 
 ## 1.0.0-dev
-- Firebase.
+- Firebase authentication.
 
 ## 0.1.0
 - New item and changed names.

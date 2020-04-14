@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+part of screen;
 
 class UserArea extends StatefulWidget {
   @override

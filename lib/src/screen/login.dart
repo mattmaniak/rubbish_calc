@@ -1,13 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+part of screen;
 
-import 'package:email_validator/email_validator.dart';
-
-import 'package:rubbish_calc/src/auth.dart';
-import 'package:rubbish_calc/src/screen/screen.dart';
-
-class ScreenLogin extends StatefulWidget {
+class Login extends StatefulWidget {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -17,17 +10,17 @@ class ScreenLogin extends StatefulWidget {
   final Function showScaffoldSnackBar;
   final Function changeScreenState;
 
-  ScreenLogin(
+  Login(
       {@required this.auth,
       @required this.changeScreenState,
       @required this.showScaffoldSnackBar,
       @required this.showScaffoldDialogBox});
 
   @override
-  _ScreenLoginState createState() => _ScreenLoginState();
+  _LoginState createState() => _LoginState();
 }
 
-class _ScreenLoginState extends State<ScreenLogin> {
+class _LoginState extends State<Login> {
   String _userUid;
 
   void dispose() {
@@ -94,7 +87,7 @@ class _ScreenLoginState extends State<ScreenLogin> {
 
   void _signIn() async {
     if (widget.formKey.currentState.validate()) {
-      widget.changeScreenState(ScreenState.loading);
+      widget.changeScreenState(Mode.loading);
 
       try {
         _userUid = await widget.auth.signIn(widget.emailController.text.trim(),
@@ -103,7 +96,7 @@ class _ScreenLoginState extends State<ScreenLogin> {
 
         widget.showScaffoldSnackBar('Sign in token: $_userUid'); // TODO: DEBUG.
       } on AuthException catch (ex) {
-        widget.changeScreenState(ScreenState.signedOut);
+        widget.changeScreenState(Mode.signedOut);
         if (ex.code == 'email_confirmation_request') {
           _showEmailConfirmationDialogBox();
         } else {
@@ -111,23 +104,23 @@ class _ScreenLoginState extends State<ScreenLogin> {
         }
         return;
       }
-      widget.changeScreenState(ScreenState.signedIn);
+      widget.changeScreenState(Mode.signedIn);
     }
   }
 
   void _signInAnonymously() async {
-    widget.changeScreenState(ScreenState.loading);
+    widget.changeScreenState(Mode.loading);
 
     _userUid = await widget.auth.signInAnonymously();
     await widget.auth.signOut();
 
     widget.showScaffoldSnackBar('Anon token: $_userUid'); // TODO: DEBUG.
-    widget.changeScreenState(ScreenState.signedInAnonymously);
+    widget.changeScreenState(Mode.signedInAnonymously);
   }
 
   void _signUp() async {
     if (widget.formKey.currentState.validate()) {
-      widget.changeScreenState(ScreenState.loading);
+      widget.changeScreenState(Mode.loading);
 
       try {
         _userUid = await widget.auth.signUp(widget.emailController.text.trim(),
@@ -136,11 +129,11 @@ class _ScreenLoginState extends State<ScreenLogin> {
 
         widget.showScaffoldSnackBar('Sign up token: $_userUid'); // TODO: DEBUG.
       } on AuthException catch (ex) {
-        widget.changeScreenState(ScreenState.signedOut);
+        widget.changeScreenState(Mode.signedOut);
         widget.showScaffoldSnackBar(ex.message);
         return;
       }
-      widget.changeScreenState(ScreenState.signedOut);
+      widget.changeScreenState(Mode.signedOut);
       _showEmailConfirmationDialogBox();
     } else {
       widget.showScaffoldSnackBar('Invalid data format or no data at all.');

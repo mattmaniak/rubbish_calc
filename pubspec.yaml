@@ -1,6 +1,8 @@
 name: rubbish_calc
 description: Check how much rubbish you produce every day.
 version: 1.0.0-dev+3
+author: mattmaniak
+repository: https://gitlab.com/mattmaniak/rubbish_calc.git
 
 environment:
   sdk: ">=2.1.0 <3.0.0"

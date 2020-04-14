@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-
-import 'package:url_launcher/url_launcher.dart';
-
-// import 'package:rubbish_calc/src/error_dialog.dart';
+part of screen;
 
 class About extends StatelessWidget {
   static const String _authorName = 'mattmaniak';

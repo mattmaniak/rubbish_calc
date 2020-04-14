@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+part of screen;
 
 Widget showLoadingAnimation() => Center(
       child: Column(
