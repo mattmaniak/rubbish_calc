@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:rubbish_calc/src/auth.dart';
 import 'package:rubbish_calc/src/dialog_box.dart';
-import 'package:rubbish_calc/src/screen.dart' as screen;
+import 'package:rubbish_calc/src/page.dart' as page;
 
 class App extends StatefulWidget {
   final auth = Auth();
@@ -16,16 +16,16 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  screen.Screen _currentScreen;
-  var _currentScreenState = screen.Mode.signedOut;
+  page.Page _currentScreen;
+  var _currentScreenState = page.Mode.signedOut;
 
   @override
   Widget build(BuildContext context) {
     switch (_currentScreenState) {
-      case screen.Mode.signedOut:
-        _currentScreen = screen.Screen(
+      case page.Mode.signedOut:
+        _currentScreen = page.Page(
           appBarTitleSufix: 'login',
-          ui: screen.Login(
+          ui: page.Login(
             auth: widget.auth,
             changeScreenState: _changeScreenState,
             showScaffoldSnackBar: _showSnackBar,
@@ -34,31 +34,31 @@ class _AppState extends State<App> {
         );
         break;
 
-      case screen.Mode.signedIn:
-        _currentScreen = screen.Screen(
+      case page.Mode.signedIn:
+        _currentScreen = page.Page(
           appBarTitleSufix: widget.auth.currentUser.toString(),
-          ui: screen.UserArea(),
+          ui: page.UserArea(),
         );
         break;
 
-      case screen.Mode.signedInAnonymously:
-        _currentScreen = screen.Screen(
+      case page.Mode.signedInAnonymously:
+        _currentScreen = page.Page(
           appBarTitleSufix: 'anonymous user',
-          ui: screen.UserArea(),
+          ui: page.UserArea(),
         );
         break;
 
-      case screen.Mode.about:
-        _currentScreen = screen.Screen(
+      case page.Mode.about:
+        _currentScreen = page.Page(
           appBarTitleSufix: 'about',
-          ui: screen.About(),
+          ui: page.About(),
         );
         break;
 
-      case screen.Mode.loading:
-        _currentScreen = screen.Screen(
+      case page.Mode.loading:
+        _currentScreen = page.Page(
           appBarTitleSufix: 'connecting...',
-          ui: screen.showLoadingAnimation(),
+          ui: page.showLoadingAnimation(),
         );
     }
 
@@ -69,7 +69,7 @@ class _AppState extends State<App> {
         title: Text('${widget.appName} - ${_currentScreen.appBarTitleSufix}'),
       ),
       body: _currentScreen.ui,
-      floatingActionButton: _currentScreenState == screen.Mode.signedIn
+      floatingActionButton: _currentScreenState == page.Mode.signedIn
           ? FloatingActionButton.extended(
               icon: Icon(Icons.add),
               label: Text('Add'),
@@ -79,9 +79,9 @@ class _AppState extends State<App> {
     );
   }
 
-  void _changeScreenState(screen.Mode state) {
+  void _changeScreenState(page.Mode state) {
     setState(() {
-      _currentScreenState = state ?? screen.Mode.signedOut;
+      _currentScreenState = state ?? page.Mode.signedOut;
       // TODO: LOG OUT FOR THE SAKE OF SECURITY.
     });
   }

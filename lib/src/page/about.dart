@@ -1,4 +1,4 @@
-part of screen;
+part of page;
 
 class About extends StatelessWidget {
   static const String _authorName = 'mattmaniak';

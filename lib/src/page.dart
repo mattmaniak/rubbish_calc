@@ -1,4 +1,4 @@
-library screen;
+library page;
 
 import 'package:flutter/material.dart';
 
@@ -8,10 +8,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:rubbish_calc/src/auth.dart';
 
-part 'package:rubbish_calc/src/screen/about.dart';
-part 'package:rubbish_calc/src/screen/loading_animation.dart';
-part 'package:rubbish_calc/src/screen/login.dart';
-part 'package:rubbish_calc/src/screen/user_area.dart';
+part 'package:rubbish_calc/src/page/about.dart';
+part 'package:rubbish_calc/src/page/loading_animation.dart';
+part 'package:rubbish_calc/src/page/login.dart';
+part 'package:rubbish_calc/src/page/user_area.dart';
 
 enum Mode {
   about,
@@ -21,9 +21,9 @@ enum Mode {
   signedInAnonymously,
 }
 
-class Screen {
+class Page {
   final String appBarTitleSufix;
   final Widget ui;
 
-  const Screen({this.appBarTitleSufix, this.ui});
+  const Page({this.appBarTitleSufix, this.ui});
 }

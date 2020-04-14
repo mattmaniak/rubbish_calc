@@ -1,4 +1,4 @@
-part of screen;
+part of page;
 
 class Login extends StatefulWidget {
   final formKey = GlobalKey<FormState>();

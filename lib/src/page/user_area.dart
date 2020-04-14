@@ -1,4 +1,4 @@
-part of screen;
+part of page;
 
 class UserArea extends StatefulWidget {
   @override

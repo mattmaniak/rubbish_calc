@@ -1,4 +1,4 @@
-part of screen;
+part of page;
 
 Widget showLoadingAnimation() => Center(
       child: Column(
