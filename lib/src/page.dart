@@ -3,10 +3,10 @@
 library page;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:rubbish_calc/src/auth.dart';
 import 'package:rubbish_calc/src/simple_dialog_box.dart';

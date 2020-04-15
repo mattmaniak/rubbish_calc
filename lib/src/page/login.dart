@@ -102,9 +102,9 @@ class _LoginState extends State<Login> with _PageTemplateMixin {
         await widget.auth.signOut();
 
         widget.showAppSnackBar('Sign in token: $_userUid'); // TODO: DEBUG.
-      } on AuthException catch (ex) {
+      } on PlatformException catch (ex) {
         widget.changeScreenState(Mode.signedOut);
-        if (ex.code == 'email_verification_request') {
+        if (ex.code == 'ERROR_EMAIL_NOT_VERIFIED') {
           _showEmailVerificationDialogBox();
         } else {
           widget.showAppSnackBar(ex.message);
@@ -137,7 +137,7 @@ class _LoginState extends State<Login> with _PageTemplateMixin {
         await widget.auth.signOut();
 
         widget.showAppSnackBar('Sign up token: $_userUid'); // TODO: DEBUG.
-      } on AuthException catch (ex) {
+      } on PlatformException catch (ex) {
         widget.changeScreenState(Mode.signedOut);
         widget.showAppSnackBar(ex.message);
         return;
@@ -152,15 +152,15 @@ class _LoginState extends State<Login> with _PageTemplateMixin {
   /// Tell user about email verification by showing a display box.
   void _showEmailVerificationDialogBox() => widget.showAppSimpleAlertDialog(
       'Confirm account',
-      'Check your mailbox and verify your account in order to sign in.');
+      'Check your mailbox and verifiy your email in order to sign in.');
 
   /// Tell user about 'sign in' and 'anonymous sign in' in a display box.
   void _showSignInDifferencesDialogBox() => widget.showAppSimpleAlertDialog(
-      'Sign in  - differences',
-      'Creating an account gives you an option to save your data automatically '
-          'on the server and to fully enjoy the app. Anon login makes adding '
-          'a new trash impossible. Once you log out, you will lost all your '
-          'app data.');
+      'Sign in - differences',
+      'Creating an account gives you an opportunity to save your data '
+          'automatically and to fully enjoy the app experience. An anonymous '
+          'account makes adding new rubbish items impossible. Once you log out '
+          'from it, you will lost all your saved app data.');
 
   /// Check if a given email has got valid format.
   String _validateEmail(String email) {

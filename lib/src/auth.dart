@@ -7,15 +7,15 @@ class Auth {
   final _firebaseAuth = FirebaseAuth.instance;
 
   /// Try to get a currently logged user.
-  Future<FirebaseUser> get currentUser async =>
+  Future<FirebaseUser> get _currentUser async =>
       await _firebaseAuth.currentUser();
 
-  /// Check if an user's email is verified an is able to log into an account.
+  // /// Check if an user's email is verified an is able to log into an account.
   Future<bool> get _isEmailVerified async =>
-      await _isSignedIn && (await currentUser).isEmailVerified;
+      await _isSignedIn && (await _currentUser).isEmailVerified;
 
   /// Check if the user is signed in.
-  Future<bool> get _isSignedIn async => await currentUser != null;
+  Future<bool> get _isSignedIn async => await _currentUser != null;
 
   /// Log into the Firebase.
   Future<String> signIn(String email, String password) async {
@@ -25,14 +25,13 @@ class Auth {
         password: password,
       );
       if (!await _isEmailVerified) {
-        throw AuthException('email_verification_request', '');
+        throw PlatformException(
+          code: 'ERROR_EMAIL_NOT_VERIFIED',
+        );
       }
       return result.user?.uid;
-    } on AuthException {
-      rethrow;
     } on PlatformException {
-      throw AuthException(
-          '', 'Unable to sign in. User with given credentials not found.');
+      rethrow;
     }
   }
 
@@ -48,13 +47,10 @@ class Auth {
         email: email,
         password: password,
       );
-      await _verifyByEmail();
+      await _verifyEmail();
       return result.user?.uid;
-    } on AuthException {
-      rethrow;
     } on PlatformException {
-      throw AuthException(
-          '', 'An account with this email exists. Use another one.'); // TODO: NO INTERNECT CONNECTION TOO.
+      rethrow;
     }
   }
 
@@ -62,12 +58,12 @@ class Auth {
   Future<void> signOut() async => await _firebaseAuth.signOut();
 
   /// Send an verification email to an active user.
-  Future<void> _verifyByEmail() async {
+  Future<void> _verifyEmail() async {
     if (!await _isEmailVerified) {
       try {
-        (await currentUser).sendEmailVerification();
+        (await _currentUser).sendEmailVerification();
       } on PlatformException {
-        throw AuthException('', 'Unable to send a verification email.');
+        rethrow;
       }
     }
   }
