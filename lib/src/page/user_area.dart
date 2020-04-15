@@ -3,8 +3,13 @@ part of page;
 /// The most important page where user can navigate through main app's content.
 class UserArea extends StatefulWidget {
   final bool isUserAnonymous;
+  final Function signOut;
+  final Function switchPage;
 
-  const UserArea({this.isUserAnonymous = true});
+  const UserArea(
+      {@required this.switchPage,
+      @required this.signOut,
+      this.isUserAnonymous = true});
 
   @override
   _UserAreaState createState() => _UserAreaState();
@@ -20,6 +25,22 @@ class _UserAreaState extends State<UserArea> with _PageTemplateMixin {
     return Scaffold(
       appBar: _displayAppBar(
         titleSufix: widget.isUserAnonymous ? 'anonymous user' : 'email user',
+        actions: [
+          FlatButton(
+            child: Row(
+              children: [
+                Text('Sign out'),
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: 8.0,
+                  ),
+                  child: Icon(Icons.exit_to_app),
+                ),
+              ],
+            ),
+            onPressed: _signOut,
+          ),
+        ],
       ),
       body: ListView(
         children: [
@@ -35,5 +56,11 @@ class _UserAreaState extends State<UserArea> with _PageTemplateMixin {
               onPressed: () {},
             ),
     );
+  }
+
+  void _signOut() async {
+    widget.switchPage(Visible.loading);
+    await widget.signOut();
+    widget.switchPage(Visible.signedOut);
   }
 }

@@ -7,13 +7,13 @@ class Login extends StatefulWidget {
   final passwordController = TextEditingController();
 
   final Auth auth;
-  final Function changeScreenState;
   final Function showAppSimpleAlertDialog;
   final Function showAppSnackBar;
+  final Function switchPage;
 
   Login(
       {@required this.auth,
-      @required this.changeScreenState,
+      @required this.switchPage,
       @required this.showAppSnackBar,
       @required this.showAppSimpleAlertDialog});
 
@@ -23,7 +23,6 @@ class Login extends StatefulWidget {
 
 /// Hold a state of the login screen.
 class _LoginState extends State<Login> with _PageTemplateMixin {
-
   /// Destroy all input controllers as they are not needed.
   void dispose() {
     widget.passwordController.dispose();
@@ -93,14 +92,14 @@ class _LoginState extends State<Login> with _PageTemplateMixin {
   /// Sign into the app using only valid credentials from the form.
   void _signIn() async {
     if (widget.formKey.currentState.validate()) {
-      widget.changeScreenState(Mode.loading);
+      widget.switchPage(Visible.loading);
 
       try {
         await widget.auth.signIn(widget.emailController.text.trim(),
             widget.passwordController.text.trim());
         await widget.auth.signOut();
       } on PlatformException catch (ex) {
-        widget.changeScreenState(Mode.signedOut);
+        widget.switchPage(Visible.signedOut);
         if (ex.code == 'ERROR_EMAIL_NOT_VERIFIED') {
           _showEmailVerificationDialogBox();
         } else {
@@ -108,35 +107,32 @@ class _LoginState extends State<Login> with _PageTemplateMixin {
         }
         return;
       }
-      widget.changeScreenState(Mode.signedIn);
+      widget.switchPage(Visible.signedIn);
     }
   }
 
   /// Sign into the app without giving any credentials.
   void _signInAnonymously() async {
-    widget.changeScreenState(Mode.loading);
-
+    widget.switchPage(Visible.loading);
     await widget.auth.signInAnonymously();
-    await widget.auth.signOut();
-
-    widget.changeScreenState(Mode.signedInAnonymously);
+    widget.switchPage(Visible.signedInAnonymously);
   }
 
   /// Sign up to the app using only valid credentials from the form.
   void _signUp() async {
     if (widget.formKey.currentState.validate()) {
-      widget.changeScreenState(Mode.loading);
+      widget.switchPage(Visible.loading);
 
       try {
         await widget.auth.signUp(widget.emailController.text.trim(),
             widget.passwordController.text.trim());
-        await widget.auth.signOut();
       } on PlatformException catch (ex) {
-        widget.changeScreenState(Mode.signedOut);
+        await widget.auth.signOut();
+        widget.switchPage(Visible.signedOut);
         widget.showAppSnackBar(ex.message);
         return;
       }
-      widget.changeScreenState(Mode.signedOut);
+      widget.switchPage(Visible.signedOut);
       _showEmailVerificationDialogBox();
     } else {
       widget.showAppSnackBar('Invalid data format or no data at all.');

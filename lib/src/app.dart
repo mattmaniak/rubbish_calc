@@ -17,54 +17,63 @@ class App extends StatefulWidget {
 /// Handle a state of the App.
 class _AppState extends State<App> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  page.Mode _currentPage = page.Mode.signedOut;
-  Widget _pageUi;
+  page.Visible _visiblePage = page.Visible.signedOut;
+  Widget _currentPage;
 
   @override
   Widget build(BuildContext context) {
     _chooseCurrentPage();
     return Scaffold(
       key: _scaffoldKey,
-      body: _pageUi,
+      body: _currentPage,
     );
   }
 
   /// Decide which page will be displayed.
   void _chooseCurrentPage() {
-    switch (_currentPage) {
-      case page.Mode.signedOut:
-        _pageUi = page.Login(
+    switch (_visiblePage) {
+      case page.Visible.signedOut:
+        _currentPage = page.Login(
           auth: widget.auth,
-          changeScreenState: _changeScreenState,
+          switchPage: _switchPage,
           showAppSnackBar: _showScaffoldSnackBar,
           showAppSimpleAlertDialog: _showScaffoldSimpleAlertDialog,
         );
         break;
 
-      case page.Mode.signedIn:
-        _pageUi = page.UserArea(
+      case page.Visible.signedIn:
+        _currentPage = page.UserArea(
+          switchPage: _switchPage,
+          signOut: widget.auth.signOut,
           isUserAnonymous: false,
         );
         break;
 
-      case page.Mode.signedInAnonymously:
-        _pageUi = page.UserArea();
+      case page.Visible.signedInAnonymously:
+        _currentPage = page.UserArea(
+          switchPage: _switchPage,
+          signOut: widget.auth.signOut,
+        );
         break;
 
-      case page.Mode.about:
-        _pageUi = page.About();
+      case page.Visible.about:
+        _currentPage = page.About();
         break;
 
-      case page.Mode.loading:
-        _pageUi = page.LoadingAnimation();
+      case page.Visible.loading:
+        _currentPage = page.LoadingAnimation();
     }
   }
 
   /// Method used as a callback that provides switching between pages.
-  void _changeScreenState(page.Mode state) {
+  void _switchPage(page.Visible newPage) {
     setState(() {
-      _currentPage = state ?? page.Mode.signedOut;
-      // TODO: LOG OUT FOR THE SAKE OF SECURITY.
+      if (newPage != null) {
+        _visiblePage = newPage;
+      } else {
+        widget.auth.signOut();
+        _visiblePage = page.Visible.signedOut;
+      }
     });
   }
 
