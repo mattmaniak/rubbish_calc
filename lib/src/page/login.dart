@@ -23,7 +23,6 @@ class Login extends StatefulWidget {
 
 /// Hold a state of the login screen.
 class _LoginState extends State<Login> with _PageTemplateMixin {
-  String _userUid;
 
   /// Destroy all input controllers as they are not needed.
   void dispose() {
@@ -97,11 +96,9 @@ class _LoginState extends State<Login> with _PageTemplateMixin {
       widget.changeScreenState(Mode.loading);
 
       try {
-        _userUid = await widget.auth.signIn(widget.emailController.text.trim(),
+        await widget.auth.signIn(widget.emailController.text.trim(),
             widget.passwordController.text.trim());
         await widget.auth.signOut();
-
-        widget.showAppSnackBar('Sign in token: $_userUid'); // TODO: DEBUG.
       } on PlatformException catch (ex) {
         widget.changeScreenState(Mode.signedOut);
         if (ex.code == 'ERROR_EMAIL_NOT_VERIFIED') {
@@ -119,10 +116,9 @@ class _LoginState extends State<Login> with _PageTemplateMixin {
   void _signInAnonymously() async {
     widget.changeScreenState(Mode.loading);
 
-    _userUid = await widget.auth.signInAnonymously();
+    await widget.auth.signInAnonymously();
     await widget.auth.signOut();
 
-    widget.showAppSnackBar('Anon token: $_userUid'); // TODO: DEBUG.
     widget.changeScreenState(Mode.signedInAnonymously);
   }
 
@@ -132,11 +128,9 @@ class _LoginState extends State<Login> with _PageTemplateMixin {
       widget.changeScreenState(Mode.loading);
 
       try {
-        _userUid = await widget.auth.signUp(widget.emailController.text.trim(),
+        await widget.auth.signUp(widget.emailController.text.trim(),
             widget.passwordController.text.trim());
         await widget.auth.signOut();
-
-        widget.showAppSnackBar('Sign up token: $_userUid'); // TODO: DEBUG.
       } on PlatformException catch (ex) {
         widget.changeScreenState(Mode.signedOut);
         widget.showAppSnackBar(ex.message);
