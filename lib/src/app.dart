@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:rubbish_calc/src/auth.dart';
 import 'package:rubbish_calc/src/page.dart' as page;
-import 'package:rubbish_calc/src/simple_dialog_box.dart';
+import 'package:rubbish_calc/src/simple_alert_dialog.dart';
 
 /// Control all crucial modules and make an interaction between them possible.
 class App extends StatefulWidget {
