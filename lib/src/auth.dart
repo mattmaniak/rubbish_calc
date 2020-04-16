@@ -6,16 +6,16 @@ class Auth {
   /// Firebase handler.
   final _firebaseAuth = FirebaseAuth.instance;
 
-  /// Try to get a currently logged user.
-  Future<FirebaseUser> get _currentUser async =>
-      await _firebaseAuth.currentUser();
+  /// Check if the user is signed in.
+  Future<bool> get isUserSignedIn async => await _currentUser != null;
 
   // /// Check if an user's email is verified an is able to log into an account.
   Future<bool> get _isEmailVerified async =>
-      await _isSignedIn && (await _currentUser).isEmailVerified;
+      await isUserSignedIn && (await _currentUser).isEmailVerified;
 
-  /// Check if the user is signed in.
-  Future<bool> get _isSignedIn async => await _currentUser != null;
+  /// Try to get a currently logged user.
+  Future<FirebaseUser> get _currentUser async =>
+      await _firebaseAuth.currentUser();
 
   /// Log into the Firebase.
   Future<String> signIn(String email, String password) async {
