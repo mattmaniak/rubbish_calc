@@ -24,7 +24,7 @@ class _MockAuth extends Mock implements Auth {
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  test('App should sign in and out anonymously.', () async {
+  test('The app should sign in and out anonymously.', () async {
     final auth = _MockAuth();
 
     auth.signInAnonymously();
