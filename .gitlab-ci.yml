@@ -1,0 +1,22 @@
+image: cirrusci/flutter:stable
+
+stages:
+  - format
+  - test
+  - build
+
+format:
+  stage: format
+  script:
+    - flutter analyze lib/ test/
+
+test:
+  stage: test
+  script:
+    - flutter test test/
+
+build:
+  stage: build
+  script:
+    - flutter build appbundle
+    - flutter build apk
