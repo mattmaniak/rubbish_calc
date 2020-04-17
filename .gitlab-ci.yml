@@ -1,4 +1,4 @@
-image: oursky/flutter:v1.7.8-hotfix.4
+image: nathansamson/flutter-builder-docker
 
 stages:
   - upgrade_sdk
