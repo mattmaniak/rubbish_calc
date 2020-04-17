@@ -25,4 +25,4 @@ test:
 build:
   stage: build
   script:
-    - flutter build apk
+    - flutter build aot
