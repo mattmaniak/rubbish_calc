@@ -5,24 +5,34 @@ import 'package:rubbish_calc/src/auth.dart';
 import 'package:rubbish_calc/src/page.dart' as page;
 
 void main() {
-  test(
-      'The login page should initialize text inputs and receive an instance of Auth().',
-      () {
+  group('page.Login', () {
     final login = page.Login(
       // TODO: MOCK CALLBACKS?
       auth: Auth(),
-      showAppSimpleAlertDialog: () {},
       switchPage: () {},
+      showAppSimpleAlertDialog: () {},
       showAppSnackBar: () {},
     );
 
-    expect(login.auth == null, false);
-    expect(login.auth.runtimeType, Auth);
+    test('Create the page.Login page.', () {
+      expect(login == null, false);
+      expect(login.runtimeType, page.Login);
+    });
 
-    expect(login.emailController == null, false);
-    expect(login.emailController.runtimeType, TextEditingController);
+    test('Check if a auth module given as an argument is valid.', () {
+      expect(login.auth == null, false);
+      expect(login.auth.runtimeType, Auth);
 
-    expect(login.passwordController == null, false);
-    expect(login.passwordController.runtimeType, TextEditingController);
+    });
+
+    test('Initialize the email form field controller.', () {
+      expect(login.emailController == null, false);
+      expect(login.emailController.runtimeType, TextEditingController);
+    });
+
+    test('Initialize the password form field controller.', () {
+      expect(login.passwordController == null, false);
+      expect(login.passwordController.runtimeType, TextEditingController);
+    });
   });
 }
