@@ -4,13 +4,16 @@ import 'package:rubbish_calc/src/app.dart';
 import 'package:rubbish_calc/src/auth.dart';
 
 void main() {
-  test('The app module should initialize their members and launch methods.',
-      () {
-    final app = App();
+  group('App', () {
+    test('The auth member should be initialized properply.', () {
+      final app = App();
+      expect(app.auth == null, false);
+      expect(app.auth.runtimeType, Auth);
+    });
 
-    expect(app.auth == null, false);
-    expect(app.auth.runtimeType, Auth);
-
-    expect(app.createState() == null, false);
+    test('A state should be initialized.', () {
+      final app = App();
+      expect(app.createState() == null, false);
+    });
   });
 }
