@@ -23,12 +23,17 @@ class _MockAuth extends Mock implements Auth {
 }
 
 void main() {
-  test('The app should sign in and out anonymously.', () async {
-    final auth = _MockAuth();
+  group('Auth', () {
+    test('An anonymous user should sign in.', () async {
+      final auth = _MockAuth();
+      auth.signInAnonymously();
+      expect(await auth.isUserSignedIn, true);
+    });
 
-    auth.signInAnonymously();
-    expect(await auth.isUserSignedIn, true);
-    auth.signOut();
-    expect(await auth.isUserSignedIn, false);
+    test('An user should be signed out.', () async {
+      final auth = _MockAuth();
+      auth.signOut();
+      expect(await auth.isUserSignedIn, false);
+    });
   });
 }
