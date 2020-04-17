@@ -15,12 +15,12 @@ upgrade_sdk:
 analyze:
   stage: analyze
   script:
-    - flutter analyze lib/ test/src/
+    - flutter analyze lib/ test/
 
 test:
   stage: test
   script:
-    - flutter test test/src/
+    - flutter test test/
 
 build:
   stage: build
