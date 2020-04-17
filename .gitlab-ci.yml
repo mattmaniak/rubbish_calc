@@ -1,0 +1,28 @@
+image: cirrusci/flutter:stable
+
+stages:
+  - upgrade_sdk
+  - analyze
+  - test
+  - build
+
+upgrade_sdk:
+  stage: upgrade_sdk
+  script:
+    - flutter channel stable
+    - flutter upgrade
+
+analyze:
+  stage: analyze
+  script:
+    - flutter analyze lib/ test/
+
+test:
+  stage: test
+  script:
+    - flutter test test/
+
+build:
+  stage: build
+  script:
+    - flutter build aot
