@@ -24,14 +24,19 @@ class _MockAuth extends Mock implements Auth {
 
 void main() {
   group('Auth', () {
+    final auth = _MockAuth();
+
+    test('Create an _MockAuth (Auth) instance.', () {
+      expect(auth == null, false);
+      expect(auth.runtimeType, _MockAuth);
+    });
+
     test('An anonymous user should sign in.', () async {
-      final auth = _MockAuth();
       auth.signInAnonymously();
       expect(await auth.isUserSignedIn, true);
     });
 
     test('An user should be signed out.', () async {
-      final auth = _MockAuth();
       auth.signOut();
       expect(await auth.isUserSignedIn, false);
     });

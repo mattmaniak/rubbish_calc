@@ -14,7 +14,7 @@ void main() {
       showAppSnackBar: () {},
     );
 
-    test('Create the page.Login page.', () {
+    test('Create a page.Login instance.', () {
       expect(login == null, false);
       expect(login.runtimeType, page.Login);
     });
@@ -22,7 +22,6 @@ void main() {
     test('Check if a auth module given as an argument is valid.', () {
       expect(login.auth == null, false);
       expect(login.auth.runtimeType, Auth);
-
     });
 
     test('Initialize the email form field controller.', () {
