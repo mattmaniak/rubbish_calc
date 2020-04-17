@@ -1,4 +1,4 @@
-image: nathansamson/flutter-builder-docker
+image: cirrusci/flutter:stable
 
 stages:
   - upgrade_sdk
