@@ -7,12 +7,12 @@ void main() {
   group('App', () {
     final app = App();
 
-    test('Create an instance.', () {
+    test('Check if an instance was created properly.', () {
       expect(app == null, false);
       expect(app.runtimeType, App);
     });
 
-    test('The auth member should be initialized properply.', () {
+    test('The auth member should be initialized properly.', () {
       expect(app.auth == null, false);
       expect(app.auth.runtimeType, Auth);
     });

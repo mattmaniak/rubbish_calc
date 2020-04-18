@@ -14,7 +14,7 @@ void main() {
       showAppSnackBar: () {},
     );
 
-    test('Create an instance.', () {
+    test('Check if an instance was created properly.', () {
       expect(login == null, false);
       expect(login.runtimeType, page.Login);
     });
