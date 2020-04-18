@@ -14,7 +14,7 @@ class _MockAuth extends Mock implements Auth {
   @override
   Future<String> signInAnonymously() async {
     _isSignedIn = true;
-    return 'PROPER_TEST_USER_UID';
+    return 'TEST_USER_UID';
   }
 
   @override
