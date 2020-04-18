@@ -8,7 +8,7 @@ void testNewObject(dynamic object, Type objectType) {
   });
 }
 
-Future<void> pumpScaffold(WidgetTester tester, Widget home) async {
+Future<void> pumpWidget(WidgetTester tester, Widget home) async {
   return tester.pumpWidget(MaterialApp(
     home: home,
   ));

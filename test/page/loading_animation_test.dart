@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../src/common_tester.dart' as commonTester;
+import '../src/common_tests.dart' as commonTests;
 
 import 'package:rubbish_calc/src/page.dart' as page;
 
 void main() {
   group('page.LoadingAnimation', () {
     final loadingAnimation = page.LoadingAnimation();
-    commonTester.testNewObject(loadingAnimation, page.LoadingAnimation);
+    commonTests.testNewObject(loadingAnimation, page.LoadingAnimation);
 
     testWidgets('', (WidgetTester tester) async {
-      await commonTester.pumpScaffold(tester, loadingAnimation);
+      await commonTests.pumpWidget(tester, loadingAnimation);
       expect(find.byType(Scaffold), findsOneWidget);
 
       expect(find.byType(AppBar), findsOneWidget);
