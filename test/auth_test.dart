@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:mockito/mockito.dart';
 
+import 'src/initialization_tester.dart';
 import 'package:rubbish_calc/src/auth.dart';
 
 class _MockAuth extends Mock implements Auth {
@@ -26,10 +27,7 @@ void main() {
   group('Auth', () {
     final auth = _MockAuth();
 
-    test('Check if an instance was created properly.', () {
-      expect(auth == null, false);
-      expect(auth.runtimeType, _MockAuth);
-    });
+    testInitialization(auth, _MockAuth);
 
     test('An anonymous user should sign in.', () async {
       auth.signInAnonymously();

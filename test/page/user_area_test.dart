@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
+import '../src/initialization_tester.dart';
 import 'package:rubbish_calc/src/page.dart' as page;
 
 void main() {
@@ -10,9 +11,9 @@ void main() {
       signOut: () {},
     );
 
-    test('Check if an instance was created properly.', () {
-      expect(userArea == null, false);
-      expect(userArea.runtimeType, page.UserArea);
+    testInitialization(userArea, page.UserArea);
+
+    test('Check if an anonymity flag was set properly.', () {
       expect(userArea.isUserAnonymous, true);
     });
 
