@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import '../src/initialization_tester.dart';
+import '../src/common_tester.dart' as commonTester;
 import 'package:rubbish_calc/src/page.dart' as page;
 
 void main() {
@@ -11,7 +11,7 @@ void main() {
       signOut: () {},
     );
 
-    testInitialization(userArea, page.UserArea);
+    commonTester.testNewObject(userArea, page.UserArea);
 
     test('Check if an anonymity flag was set properly.', () {
       expect(userArea.isUserAnonymous, isTrue);
