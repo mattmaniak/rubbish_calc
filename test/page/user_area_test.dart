@@ -14,11 +14,11 @@ void main() {
     testInitialization(userArea, page.UserArea);
 
     test('Check if an anonymity flag was set properly.', () {
-      expect(userArea.isUserAnonymous, true);
+      expect(userArea.isUserAnonymous, isTrue);
     });
 
     test('Check state creation', () {
-      expect(userArea.createState() == null, false);
+      expect(userArea.createState(), isNotNull);
     });
   });
 }

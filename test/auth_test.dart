@@ -31,12 +31,12 @@ void main() {
 
     test('An anonymous user should sign in.', () async {
       auth.signInAnonymously();
-      expect(await auth.isUserSignedIn, true);
+      expect(await auth.isUserSignedIn, isTrue);
     });
 
     test('An user should be signed out.', () async {
       auth.signOut();
-      expect(await auth.isUserSignedIn, false);
+      expect(await auth.isUserSignedIn, isFalse);
     });
   });
 }

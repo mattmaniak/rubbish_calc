@@ -12,7 +12,7 @@ void main() {
     testInitialization(app.auth, Auth);
 
     test('A state should be initialized.', () {
-      expect(app.createState() == null, false);
+      expect(app.createState(), isNotNull);
     });
   });
 }
