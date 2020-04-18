@@ -26,7 +26,7 @@ void main() {
   group('Auth', () {
     final auth = _MockAuth();
 
-    test('Create an _MockAuth (Auth) instance.', () {
+    test('Create an instance.', () {
       expect(auth == null, false);
       expect(auth.runtimeType, _MockAuth);
     });

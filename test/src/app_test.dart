@@ -7,7 +7,7 @@ void main() {
   group('App', () {
     final app = App();
 
-    test('Create an App instance.', () {
+    test('Create an instance.', () {
       expect(app == null, false);
       expect(app.runtimeType, App);
     });
