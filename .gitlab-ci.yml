@@ -20,7 +20,7 @@ analyze:
 test:
   stage: test
   script:
-    - flutter test test/
+    - flutter test test/src/
 
 build:
   stage: build
