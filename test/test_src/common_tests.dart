@@ -7,6 +7,12 @@ Future<void> pumpWidget(WidgetTester tester, Widget home) async {
   ));
 }
 
+Future<void> testFormField(
+    WidgetTester tester, Finder finder, String textToInput) async {
+  await tester.enterText(finder, textToInput);
+  expect(find.text(textToInput), findsOneWidget);
+}
+
 void testNewObject(dynamic object, Type objectType) {
   _testNewObjectOnly(object, objectType);
 }

@@ -7,7 +7,7 @@ import 'package:rubbish_calc/src/auth.dart';
 import 'package:rubbish_calc/src/page.dart' as page;
 
 const String EXAMPLE_EMAIL = 'johndoe@example.com';
-const String EXAMPLE_PASSWORD = '___TestPasswor8___';
+const String EXAMPLE_PASSWORD = '___TestPasswor6___';
 
 void main() {
   group('page.Login', () {
@@ -23,5 +23,14 @@ void main() {
     commonTests.testNewObject(login.auth, Auth);
     commonTests.testNewObject(login.emailController, TextEditingController);
     commonTests.testNewObject(login.passwordController, TextEditingController);
+
+    testWidgets('Test the TextFormField inputs.', (WidgetTester tester) async {
+      await commonTests.pumpWidget(tester, login);
+
+      await commonTests.testFormField(
+          tester, find.byType(TextFormField).first, EXAMPLE_EMAIL);
+      await commonTests.testFormField(
+          tester, find.byType(TextFormField).last, EXAMPLE_PASSWORD);
+    });
   });
 }
