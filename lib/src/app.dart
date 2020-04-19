@@ -78,8 +78,16 @@ class _AppState extends State<App> {
   }
 
   /// Method used as a callback that shows a dialog box in the App's Scaffold.
-  void _showScaffoldSimpleAlertDialog(String title, String content) =>
-      showSimpleAlertDialog(context, title, content);
+  void _showScaffoldSimpleAlertDialog(String title, String content) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => SimpleAlertDialog(
+        title: title ?? 'Something broke...',
+        content: content ?? 'Unknown error.',
+      ),
+    );
+  }
 
   /// Method used as a callback that shows a snack bar in the App's Scaffold.
   void _showScaffoldSnackBar(String text) {
