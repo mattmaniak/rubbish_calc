@@ -11,6 +11,12 @@ Future<void> testFormField(
     WidgetTester tester, Finder finder, String textToInput) async {
   await tester.enterText(finder, textToInput);
   expect(find.text(textToInput), findsOneWidget);
+  await tester.enterText(finder, '');
+}
+
+Future<void> tapButton(WidgetTester tester, Finder finder) async {
+  await tester.tap(finder);
+  await tester.pump();
 }
 
 void testNewObject(dynamic object, Type objectType) {

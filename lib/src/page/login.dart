@@ -79,7 +79,7 @@ class _LoginState extends State<Login> with _PageTemplateMixin {
                 Divider(),
                 FlatButton(
                   child: Text('What is an anonymous sign in?'),
-                  onPressed: _showSignInDifferencesDialogBox,
+                  onPressed: _showSignInDifferencesSimpleAlertDialog,
                 ),
               ],
             ),
@@ -101,7 +101,7 @@ class _LoginState extends State<Login> with _PageTemplateMixin {
       } on PlatformException catch (ex) {
         widget.switchPage(Visible.signedOut);
         if (ex.code == 'ERROR_EMAIL_NOT_VERIFIED') {
-          _showEmailVerificationDialogBox();
+          _showEmailVerificationSimpleAlertDialog();
         } else {
           widget.showAppSnackBar(ex.message);
         }
@@ -133,19 +133,19 @@ class _LoginState extends State<Login> with _PageTemplateMixin {
         return;
       }
       widget.switchPage(Visible.signedOut);
-      _showEmailVerificationDialogBox();
+      _showEmailVerificationSimpleAlertDialog();
     } else {
       widget.showAppSnackBar('Invalid data format or no data at all.');
     }
   }
 
   /// Tell user about email verification by showing a display box.
-  void _showEmailVerificationDialogBox() => widget.showAppSimpleAlertDialog(
-      'Confirm account',
-      'Check your mailbox and verifiy your email in order to sign in.');
+  void _showEmailVerificationSimpleAlertDialog() =>
+      widget.showAppSimpleAlertDialog('Confirm account',
+          'Check your mailbox and verifiy your email in order to sign in.');
 
   /// Tell user about 'sign in' and 'anonymous sign in' in a display box.
-  void _showSignInDifferencesDialogBox() => widget.showAppSimpleAlertDialog(
+  void _showSignInDifferencesSimpleAlertDialog() => widget.showAppSimpleAlertDialog(
       'Sign in - differences',
       'Creating an account gives you an opportunity to save your data '
           'automatically and to fully enjoy the app experience. An anonymous '
@@ -170,7 +170,8 @@ class _LoginState extends State<Login> with _PageTemplateMixin {
     // final isReasonablySafe =
     //     RegExp('((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{12,})').hasMatch(password);
 
-    final isReasonablySafe = true; // TODO: DEBUG.
+    final isReasonablySafe =
+        password.length >= 6 ? true : false; // TODO: DEBUG.
 
     if (password.isEmpty) {
       return 'Password field can\'t be empty.';

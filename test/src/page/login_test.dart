@@ -31,6 +31,18 @@ void main() {
           tester, find.byType(TextFormField).first, EXAMPLE_EMAIL);
       await commonTests.testFormField(
           tester, find.byType(TextFormField).last, EXAMPLE_PASSWORD);
+
+      await commonTests.tapButton(tester, find.byType(RaisedButton).first);
+      expect(find.text('Email field can\'t be empty.'), findsOneWidget);
+      expect(find.text('Password field can\'t be empty.'), findsOneWidget);
+
+      await tester.enterText(find.byType(TextFormField).first, 'johndoe@');
+      await tester.enterText(find.byType(TextFormField).last, 'pass');
+      await commonTests.tapButton(tester, find.byType(RaisedButton).first);
+      expect(find.text('Invalid email format.'), findsOneWidget);
+      expect(
+          find.text('Use at least 12 chars with number and uppercase letter.'),
+          findsOneWidget);
     });
   });
 }
