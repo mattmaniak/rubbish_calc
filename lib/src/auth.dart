@@ -6,12 +6,12 @@ class Auth {
   /// Firebase handler.
   final _firebaseAuth = FirebaseAuth.instance;
 
-  /// Check if the user is signed in.
-  Future<bool> get isUserSignedIn async => await _currentUser != null;
-
-  // /// Check if an user's email is verified an is able to log into an account.
+  /// Check if an user's email is verified an is able to log into an account.
   Future<bool> get _isEmailVerified async =>
-      await isUserSignedIn && (await _currentUser).isEmailVerified;
+      await _isUserSignedIn && (await _currentUser).isEmailVerified;
+
+  /// Check if the user is signed in.
+  Future<bool> get _isUserSignedIn async => await _currentUser != null;
 
   /// Try to get a currently logged user.
   Future<FirebaseUser> get _currentUser async =>
@@ -56,7 +56,7 @@ class Auth {
 
   /// Say bye-bye to the Firebase safely and clear the disk cache.
   Future<void> signOut() async {
-    if (await isUserSignedIn) {
+    if (await _isUserSignedIn) {
       await _firebaseAuth.signOut();
     }
   }
