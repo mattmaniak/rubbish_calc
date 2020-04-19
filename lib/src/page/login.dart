@@ -126,8 +126,8 @@ class _LoginState extends State<Login> with _PageTemplateMixin {
       try {
         await widget.auth.signUp(widget.emailController.text.trim(),
             widget.passwordController.text.trim());
-      } on PlatformException catch (ex) {
         await widget.auth.signOut();
+      } on PlatformException catch (ex) {
         widget.switchPage(Visible.signedOut);
         widget.showAppSnackBar(ex.message);
         return;

@@ -12,14 +12,26 @@ class _MockAuth extends Mock implements Auth {
   Future<bool> get isUserSignedIn async => _isSignedIn;
 
   @override
+  Future<String> signIn(String email, String password) async {
+    _isSignedIn = true;
+    return 'TEST_EMAIL_USER_UID';
+  }
+
+  @override
   Future<String> signInAnonymously() async {
     _isSignedIn = true;
-    return 'TEST_USER_UID';
+    return 'TEST_ANONYMOUS_USER_UID';
   }
 
   @override
   Future<void> signOut() async {
     _isSignedIn = false;
+  }
+
+  @override
+  Future<String> signUp(String email, String password) async {
+    _isSignedIn = true;
+    return 'TEST_EMAIL_USER_UID';
   }
 }
 

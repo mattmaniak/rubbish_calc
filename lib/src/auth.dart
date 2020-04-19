@@ -55,7 +55,11 @@ class Auth {
   }
 
   /// Say bye-bye to the Firebase safely and clear the disk cache.
-  Future<void> signOut() async => await _firebaseAuth.signOut();
+  Future<void> signOut() async {
+    if (await isUserSignedIn) {
+      await _firebaseAuth.signOut();
+    }
+  }
 
   /// Send an verification email to an active user.
   Future<void> _verifyEmail() async {
