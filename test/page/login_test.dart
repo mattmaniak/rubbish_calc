@@ -16,7 +16,7 @@ void main() {
       showAppSnackBar: () {},
     );
 
-    commonTests.testNewObject(login, page.Login);
+    commonTests.testNewStatefulWidget(login, page.Login);
     commonTests.testNewObject(login.auth, Auth);
     commonTests.testNewObject(login.emailController, TextEditingController);
     commonTests.testNewObject(login.passwordController, TextEditingController);

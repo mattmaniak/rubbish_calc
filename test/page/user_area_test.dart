@@ -11,14 +11,10 @@ void main() {
       signOut: () {},
     );
 
-    commonTests.testNewObject(userArea, page.UserArea);
+    commonTests.testNewStatefulWidget(userArea, page.UserArea);
 
     test('Check if an anonymity flag was set properly.', () {
       expect(userArea.isUserAnonymous, isTrue);
-    });
-
-    test('Check state creation', () {
-      expect(userArea.createState(), isNotNull);
     });
   });
 }
