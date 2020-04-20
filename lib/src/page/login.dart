@@ -31,69 +31,64 @@ class _LoginState extends State<Login> {
   }
 
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          _ScrollableAppBar(title: 'Sign in'),
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 20.0,
-                  ),
-                  child: Form(
-                    key: widget.formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        TextFormField(
-                          decoration: InputDecoration(
-                            labelText: 'Email',
-                          ),
-                          maxLines: 1,
-                          keyboardType: TextInputType.emailAddress,
-                          controller: widget.emailController,
-                          validator: _validateEmail,
-                        ),
-                        TextFormField(
-                          decoration: InputDecoration(
-                            labelText: 'Password',
-                          ),
-                          maxLines: 1,
-                          obscureText: true,
-                          controller: widget.passwordController,
-                          validator: _validatePassword,
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        RaisedButton(
-                          child: Text('Sign in'),
-                          onPressed: _signIn,
-                        ),
-                        FlatButton(
-                          child: Text('Sign up'),
-                          onPressed: _signUp,
-                        ),
-                        Divider(),
-                        RaisedButton(
-                          child: Text('Sign in anonymously'),
-                          onPressed: _signInAnonymously,
-                        ),
-                        Divider(),
-                        FlatButton(
-                          child: Text('What is an anonymous sign in?'),
-                          onPressed: _showSignInDifferencesSimpleAlertDialog,
-                        ),
-                      ],
-                    ),
-                  ),
+    return _ScrollableScaffold(
+      appBar: _ScrollableAppBar(
+        title: 'Sign in',
+      ),
+      home: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: 20.0,
+        ),
+        child: Form(
+          key: widget.formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Email',
                 ),
-              ],
-            ),
+                autocorrect: false,
+                maxLines: 1,
+                keyboardType: TextInputType.emailAddress,
+                controller: widget.emailController,
+                validator: _validateEmail,
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                ),
+                enableSuggestions: false,
+                autocorrect: false,
+                maxLines: 1,
+                obscureText: true,
+                controller: widget.passwordController,
+                validator: _validatePassword,
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              RaisedButton(
+                child: Text('Sign in'),
+                onPressed: _signIn,
+              ),
+              FlatButton(
+                child: Text('Sign up'),
+                onPressed: _signUp,
+              ),
+              Divider(),
+              RaisedButton(
+                child: Text('Sign in anonymously'),
+                onPressed: _signInAnonymously,
+              ),
+              Divider(),
+              FlatButton(
+                child: Text('What is an anonymous sign in?'),
+                onPressed: _showSignInDifferencesSimpleAlertDialog,
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
