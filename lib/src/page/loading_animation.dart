@@ -6,7 +6,7 @@ class LoadingAnimation extends StatelessWidget with _PageTemplateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _displayAppBar(
-        titleSufix: 'loading...',
+        title: 'Loading...',
       ),
       body: Center(
         child: Column(
