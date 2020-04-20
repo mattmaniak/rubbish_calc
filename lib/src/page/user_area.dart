@@ -22,32 +22,22 @@ class UserArea extends StatefulWidget {
 class _UserAreaState extends State<UserArea> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          _ScrollableAppBar(
-            title: widget.isUserAnonymous ? 'Anonymous user' : 'Email user',
-            leading: IconButton(
-              icon: Transform.rotate(
-                angle: pi,
-                child: Icon(
-                  Icons.exit_to_app,
-                  semanticLabel: 'Sign out',
-                ),
-              ),
-              tooltip: 'Sign out',
-              onPressed: _signOut,
+    return _ScrollableScaffold(
+      appBar: _ScrollableAppBar(
+        title: widget.isUserAnonymous ? 'Anonymous user' : 'Email user',
+        leading: IconButton(
+          icon: Transform.rotate(
+            angle: pi,
+            child: Icon(
+              Icons.exit_to_app,
+              semanticLabel: 'Sign out',
             ),
           ),
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                Text(widget.isUserAnonymous ? 'Anonymous user' : 'Email user'),
-              ],
-            ),
-          ),
-        ],
+          tooltip: 'Sign out',
+          onPressed: _signOut,
+        ),
       ),
+      home: Text(widget.isUserAnonymous ? 'Anonymous user' : 'Email user'),
       floatingActionButton: widget.isUserAnonymous
           ? null
           : FloatingActionButton.extended(

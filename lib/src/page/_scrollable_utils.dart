@@ -14,7 +14,7 @@ class _ScrollableAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      leading: leading,
+      leading: this.leading,
       pinned: true,
       floating: true,
       expandedHeight: 100.0,
@@ -36,9 +36,11 @@ class _ScrollableAppBar extends StatelessWidget {
 
 class _ScrollableScaffold extends StatelessWidget {
   final Widget appBar;
+  final Widget floatingActionButton;
   final Widget home;
 
-  const _ScrollableScaffold({@required this.appBar, @required this.home});
+  const _ScrollableScaffold(
+      {@required this.appBar, @required this.home, this.floatingActionButton});
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +57,7 @@ class _ScrollableScaffold extends StatelessWidget {
           ),
         ],
       ),
+      floatingActionButton: this.floatingActionButton,
     );
   }
 }

@@ -4,21 +4,10 @@ part of '../page.dart';
 class LoadingAnimation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          _ScrollableAppBar(title: 'Loading...'),
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                CircularProgressIndicator(
-                  semanticsLabel:
-                      'Animated rotating circle as a loading indicator.',
-                ),
-              ],
-            ),
-          ),
-        ],
+    return _ScrollableScaffold(
+      appBar: _ScrollableAppBar(title: 'Loading...'),
+      home: CircularProgressIndicator(
+        semanticsLabel: 'Animated rotating circle as a loading indicator.',
       ),
     );
   }
