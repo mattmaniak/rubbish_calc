@@ -23,26 +23,33 @@ class _UserAreaState extends State<UserArea> with _PageTemplateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _displayAppBar(
-        title: widget.isUserAnonymous ? 'Anonymous user' : 'Email user',
-        leading: FlatButton(
-          child: Row(
-            children: [
-              Text('Sign out'),
-              Padding(
-                padding: EdgeInsets.only(
-                  left: 8.0,
-                ),
-                child: Icon(Icons.exit_to_app),
-              ),
-            ],
+      // appBar: _displayAppBar(
+      //   title: widget.isUserAnonymous ? 'Anonymous user' : 'Email user',
+      //   leading: FlatButton(
+      //     child: Row(
+      //       children: [
+      //         Text('Sign out'),
+      //         Padding(
+      //           padding: EdgeInsets.only(
+      //             left: 8.0,
+      //           ),
+      //           child: Icon(Icons.exit_to_app),
+      //         ),
+      //       ],
+      //     ),
+      //     onPressed: _signOut,
+      //   ),
+      // ),
+      body: CustomScrollView(
+        slivers: [
+          _displayAppBar(title: widget.isUserAnonymous ? 'Anonymous user' : 'Email user',),
+          SliverList(delegate:
+            SliverChildListDelegate(
+              [
+                Text(widget.isUserAnonymous ? 'Anonymous user' : 'Email user'),
+              ],
+            ),
           ),
-          onPressed: _signOut,
-        ),
-      ),
-      body: ListView(
-        children: [
-          Text(widget.isUserAnonymous ? 'Anonymous user' : 'Email user'),
         ],
       ),
       floatingActionButton: widget.isUserAnonymous
