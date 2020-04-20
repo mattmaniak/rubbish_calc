@@ -12,4 +12,5 @@ All presented values are approximate for entertainment purposes only. Values
 found on the web or measured by an author.
 
 ## Privacy Policy
-No data is collected.
+Only email and password are collected. However an application implementation
+prevents user's password being exposed for application administrators.
