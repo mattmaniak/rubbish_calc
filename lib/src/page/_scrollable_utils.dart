@@ -36,8 +36,8 @@ class _ScrollableAppBar extends StatelessWidget {
 
 class _ScrollableScaffold extends StatelessWidget {
   final Widget appBar;
-  final Widget floatingActionButton;
   final Widget home;
+  final Widget floatingActionButton;
 
   const _ScrollableScaffold(
       {@required this.appBar, @required this.home, this.floatingActionButton});
@@ -50,9 +50,7 @@ class _ScrollableScaffold extends StatelessWidget {
           appBar,
           SliverList(
             delegate: SliverChildListDelegate(
-              [
-                home,
-              ],
+              [home],
             ),
           ),
         ],

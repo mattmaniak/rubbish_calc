@@ -13,41 +13,35 @@ class About extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          _ScrollableAppBar(
-            title: 'About',
+    return _ScrollableScaffold(
+      appBar: _ScrollableAppBar(
+        title: 'About',
+      ),
+      home: Column(
+        children: [
+          _AboutButton(
+            title: 'Created by $_authorName',
+            url: _authorURL,
           ),
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                _AboutButton(
-                  title: 'Created by $_authorName',
-                  url: _authorURL,
-                ),
-                _AboutButton(
-                  title: 'Source code on GitLab',
-                  url: _repoURL,
-                ),
-                _AboutButton(
-                  title: 'Changelog',
-                  url: _changelogURL,
-                ),
-                _AboutButton(
-                  title: 'MIT License',
-                  url: _licenseURL,
-                ),
-                _AboutButton(
-                  title: 'Terms of Use',
-                  url: _termsURL,
-                ),
-                _AboutButton(
-                  title: 'Privacy Policy',
-                  url: _policyURL,
-                ),
-              ],
-            ),
+          _AboutButton(
+            title: 'Source code on GitLab',
+            url: _repoURL,
+          ),
+          _AboutButton(
+            title: 'Changelog',
+            url: _changelogURL,
+          ),
+          _AboutButton(
+            title: 'MIT License',
+            url: _licenseURL,
+          ),
+          _AboutButton(
+            title: 'Terms of Use',
+            url: _termsURL,
+          ),
+          _AboutButton(
+            title: 'Privacy Policy',
+            url: _policyURL,
           ),
         ],
       ),
