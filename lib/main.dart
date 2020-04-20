@@ -7,7 +7,9 @@ void main() {
     MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Rubbish Calc',
-      home: App(),
+      home: SafeArea(
+        child: App(),
+      ),
     ),
   );
 }

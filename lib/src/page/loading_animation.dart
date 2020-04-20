@@ -5,19 +5,20 @@ class LoadingAnimation extends StatelessWidget with _PageTemplateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _displayAppBar(
-        titleSufix: 'loading...',
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(
-              semanticsLabel:
-                  'Animated rotating circle as a loading indicator.',
+      body: CustomScrollView(
+        slivers: [
+          _displayAppBar(title: 'Loading...'),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                CircularProgressIndicator(
+                  semanticsLabel:
+                      'Animated rotating circle as a loading indicator.',
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
