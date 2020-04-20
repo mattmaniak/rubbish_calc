@@ -33,11 +33,7 @@ class _AppState extends State<App> {
   void _chooseCurrentPage() {
     switch (_visiblePage) {
       case page.Visible.signedOut:
-        _currentPage = page.UserArea(
-          switchPage: _switchPage,
-          signOut: widget.auth.signOut,
-          isUserAnonymous: false,
-        );
+        _currentPage = page.About();
         // _currentPage = page.Login(
         //   auth: widget.auth,
         //   switchPage: _switchPage,

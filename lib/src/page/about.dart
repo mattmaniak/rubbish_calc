@@ -13,11 +13,9 @@ class About extends StatelessWidget with _PageTemplateMixin {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _displayAppBar(
-        title: 'About',
-      ),
       body: CustomScrollView(
         slivers: [
+          _displayAppBar(title: 'About',),
           SliverList(
             delegate: SliverChildListDelegate(
               [
