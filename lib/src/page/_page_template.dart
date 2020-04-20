@@ -16,7 +16,9 @@ mixin _PageTemplateMixin {
         title: Text(title),
         background: Column(
           children: [
-            SizedBox(height: 25.0,),
+            SizedBox(
+              height: 20.0,
+            ),
             Text('Rubbish Calc'),
           ],
         ),

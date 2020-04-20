@@ -33,13 +33,12 @@ class _AppState extends State<App> {
   void _chooseCurrentPage() {
     switch (_visiblePage) {
       case page.Visible.signedOut:
-        _currentPage = page.About();
-        // _currentPage = page.Login(
-        //   auth: widget.auth,
-        //   switchPage: _switchPage,
-        //   showAppSnackBar: _showScaffoldSnackBar,
-        //   showAppSimpleAlertDialog: _showScaffoldSimpleAlertDialog,
-        // );
+        _currentPage = page.Login(
+          auth: widget.auth,
+          switchPage: _switchPage,
+          showAppSnackBar: _showScaffoldSnackBar,
+          showAppSimpleAlertDialog: _showScaffoldSimpleAlertDialog,
+        );
         break;
 
       case page.Visible.signedIn:
