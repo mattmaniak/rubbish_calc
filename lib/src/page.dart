@@ -16,7 +16,8 @@ part 'package:rubbish_calc/src/page/about.dart';
 part 'package:rubbish_calc/src/page/loading_animation.dart';
 part 'package:rubbish_calc/src/page/login.dart';
 part 'package:rubbish_calc/src/page/user_area.dart';
-part 'package:rubbish_calc/src/page/_page_template.dart';
+part 'package:rubbish_calc/src/page/_scrollable_utils.dart';
+
 
 /// Possible pages to display on a screen.
 enum Visible {

@@ -19,13 +19,13 @@ class UserArea extends StatefulWidget {
 ///
 /// Choose between anonymous user UI and email user UI during rendering which
 /// are slightly different.
-class _UserAreaState extends State<UserArea> with _PageTemplateMixin {
+class _UserAreaState extends State<UserArea> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          _displayAppBar(
+          _ScrollableAppBar(
             title: widget.isUserAnonymous ? 'Anonymous user' : 'Email user',
             leading: IconButton(
               icon: Transform.rotate(

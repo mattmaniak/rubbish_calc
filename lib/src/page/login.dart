@@ -22,7 +22,7 @@ class Login extends StatefulWidget {
 }
 
 /// Hold a state of the login screen.
-class _LoginState extends State<Login> with _PageTemplateMixin {
+class _LoginState extends State<Login> {
   /// Destroy all input controllers as they are not needed.
   void dispose() {
     widget.passwordController.dispose();
@@ -34,7 +34,7 @@ class _LoginState extends State<Login> with _PageTemplateMixin {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          _displayAppBar(title: 'Sign in'),
+          _ScrollableAppBar(title: 'Sign in'),
           SliverList(
             delegate: SliverChildListDelegate(
               [

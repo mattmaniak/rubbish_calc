@@ -1,7 +1,7 @@
 part of '../page.dart';
 
 /// Display info about a current version of the app.
-class About extends StatelessWidget with _PageTemplateMixin {
+class About extends StatelessWidget {
   static const String _authorName = 'mattmaniak';
   static const String _authorURL = 'https://gitlab.com/$_authorName';
   static const String _repoURL = '$_authorURL/rubbish_calc';
@@ -11,11 +11,12 @@ class About extends StatelessWidget with _PageTemplateMixin {
   final String _policyURL = '$_repoURL/blob/master/README.md#privacy-policy';
   final String _termsURL = '$_repoURL/blob/master/README.md#terms-of-use';
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          _displayAppBar(
+          _ScrollableAppBar(
             title: 'About',
           ),
           SliverList(
