@@ -4,12 +4,25 @@ import 'src/app.dart';
 
 void main() {
   runApp(
-    MaterialApp(
+    RootWidget(
+      child: App(),
+    ),
+  );
+}
+
+class RootWidget extends StatelessWidget {
+  final Widget child;
+
+  const RootWidget({this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Rubbish Calc',
       home: SafeArea(
-        child: App(),
+        child: this.child,
       ),
-    ),
-  );
+    );
+  }
 }

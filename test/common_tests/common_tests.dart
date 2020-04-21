@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-Future<void> pumpWidget(WidgetTester tester, Widget home) async {
+import 'package:rubbish_calc/main.dart';
+
+Future<void> pumpWidget(WidgetTester tester, Widget child) async {
   return tester.pumpWidget(
-    MaterialApp(
-      home: SafeArea(
-        child: home,
-      ),
+    RootWidget(
+      child: child,
     ),
   );
 }
