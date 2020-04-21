@@ -9,7 +9,7 @@ void main() {
     final loadingAnimation = page.LoadingAnimation();
     commonTests.testNewObject(loadingAnimation, page.LoadingAnimation);
 
-    testWidgets('', (WidgetTester tester) async {
+    testWidgets('Check it\'s descendants.', (WidgetTester tester) async {
       await commonTests.pumpWidget(tester, loadingAnimation);
 
       expect(find.text('Loading...'), findsOneWidget);

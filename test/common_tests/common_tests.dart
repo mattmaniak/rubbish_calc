@@ -3,6 +3,14 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:rubbish_calc/main.dart';
 
+void findWidgetTypesNTimes(List<Type> widgetTypes, [int n = 0]) {
+  if ((widgetTypes != null) && widgetTypes.isNotEmpty && !n.isNegative) {
+    for (Type t in widgetTypes) {
+      expect(find.byType(t), findsNWidgets(n));
+    }
+  }
+}
+
 Future<void> pumpWidget(WidgetTester tester, Widget child) async {
   return tester.pumpWidget(
     RootWidget(

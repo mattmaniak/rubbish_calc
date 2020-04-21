@@ -27,6 +27,10 @@ void main() {
     testWidgets('Test the TextFormField inputs.', (WidgetTester tester) async {
       await commonTests.pumpWidget(tester, login);
 
+      commonTests.findWidgetTypesNTimes([Form], 1);
+      commonTests.findWidgetTypesNTimes(
+          [TextFormField, FlatButton, RaisedButton, Divider], 2);
+
       await commonTests.testFormField(
           tester, find.byType(TextFormField).first, EXAMPLE_EMAIL);
       await commonTests.testFormField(
