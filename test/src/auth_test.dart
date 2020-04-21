@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 import '../common_tests/common_tests.dart' as commonTests;
-import '../src/page/login_test.dart';
+import '../src/page/login_form_test.dart';
 import 'package:rubbish_calc/src/auth.dart';
 
 class _MockAuth extends Mock implements Auth {

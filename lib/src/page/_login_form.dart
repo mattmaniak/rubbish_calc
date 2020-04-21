@@ -1,7 +1,7 @@
 part of 'page.dart';
 
 /// The page when an user is able to log into the app.
-class Login extends StatefulWidget {
+class LoginForm extends StatefulWidget {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -11,18 +11,18 @@ class Login extends StatefulWidget {
   final Function showAppSnackBar;
   final Function switchPage;
 
-  Login(
+  LoginForm(
       {@required this.auth,
       @required this.switchPage,
       @required this.showAppSnackBar,
       @required this.showAppSimpleAlertDialog});
 
   @override
-  _LoginState createState() => _LoginState();
+  _LoginFormState createState() => _LoginFormState();
 }
 
 /// Hold a state of the login screen.
-class _LoginState extends State<Login> {
+class _LoginFormState extends State<LoginForm> {
   /// Destroy all input controllers as they are not needed.
   void dispose() {
     widget.passwordController.dispose();

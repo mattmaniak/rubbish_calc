@@ -10,8 +10,8 @@ const String EXAMPLE_EMAIL = 'johndoe@example.com';
 const String EXAMPLE_PASSWORD = '___TestPasswor6___';
 
 void main() {
-  group('page.Login', () {
-    final login = page.Login(
+  group('page.LoginForm', () {
+    final login = page.LoginForm(
       // TODO: MOCK CALLBACKS?
       auth: Auth(),
       switchPage: () {},
@@ -19,7 +19,7 @@ void main() {
       showAppSnackBar: () {},
     );
 
-    commonTests.testNewStatefulWidget(login, page.Login);
+    commonTests.testNewStatefulWidget(login, page.LoginForm);
     commonTests.testNewObject(login.auth, Auth);
     commonTests.testNewObject(login.emailController, TextEditingController);
     commonTests.testNewObject(login.passwordController, TextEditingController);
