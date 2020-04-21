@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 Future<void> pumpWidget(WidgetTester tester, Widget home) async {
-  return tester.pumpWidget(MaterialApp(
-    home: home,
-  ));
+  return tester.pumpWidget(
+    MaterialApp(
+      home: SafeArea(
+        child: home,
+      ),
+    ),
+  );
 }
 
 Future<void> testFormField(

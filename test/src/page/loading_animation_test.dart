@@ -11,14 +11,8 @@ void main() {
 
     testWidgets('', (WidgetTester tester) async {
       await commonTests.pumpWidget(tester, loadingAnimation);
+
       expect(find.byType(Scaffold), findsOneWidget);
-
-      expect(find.byType(AppBar), findsOneWidget);
-      expect(find.byType(Text), findsOneWidget);
-      expect(find.text('Rubbish Calc - loading...'), findsOneWidget);
-
-      expect(find.byType(Center), findsOneWidget);
-      expect(find.byType(Column), findsOneWidget);
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
   });
