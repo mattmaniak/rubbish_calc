@@ -1,4 +1,4 @@
-part of '../page.dart';
+part of 'page.dart';
 
 /// Display a common animation to sweeten an user's time when connecting.
 class LoadingAnimation extends StatelessWidget {
