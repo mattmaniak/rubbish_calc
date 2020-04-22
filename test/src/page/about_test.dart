@@ -8,7 +8,8 @@ void main() {
   group('About', () {
     final about = page.About();
     commonTests.testNewObject(about, page.About);
-    testWidgets('', (WidgetTester tester) async {
+    testWidgets('Test how many items is included in the About page.',
+        (WidgetTester tester) async {
       await commonTests.pumpWidget(tester, about);
       commonTests.findWidgetTypesNTimes([Card, ListTile], 6);
     });
