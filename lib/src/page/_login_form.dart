@@ -82,6 +82,39 @@ class _LoginFormState extends State<LoginForm> {
                 onPressed: _signInAnonymously,
               ),
               Divider(),
+              RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  style: DefaultTextStyle.of(context).style,
+                  children: [
+                    TextSpan(
+                      text:
+                          'By clicking one of the above buttons with filled form, you agree to app\'s\n',
+                    ),
+                    TextSpan(
+                      style: TextStyle(
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                      ),
+                      text: 'Terms of Use',
+                    ),
+                    TextSpan(
+                      text: ' and ',
+                    ),
+                    TextSpan(
+                      style: TextStyle(
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                      ),
+                      text: 'Privacy Policy',
+                    ),
+                    TextSpan(
+                      text: '.',
+                    ),
+                  ],
+                ),
+              ),
+              Divider(),
               FlatButton(
                 child: Text('What is an anonymous sign in?'),
                 onPressed: _showSignInDifferencesSimpleAlertDialog,
