@@ -7,7 +7,6 @@ import 'package:rubbish_calc/src/page/page.dart' as page;
 void main() {
   group('Anonymous page.UserArea', () {
     final userArea = page.UserArea(
-      // TODO: MOCK CALLBACKS?
       switchPage: () {},
       signOut: () {},
     );
@@ -26,7 +25,6 @@ void main() {
 
   group('Page.UserArea but for an email user.', () {
     final userArea = page.UserArea(
-      // TODO: MOCK CALLBACKS?
       switchPage: () {},
       signOut: () {},
       isUserAnonymous: false,

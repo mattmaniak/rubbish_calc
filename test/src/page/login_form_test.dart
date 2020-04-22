@@ -12,7 +12,6 @@ const String EXAMPLE_PASSWORD = '___TestPasswor6___';
 void main() {
   group('page.LoginForm', () {
     final login = page.LoginForm(
-      // TODO: MOCK CALLBACKS?
       auth: Auth(),
       switchPage: () {},
       showAppSimpleAlertDialog: () {},
