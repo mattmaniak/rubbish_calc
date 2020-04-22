@@ -14,7 +14,9 @@ void findWidgetTypesNTimes(List<Type> widgetTypes, [int n = 0]) {
 Future<void> pumpWidget(WidgetTester tester, Widget child) async {
   return tester.pumpWidget(
     RootWidget(
-      child: child,
+      child: Scaffold(
+        body: child,
+      ),
     ),
   );
 }

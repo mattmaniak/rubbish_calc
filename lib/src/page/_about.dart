@@ -13,11 +13,11 @@ class About extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _ScrollableScaffold(
-      appBar: _ScrollableAppBar(
+    return _ScrollableView(
+      bar: _ScrollableBar(
         title: 'About',
       ),
-      home: Column(
+      view: Column(
         children: [
           _AboutButton(
             title: 'Created by $_authorName',

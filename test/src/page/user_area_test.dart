@@ -40,8 +40,7 @@ void main() {
     testWidgets('Find some descendants for an email user UI.',
         (WidgetTester tester) async {
       await commonTests.pumpWidget(tester, userArea);
-      commonTests.findWidgetTypesNTimes([IconButton, FloatingActionButton], 1);
-      commonTests.findWidgetTypesNTimes([Icon], 2);
+      commonTests.findWidgetTypesNTimes([Icon, IconButton], 2);
     });
   });
 }

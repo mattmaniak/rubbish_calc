@@ -2,21 +2,23 @@ part of 'page.dart';
 
 /// Provide universal visual stuff for various pages.
 ///
-/// As all pages have unifed layout, e.g. appBar, this mixin extends all pages
+/// As all pages have unifed layout, e.g. bar, this mixin extends all pages
 /// to provide an easy-to-programm and common user interface.
 
-class _ScrollableAppBar extends StatelessWidget {
+class _ScrollableBar extends StatelessWidget {
+  final List<Widget> actions;
   final String title;
   final Widget leading;
 
-  const _ScrollableAppBar({@required this.title, this.leading});
+  const _ScrollableBar({@required this.title, this.leading, this.actions});
 
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      leading: this.leading,
       pinned: true,
       floating: true,
+      leading: this.leading,
+      actions: this.actions,
       expandedHeight: 100.0,
       flexibleSpace: FlexibleSpaceBar(
         centerTitle: true,
@@ -34,28 +36,23 @@ class _ScrollableAppBar extends StatelessWidget {
   }
 }
 
-class _ScrollableScaffold extends StatelessWidget {
-  final Widget appBar;
-  final Widget home;
-  final Widget floatingActionButton;
+class _ScrollableView extends StatelessWidget {
+  final Widget bar;
+  final Widget view;
 
-  const _ScrollableScaffold(
-      {@required this.appBar, @required this.home, this.floatingActionButton});
+  const _ScrollableView({@required this.bar, @required this.view});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          appBar,
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [home],
-            ),
+    return CustomScrollView(
+      slivers: [
+        bar,
+        SliverList(
+          delegate: SliverChildListDelegate(
+            [view],
           ),
-        ],
-      ),
-      floatingActionButton: this.floatingActionButton,
+        ),
+      ],
     );
   }
 }

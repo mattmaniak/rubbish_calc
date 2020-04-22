@@ -31,11 +31,11 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   Widget build(BuildContext context) {
-    return _ScrollableScaffold(
-      appBar: _ScrollableAppBar(
+    return _ScrollableView(
+      bar: _ScrollableBar(
         title: 'Sign in',
       ),
-      home: Padding(
+      view: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 20.0,
         ),

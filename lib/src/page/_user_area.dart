@@ -22,8 +22,8 @@ class UserArea extends StatefulWidget {
 class _UserAreaState extends State<UserArea> {
   @override
   Widget build(BuildContext context) {
-    return _ScrollableScaffold(
-      appBar: _ScrollableAppBar(
+    return _ScrollableView(
+      bar: _ScrollableBar(
         title: widget.isUserAnonymous ? 'Anonymous user' : 'Email user',
         leading: IconButton(
           icon: Transform.rotate(
@@ -36,16 +36,20 @@ class _UserAreaState extends State<UserArea> {
           tooltip: 'Sign out',
           onPressed: _signOut,
         ),
+        actions: widget.isUserAnonymous
+            ? null
+            : [
+                IconButton(
+                  icon: Icon(
+                    Icons.add,
+                    semanticLabel: 'Add an item.',
+                  ),
+                  tooltip: 'Add an item.',
+                  onPressed: () {},
+                ),
+              ],
       ),
-      home: Text(widget.isUserAnonymous ? 'Anonymous user' : 'Email user'),
-      floatingActionButton: widget.isUserAnonymous
-          ? null
-          : FloatingActionButton.extended(
-              icon: Icon(Icons.add),
-              label: Text('Add'),
-              tooltip: 'Add an item.',
-              onPressed: () {},
-            ),
+      view: Text(widget.isUserAnonymous ? 'Anonymous user' : 'Email user'),
     );
   }
 
