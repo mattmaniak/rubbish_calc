@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../common_tests/common_tests.dart' as commonTests;
@@ -7,5 +8,9 @@ void main() {
   group('About', () {
     final about = page.About();
     commonTests.testNewObject(about, page.About);
+    testWidgets('', (WidgetTester tester) async {
+      await commonTests.pumpWidget(tester, about);
+      commonTests.findWidgetTypesNTimes([Card, ListTile], 6);
+    });
   });
 }
