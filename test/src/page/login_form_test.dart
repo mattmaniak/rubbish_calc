@@ -28,7 +28,8 @@ void main() {
 
       commonTests.findWidgetTypesNTimes([Form], 1);
       commonTests.findWidgetTypesNTimes(
-          [TextFormField, FlatButton, RaisedButton, Divider], 2);
+          [TextFormField, FlatButton, RaisedButton], 2);
+      commonTests.findWidgetTypesNTimes([Divider], 3);
 
       await commonTests.testFormField(
           tester, find.byType(TextFormField).first, EXAMPLE_EMAIL);
