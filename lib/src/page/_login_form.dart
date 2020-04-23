@@ -48,6 +48,7 @@ class _LoginFormState extends State<LoginForm> {
                 decoration: InputDecoration(
                   labelText: 'Email',
                 ),
+                enableSuggestions: false,
                 autocorrect: false,
                 maxLines: 1,
                 keyboardType: TextInputType.emailAddress,
