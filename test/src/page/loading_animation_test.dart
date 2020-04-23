@@ -13,7 +13,7 @@ void main() {
       await commonTests.pumpWidget(tester, loadingAnimation);
 
       expect(find.text('Loading...'), findsOneWidget);
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      expect(find.byType(LinearProgressIndicator), findsOneWidget);
     });
   });
 }

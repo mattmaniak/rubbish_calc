@@ -5,9 +5,11 @@ class LoadingAnimation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _ScrollableView(
-      bar: _ScrollableBar(title: 'Loading...'),
-      view: CircularProgressIndicator(
-        semanticsLabel: 'Animated rotating circle as a loading indicator.',
+      bar: _ScrollableBar(
+        title: 'Loading...',
+      ),
+      view: LinearProgressIndicator(
+        semanticsLabel: 'Animated line as a loading indicator.',
       ),
     );
   }
