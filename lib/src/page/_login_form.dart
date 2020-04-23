@@ -44,27 +44,17 @@ class _LoginFormState extends State<LoginForm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                ),
-                enableSuggestions: false,
-                autocorrect: false,
-                maxLines: 1,
-                keyboardType: TextInputType.emailAddress,
+              _LoginTextFormField(
+                placeholder: 'Email',
                 controller: widget.emailController,
                 validator: _validateEmail,
+                keyboardType: TextInputType.emailAddress,
               ),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                ),
-                enableSuggestions: false,
-                autocorrect: false,
-                maxLines: 1,
-                obscureText: true,
+              _LoginTextFormField(
+                placeholder: 'Password',
                 controller: widget.passwordController,
                 validator: _validatePassword,
+                obscureText: true,
               ),
               SizedBox(
                 height: 10.0,
@@ -218,5 +208,37 @@ class _LoginFormState extends State<LoginForm> {
     } else {
       return 'Use at least 12 chars with number and uppercase letter.';
     }
+  }
+}
+
+/// Common login form input provider.
+class _LoginTextFormField extends StatelessWidget {
+  final bool obscureText;
+  final String placeholder;
+  final String Function(String) validator;
+  final TextEditingController controller;
+  final TextInputType keyboardType;
+
+  const _LoginTextFormField(
+      {@required this.placeholder,
+      @required this.controller,
+      @required this.validator,
+      this.keyboardType = TextInputType.text,
+      this.obscureText = false});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      decoration: InputDecoration(
+        labelText: placeholder,
+      ),
+      enableSuggestions: false,
+      autocorrect: false,
+      maxLines: 1,
+      obscureText: this.obscureText,
+      controller: this.controller,
+      validator: this.validator,
+      keyboardType: this.keyboardType,
+    );
   }
 }
