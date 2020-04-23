@@ -214,8 +214,8 @@ class _LoginFormState extends State<LoginForm> {
 /// Common login form input provider.
 class _LoginTextFormField extends StatelessWidget {
   final bool obscureText;
+  final Function validator;
   final String placeholder;
-  final String Function(String) validator;
   final TextEditingController controller;
   final TextInputType keyboardType;
 
