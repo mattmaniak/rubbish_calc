@@ -21,22 +21,25 @@ class _UserAreaState extends State<UserArea> {
       bar: _ScrollableBar(
         title: widget.isUserAnonymous ? 'Anonymous user' : 'Email user',
         leading: IconButton(
-          icon: Icon(
-            Icons.add,
-            semanticLabel: 'A simple plus.',
+          icon: Transform.rotate(
+            angle: pi,
+            child: Icon(
+              Icons.exit_to_app,
+              semanticLabel: 'An arrow with a square border.',
+            ),
           ),
-          tooltip: 'Add an item.',
-          onPressed: () {},
+          tooltip: 'Sign out',
+          onPressed: () => _signOut(context),
         ),
-        actions: widget.isUserAnonymous
+        actions: !widget.isUserAnonymous
             ? [
-                _SignOutButton(
-                  onPressed: () => _signOut(context),
-                ),
-              ]
-            : [
-                _SignOutButton(
-                  onPressed: () => _signOut(context),
+                IconButton(
+                  icon: Icon(
+                    Icons.add_box,
+                    semanticLabel: 'A transparent plus.',
+                  ),
+                  tooltip: 'Add an item.',
+                  onPressed: () {},
                 ),
                 IconButton(
                   icon: Icon(
@@ -46,7 +49,8 @@ class _UserAreaState extends State<UserArea> {
                   tooltip: 'Manage your account.',
                   onPressed: () => _navigateToAccountSettings(context),
                 ),
-              ],
+              ]
+            : null,
       ),
       view: Text(widget.isUserAnonymous ? 'Anonymous user' : 'Email user'),
     );
@@ -113,27 +117,6 @@ class _AccountSettingsState extends State<_AccountSettings> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _SignOutButton extends StatelessWidget {
-  final Function onPressed;
-
-  const _SignOutButton({@required this.onPressed});
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      icon: Transform.rotate(
-        angle: pi,
-        child: Icon(
-          Icons.exit_to_app,
-          semanticLabel: 'An arrow with a square border.',
-        ),
-      ),
-      tooltip: 'Sign out',
-      onPressed: this.onPressed,
     );
   }
 }
