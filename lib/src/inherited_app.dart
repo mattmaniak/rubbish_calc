@@ -7,7 +7,8 @@ class InheritedApp extends InheritedWidget {
   final Function switchPage;
   final Widget child;
 
-  const InheritedApp({@required this.auth, @required this.switchPage, @required this.child})
+  const InheritedApp(
+      {@required this.auth, @required this.switchPage, @required this.child})
       : super(child: child);
 
   @override

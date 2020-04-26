@@ -6,15 +6,11 @@ class LoginForm extends StatefulWidget {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  final Auth auth;
   final Function showAppSimpleAlertDialog;
   final Function showAppSnackBar;
-  final Function switchPage;
 
   LoginForm(
-      {@required this.auth,
-      @required this.switchPage,
-      @required this.showAppSnackBar,
+      {@required this.showAppSnackBar,
       @required this.showAppSimpleAlertDialog});
 
   @override
@@ -61,16 +57,16 @@ class _LoginFormState extends State<LoginForm> {
               ),
               RaisedButton(
                 child: Text('Sign in'),
-                onPressed: _signIn,
+                onPressed: () => _signIn(context),
               ),
               FlatButton(
                 child: Text('Sign up'),
-                onPressed: _signUp,
+                onPressed: () => _signUp(context),
               ),
               Divider(),
               RaisedButton(
                 child: Text('Sign in anonymously'),
-                onPressed: _signInAnonymously,
+                onPressed: () => _signInAnonymously(context),
               ),
               Divider(),
               RichText(
@@ -118,16 +114,22 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   /// Sign into the app using only valid credentials from the form.
-  void _signIn() async {
+  void _signIn(BuildContext context) async {
     if (widget.formKey.currentState.validate()) {
-      widget.switchPage(Visible.loading);
-
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LoadingAnimation(),
+        ),
+      );
       try {
-        await widget.auth.signIn(widget.emailController.text.trim(),
+        await InheritedApp.of(context).auth.signIn(
+            widget.emailController.text.trim(),
             widget.passwordController.text.trim());
-        await widget.auth.signOut();
+        await InheritedApp.of(context).auth.signOut();
       } on PlatformException catch (ex) {
-        widget.switchPage(Visible.signedOut);
+        InheritedApp.of(context).switchPage(Visible.signedOut);
+        Navigator.of(context).pop();
         if (ex.code == 'ERROR_EMAIL_NOT_VERIFIED') {
           _showEmailVerificationSimpleAlertDialog();
         } else {
@@ -135,32 +137,46 @@ class _LoginFormState extends State<LoginForm> {
         }
         return;
       }
-      widget.switchPage(Visible.signedIn);
+      InheritedApp.of(context).switchPage(Visible.signedIn);
+      Navigator.of(context).pop();
     }
   }
 
   /// Sign into the app without giving any credentials.
-  void _signInAnonymously() async {
-    widget.switchPage(Visible.loading);
-    await widget.auth.signInAnonymously();
-    widget.switchPage(Visible.signedInAnonymously);
+  void _signInAnonymously(BuildContext context) async {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LoadingAnimation(),
+      ),
+    );
+    await InheritedApp.of(context).auth.signInAnonymously();
+    InheritedApp.of(context).switchPage(Visible.signedInAnonymously);
+    Navigator.of(context).pop();
   }
 
   /// Sign up to the app using only valid credentials from the form.
-  void _signUp() async {
+  void _signUp(BuildContext context) async {
     if (widget.formKey.currentState.validate()) {
-      widget.switchPage(Visible.loading);
-
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LoadingAnimation(),
+        ),
+      );
       try {
-        await widget.auth.signUp(widget.emailController.text.trim(),
+        await InheritedApp.of(context).auth.signUp(
+            widget.emailController.text.trim(),
             widget.passwordController.text.trim());
-        await widget.auth.signOut();
+        await InheritedApp.of(context).auth.signOut();
       } on PlatformException catch (ex) {
-        widget.switchPage(Visible.signedOut);
+        InheritedApp.of(context).switchPage(Visible.signedOut);
+        Navigator.of(context).pop();
         widget.showAppSnackBar(ex.message);
         return;
       }
-      widget.switchPage(Visible.signedOut);
+      InheritedApp.of(context).switchPage(Visible.signedOut);
+      Navigator.of(context).pop();
       _showEmailVerificationSimpleAlertDialog();
     } else {
       widget.showAppSnackBar('Invalid data format or no data at all.');

@@ -44,7 +44,7 @@ class _UserAreaState extends State<UserArea> {
                     semanticLabel: 'A transparent human silhouette.',
                   ),
                   tooltip: 'Manage your account.',
-                  onPressed: _navigateToAccountSettings,
+                  onPressed: () => _navigateToAccountSettings(context),
                 ),
               ],
       ),
@@ -52,7 +52,7 @@ class _UserAreaState extends State<UserArea> {
     );
   }
 
-  void _navigateToAccountSettings() {
+  void _navigateToAccountSettings(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -62,9 +62,15 @@ class _UserAreaState extends State<UserArea> {
   }
 
   void _signOut(BuildContext context) async {
-    InheritedApp.of(context).switchPage(Visible.loading);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LoadingAnimation(),
+      ),
+    );
     await InheritedApp.of(context).auth.signOut();
     InheritedApp.of(context).switchPage(Visible.signedOut);
+    Navigator.of(context).pop();
   }
 }
 

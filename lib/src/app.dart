@@ -38,8 +38,6 @@ class _AppState extends State<App> {
     switch (_visiblePage) {
       case page.Visible.signedOut:
         _currentPage = page.LoginForm(
-          auth: auth,
-          switchPage: _switchPage,
           showAppSnackBar: _showScaffoldSnackBar,
           showAppSimpleAlertDialog: _showScaffoldSimpleAlertDialog,
         );

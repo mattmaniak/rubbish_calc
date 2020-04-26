@@ -12,14 +12,12 @@ const String EXAMPLE_PASSWORD = '___TestPasswor6___';
 void main() {
   group('page.LoginForm', () {
     final login = page.LoginForm(
-      auth: Auth(),
-      switchPage: () {},
       showAppSimpleAlertDialog: () {},
       showAppSnackBar: () {},
     );
 
     commonTests.testNewStatefulWidget(login, page.LoginForm);
-    commonTests.testNewObject(login.auth, Auth);
+    // commonTests.testNewObject(login.auth, Auth);
     commonTests.testNewObject(login.emailController, TextEditingController);
     commonTests.testNewObject(login.passwordController, TextEditingController);
 
@@ -27,8 +25,8 @@ void main() {
       await commonTests.pumpWidget(tester, login);
 
       commonTests.findWidgetTypesNTimes([Form], 1);
-      commonTests.findWidgetTypesNTimes(
-          [TextFormField, FlatButton, RaisedButton], 2);
+      commonTests
+          .findWidgetTypesNTimes([TextFormField, FlatButton, RaisedButton], 2);
       commonTests.findWidgetTypesNTimes([Divider], 3);
 
       await commonTests.testFormField(
