@@ -54,6 +54,13 @@ class Auth {
     }
   }
 
+  /// Log out and remove a currently logged in user.
+  Future<void> deleteAccount() async {
+    if (await _isUserSignedIn) {
+      (await _currentUser).delete();
+    }
+  }
+
   /// Say bye-bye to the Firebase safely and clear the disk cache.
   Future<void> signOut() async {
     if (await _isUserSignedIn) {

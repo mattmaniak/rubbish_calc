@@ -26,26 +26,30 @@ class _UserAreaState extends State<UserArea> {
       bar: _ScrollableBar(
         title: widget.isUserAnonymous ? 'Anonymous user' : 'Email user',
         leading: IconButton(
-          icon: Transform.rotate(
-            angle: pi,
-            child: Icon(
-              Icons.exit_to_app,
-              semanticLabel: 'Sign out',
-            ),
+          icon: Icon(
+            Icons.add,
+            semanticLabel: 'A simple plus.',
           ),
-          tooltip: 'Sign out',
-          onPressed: _signOut,
+          tooltip: 'Add an item.',
+          onPressed: () {},
         ),
         actions: widget.isUserAnonymous
-            ? null
+            ? [
+                _SignOutButton(
+                  onPressed: _signOut,
+                ),
+              ]
             : [
+                _SignOutButton(
+                  onPressed: _signOut,
+                ),
                 IconButton(
                   icon: Icon(
-                    Icons.add,
-                    semanticLabel: 'Add an item.',
+                    Icons.account_box,
+                    semanticLabel: 'A transparent human silhouette.',
                   ),
-                  tooltip: 'Add an item.',
-                  onPressed: () {},
+                  tooltip: 'Manage your account.',
+                  onPressed: _navigateToAccountSettings,
                 ),
               ],
       ),
@@ -53,9 +57,78 @@ class _UserAreaState extends State<UserArea> {
     );
   }
 
+  void _navigateToAccountSettings() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => _AccountSettings(),
+      ),
+    );
+  }
+
   void _signOut() async {
     widget.switchPage(Visible.loading);
     await widget.signOut();
     widget.switchPage(Visible.signedOut);
+  }
+}
+
+class _AccountSettings extends StatefulWidget {
+  @override
+  _AccountSettingsState createState() => _AccountSettingsState();
+}
+
+class _AccountSettingsState extends State<_AccountSettings> {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        body: _ScrollableView(
+          bar: _ScrollableBar(
+            title: 'Account settings',
+          ),
+          view: ExpansionTile(
+            title: Text('Your account'),
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    FlatButton(
+                      child: Text('Remove your account'),
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SignOutButton extends StatelessWidget {
+  final Function onPressed;
+
+  const _SignOutButton({@required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Transform.rotate(
+        angle: pi,
+        child: Icon(
+          Icons.exit_to_app,
+          semanticLabel: 'An arrow with a square border.',
+        ),
+      ),
+      tooltip: 'Sign out',
+      onPressed: this.onPressed,
+    );
   }
 }

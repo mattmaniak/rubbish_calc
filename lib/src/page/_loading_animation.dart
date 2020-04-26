@@ -9,7 +9,7 @@ class LoadingAnimation extends StatelessWidget {
         title: 'Loading...',
       ),
       view: LinearProgressIndicator(
-        semanticsLabel: 'Animated line as a loading indicator.',
+        semanticsLabel: 'An animated line as a loading indicator.',
       ),
     );
   }
