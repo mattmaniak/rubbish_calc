@@ -97,6 +97,10 @@ class _AccountSettingsState extends State<_AccountSettings> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    RaisedButton(
+                      child: Text('Send password reset email'),
+                      onPressed: () {},
+                    ),
                     FlatButton(
                       child: Text('Remove your account'),
                       onPressed: () {},

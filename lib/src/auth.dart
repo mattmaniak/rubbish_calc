@@ -6,16 +6,16 @@ class Auth {
   /// Firebase handler.
   final _firebaseAuth = FirebaseAuth.instance;
 
+  /// Try to get a currently logged user.
+  Future<FirebaseUser> get currentUser async =>
+      await _firebaseAuth.currentUser();
+
   /// Check if an user's email is verified an is able to log into an account.
   Future<bool> get _isEmailVerified async =>
-      await _isUserSignedIn && (await _currentUser).isEmailVerified;
+      await _isUserSignedIn && (await currentUser).isEmailVerified;
 
   /// Check if the user is signed in.
-  Future<bool> get _isUserSignedIn async => await _currentUser != null;
-
-  /// Try to get a currently logged user.
-  Future<FirebaseUser> get _currentUser async =>
-      await _firebaseAuth.currentUser();
+  Future<bool> get _isUserSignedIn async => await currentUser != null;
 
   /// Log into the Firebase.
   Future<String> signIn(String email, String password) async {
@@ -57,9 +57,15 @@ class Auth {
   /// Log out and remove a currently logged in user.
   Future<void> deleteAccount() async {
     if (await _isUserSignedIn) {
-      (await _currentUser).delete();
+      (await currentUser).delete();
     }
   }
+
+  /// Send a link to an email to reset an account's password.
+  Future<void> resetPassword(String email) async =>
+      (await _firebaseAuth.sendPasswordResetEmail(
+        email: email,
+      ));
 
   /// Say bye-bye to the Firebase safely and clear the disk cache.
   Future<void> signOut() async {
@@ -72,7 +78,7 @@ class Auth {
   Future<void> _verifyEmail() async {
     if (!await _isEmailVerified) {
       try {
-        (await _currentUser).sendEmailVerification();
+        (await currentUser).sendEmailVerification();
       } on PlatformException {
         rethrow;
       }
