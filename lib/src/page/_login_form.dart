@@ -76,7 +76,7 @@ class _LoginFormState extends State<LoginForm> {
                   children: [
                     TextSpan(
                       text:
-                          'By clicking one of the above buttons with filled form, you agree to app\'s\n',
+                          'By clicking one of the above buttons, you agree to app\'s ',
                     ),
                     TextSpan(
                       style: TextStyle(
