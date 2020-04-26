@@ -2,18 +2,18 @@ import 'package:flutter/widgets.dart';
 
 import 'package:rubbish_calc/src/auth.dart';
 
-class InheritedApp extends InheritedWidget {
+class AppInjector extends InheritedWidget {
   final Auth auth;
   final Function switchPage;
   final Widget child;
 
-  const InheritedApp(
+  const AppInjector(
       {@required this.auth, @required this.switchPage, @required this.child})
       : super(child: child);
 
   @override
   bool updateShouldNotify(InheritedWidget oldWidget) => true;
 
-  static InheritedApp of(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<InheritedApp>();
+  static AppInjector of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<AppInjector>();
 }

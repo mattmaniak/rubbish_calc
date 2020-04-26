@@ -72,8 +72,8 @@ class _UserAreaState extends State<UserArea> {
         builder: (context) => LoadingAnimation(),
       ),
     );
-    await InheritedApp.of(context).auth.signOut();
-    InheritedApp.of(context).switchPage(Visible.signedOut);
+    await AppInjector.of(context).auth.signOut();
+    AppInjector.of(context).switchPage(Visible.signedOut);
     Navigator.of(context).pop();
   }
 }

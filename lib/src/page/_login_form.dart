@@ -123,12 +123,12 @@ class _LoginFormState extends State<LoginForm> {
         ),
       );
       try {
-        await InheritedApp.of(context).auth.signIn(
+        await AppInjector.of(context).auth.signIn(
             widget.emailController.text.trim(),
             widget.passwordController.text.trim());
-        await InheritedApp.of(context).auth.signOut();
+        await AppInjector.of(context).auth.signOut();
       } on PlatformException catch (ex) {
-        InheritedApp.of(context).switchPage(Visible.signedOut);
+        AppInjector.of(context).switchPage(Visible.signedOut);
         Navigator.of(context).pop();
         if (ex.code == 'ERROR_EMAIL_NOT_VERIFIED') {
           _showEmailVerificationSimpleAlertDialog();
@@ -137,7 +137,7 @@ class _LoginFormState extends State<LoginForm> {
         }
         return;
       }
-      InheritedApp.of(context).switchPage(Visible.signedIn);
+      AppInjector.of(context).switchPage(Visible.signedIn);
       Navigator.of(context).pop();
     }
   }
@@ -150,8 +150,8 @@ class _LoginFormState extends State<LoginForm> {
         builder: (context) => LoadingAnimation(),
       ),
     );
-    await InheritedApp.of(context).auth.signInAnonymously();
-    InheritedApp.of(context).switchPage(Visible.signedInAnonymously);
+    await AppInjector.of(context).auth.signInAnonymously();
+    AppInjector.of(context).switchPage(Visible.signedInAnonymously);
     Navigator.of(context).pop();
   }
 
@@ -165,17 +165,17 @@ class _LoginFormState extends State<LoginForm> {
         ),
       );
       try {
-        await InheritedApp.of(context).auth.signUp(
+        await AppInjector.of(context).auth.signUp(
             widget.emailController.text.trim(),
             widget.passwordController.text.trim());
-        await InheritedApp.of(context).auth.signOut();
+        await AppInjector.of(context).auth.signOut();
       } on PlatformException catch (ex) {
-        InheritedApp.of(context).switchPage(Visible.signedOut);
+        AppInjector.of(context).switchPage(Visible.signedOut);
         Navigator.of(context).pop();
         widget.showAppSnackBar(ex.message);
         return;
       }
-      InheritedApp.of(context).switchPage(Visible.signedOut);
+      AppInjector.of(context).switchPage(Visible.signedOut);
       Navigator.of(context).pop();
       _showEmailVerificationSimpleAlertDialog();
     } else {

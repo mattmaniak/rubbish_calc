@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 
+import 'package:rubbish_calc/src/app_injector.dart';
 import 'package:rubbish_calc/src/auth.dart';
-import 'package:rubbish_calc/src/inherited_app.dart';
 import 'package:rubbish_calc/src/simple_alert_dialog.dart';
 import 'package:rubbish_calc/src/page/page.dart' as page;
 
@@ -23,7 +23,7 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     _chooseCurrentPage();
-    return InheritedApp(
+    return AppInjector(
       auth: this.auth,
       switchPage: this._switchPage,
       child: Scaffold(
