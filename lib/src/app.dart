@@ -3,19 +3,19 @@
 import 'package:flutter/material.dart';
 
 import 'package:rubbish_calc/src/auth.dart';
+import 'package:rubbish_calc/src/inherited_app.dart';
 import 'package:rubbish_calc/src/simple_alert_dialog.dart';
 import 'package:rubbish_calc/src/page/page.dart' as page;
 
 /// Control all crucial modules and make an interaction between them possible.
 class App extends StatefulWidget {
-  final auth = Auth();
-
   @override
   _AppState createState() => _AppState();
 }
 
 /// Handle a state of the App.
 class _AppState extends State<App> {
+  final auth = Auth();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   page.Visible _visiblePage = page.Visible.signedOut;
   Widget _currentPage;
@@ -23,9 +23,13 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     _chooseCurrentPage();
-    return Scaffold(
-      key: _scaffoldKey,
-      body: _currentPage,
+    return InheritedApp(
+      auth: this.auth,
+      switchPage: this._switchPage,
+      child: Scaffold(
+        key: _scaffoldKey,
+        body: _currentPage,
+      ),
     );
   }
 
@@ -34,7 +38,7 @@ class _AppState extends State<App> {
     switch (_visiblePage) {
       case page.Visible.signedOut:
         _currentPage = page.LoginForm(
-          auth: widget.auth,
+          auth: auth,
           switchPage: _switchPage,
           showAppSnackBar: _showScaffoldSnackBar,
           showAppSimpleAlertDialog: _showScaffoldSimpleAlertDialog,
@@ -43,17 +47,12 @@ class _AppState extends State<App> {
 
       case page.Visible.signedIn:
         _currentPage = page.UserArea(
-          switchPage: _switchPage,
-          signOut: widget.auth.signOut,
           isUserAnonymous: false,
         );
         break;
 
       case page.Visible.signedInAnonymously:
-        _currentPage = page.UserArea(
-          switchPage: _switchPage,
-          signOut: widget.auth.signOut,
-        );
+        _currentPage = page.UserArea();
         break;
 
       case page.Visible.about:
@@ -71,7 +70,7 @@ class _AppState extends State<App> {
       if (newPage != null) {
         _visiblePage = newPage;
       } else {
-        widget.auth.signOut();
+        auth.signOut();
         _visiblePage = page.Visible.signedOut;
       }
     });

@@ -6,10 +6,7 @@ import 'package:rubbish_calc/src/page/page.dart' as page;
 
 void main() {
   group('Anonymous page.UserArea', () {
-    final userArea = page.UserArea(
-      switchPage: () {},
-      signOut: () {},
-    );
+    final userArea = page.UserArea();
     commonTests.testNewStatefulWidget(userArea, page.UserArea);
 
     test('Check if an anonymity flag was set properly.', () {
@@ -19,14 +16,12 @@ void main() {
     testWidgets('Find some descendants for an anonymous user UI.',
         (WidgetTester tester) async {
       await commonTests.pumpWidget(tester, userArea);
-      commonTests.findWidgetTypesNTimes([IconButton, Icon], 1);
+      commonTests.findWidgetTypesNTimes([IconButton, Icon], 2);
     });
   });
 
   group('Page.UserArea but for an email user.', () {
     final userArea = page.UserArea(
-      switchPage: () {},
-      signOut: () {},
       isUserAnonymous: false,
     );
     commonTests.testNewStatefulWidget(userArea, page.UserArea);
@@ -38,7 +33,7 @@ void main() {
     testWidgets('Find some descendants for an email user UI.',
         (WidgetTester tester) async {
       await commonTests.pumpWidget(tester, userArea);
-      commonTests.findWidgetTypesNTimes([Icon, IconButton], 2);
+      commonTests.findWidgetTypesNTimes([IconButton, Icon], 3);
     });
   });
 }

@@ -3,13 +3,8 @@ part of 'page.dart';
 /// The most important page where user can navigate through main app's content.
 class UserArea extends StatefulWidget {
   final bool isUserAnonymous;
-  final Function signOut;
-  final Function switchPage;
 
-  const UserArea(
-      {@required this.switchPage,
-      @required this.signOut,
-      this.isUserAnonymous = true});
+  const UserArea({this.isUserAnonymous = true});
 
   @override
   _UserAreaState createState() => _UserAreaState();
@@ -36,12 +31,12 @@ class _UserAreaState extends State<UserArea> {
         actions: widget.isUserAnonymous
             ? [
                 _SignOutButton(
-                  onPressed: _signOut,
+                  onPressed: () => _signOut(context),
                 ),
               ]
             : [
                 _SignOutButton(
-                  onPressed: _signOut,
+                  onPressed: () => _signOut(context),
                 ),
                 IconButton(
                   icon: Icon(
@@ -66,10 +61,10 @@ class _UserAreaState extends State<UserArea> {
     );
   }
 
-  void _signOut() async {
-    widget.switchPage(Visible.loading);
-    await widget.signOut();
-    widget.switchPage(Visible.signedOut);
+  void _signOut(BuildContext context) async {
+    InheritedApp.of(context).switchPage(Visible.loading);
+    await InheritedApp.of(context).auth.signOut();
+    InheritedApp.of(context).switchPage(Visible.signedOut);
   }
 }
 
