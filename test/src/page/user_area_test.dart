@@ -16,7 +16,7 @@ void main() {
     testWidgets('Find some descendants for an anonymous user UI.',
         (WidgetTester tester) async {
       await commonTests.pumpWidget(tester, userArea);
-      commonTests.findWidgetTypesNTimes([IconButton, Icon], 2);
+      commonTests.findWidgetTypesNTimes([IconButton, Icon], 1);
     });
   });
 

@@ -10,7 +10,6 @@ import 'package:flutter/services.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:rubbish_calc/src/auth.dart';
 import 'package:rubbish_calc/src/inherited_app.dart';
 
 part 'package:rubbish_calc/src/page/_about.dart';
