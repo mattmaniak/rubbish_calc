@@ -1,4 +1,4 @@
-part of 'page.dart';
+part of 'route.dart';
 
 /// Display info about a current version of the app.
 class About extends StatelessWidget {

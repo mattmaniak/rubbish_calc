@@ -1,4 +1,4 @@
-part of 'page.dart';
+part of 'route.dart';
 
 class AccountSettings extends StatefulWidget {
   @override

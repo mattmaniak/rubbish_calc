@@ -1,4 +1,4 @@
-part of 'page.dart';
+part of 'route.dart';
 
 /// The most important page where user can navigate through main app's content.
 class UserArea extends StatefulWidget {

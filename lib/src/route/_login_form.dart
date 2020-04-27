@@ -1,4 +1,4 @@
-part of 'page.dart';
+part of 'route.dart';
 
 /// The page when an user is able to log into the app.
 class LoginForm extends StatefulWidget {

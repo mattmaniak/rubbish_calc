@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:rubbish_calc/src/page/page.dart' as page;
+import 'package:rubbish_calc/src/route/route.dart' as route;
 import '../../utils/common_tests.dart' as commonTests;
 
 void main() {
-  group('page.AccountSettings', () {
-    final accountSettings = page.AccountSettings();
+  group('route.AccountSettings', () {
+    final accountSettings = route.AccountSettings();
 
-    commonTests.testNewStatefulWidget(accountSettings, page.AccountSettings);
+    commonTests.testNewStatefulWidget(accountSettings, route.AccountSettings);
 
-    testWidgets('Locate page.AccountSettings widgets.',
+    testWidgets('Locate route.AccountSettings widgets.',
         (WidgetTester tester) async {
       await commonTests.pumpWidget(tester, accountSettings);
 

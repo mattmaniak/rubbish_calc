@@ -1,4 +1,4 @@
-part of 'page.dart';
+part of 'route.dart';
 
 /// Provide universal visual stuff for various pages.
 ///

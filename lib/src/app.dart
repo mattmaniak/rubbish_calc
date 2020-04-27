@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 
 import 'package:rubbish_calc/src/app_injector.dart';
 import 'package:rubbish_calc/src/auth.dart';
+import 'package:rubbish_calc/src/route/route.dart' as route;
 import 'package:rubbish_calc/src/simple_alert_dialog.dart';
-import 'package:rubbish_calc/src/page/page.dart' as page;
 
 /// Control all crucial modules and make an interaction between them possible.
 class App extends StatefulWidget {
@@ -17,7 +17,7 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   final auth = Auth();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  page.Visible _visiblePage = page.Visible.signedOut;
+  route.Visible _visiblePage = route.Visible.signedOut;
   Widget _currentPage;
 
   @override
@@ -35,47 +35,47 @@ class _AppState extends State<App> {
     );
   }
 
-  /// Decide which page will be displayed.
+  /// Decide which route will be displayed.
   void _chooseCurrentPage() {
     switch (_visiblePage) {
-      case page.Visible.signedOut:
-        _currentPage = page.LoginForm(
+      case route.Visible.signedOut:
+        _currentPage = route.LoginForm(
             // showAppSnackBar: _showScaffoldSnackBar,
             // showAppSimpleAlertDialog: _showScaffoldSimpleAlertDialog,
             );
         break;
 
-      case page.Visible.signedIn:
-        _currentPage = page.UserArea(
+      case route.Visible.signedIn:
+        _currentPage = route.UserArea(
           isUserAnonymous: false,
         );
         break;
 
-      case page.Visible.accountSettings:
-        _currentPage = page.AccountSettings();
+      case route.Visible.accountSettings:
+        _currentPage = route.AccountSettings();
         break;
 
-      case page.Visible.signedInAnonymously:
-        _currentPage = page.UserArea();
+      case route.Visible.signedInAnonymously:
+        _currentPage = route.UserArea();
         break;
 
-      case page.Visible.about:
-        _currentPage = page.About();
+      case route.Visible.about:
+        _currentPage = route.About();
         break;
 
-      case page.Visible.loading:
-        _currentPage = page.LoadingAnimation();
+      case route.Visible.loading:
+        _currentPage = route.LoadingAnimation();
     }
   }
 
-  /// Method used as a callback that provides switching between pages.
-  void _switchPage(page.Visible newPage) {
+  /// Method used as a callback that provides switching between routes.
+  void _switchPage(route.Visible newPage) {
     setState(() {
       if (newPage != null) {
         _visiblePage = newPage;
       } else {
         auth.signOut();
-        _visiblePage = page.Visible.signedOut;
+        _visiblePage = route.Visible.signedOut;
       }
     });
   }

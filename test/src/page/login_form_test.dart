@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:rubbish_calc/src/page/page.dart' as page;
+import 'package:rubbish_calc/src/route/route.dart' as route;
 import '../../utils/common_tests.dart' as commonTests;
 
 const String EXAMPLE_EMAIL = 'johndoe@example.com';
 const String EXAMPLE_PASSWORD = '___TestPasswor6___';
 
 void main() {
-  group('page.LoginForm', () {
-    final login = page.LoginForm();
+  group('route.LoginForm', () {
+    final login = route.LoginForm();
 
-    commonTests.testNewStatefulWidget(login, page.LoginForm);
+    commonTests.testNewStatefulWidget(login, route.LoginForm);
     commonTests.testNewObject(login.emailController, TextEditingController);
     commonTests.testNewObject(login.passwordController, TextEditingController);
 
@@ -28,7 +28,7 @@ void main() {
       await commonTests.testFormField(
           tester, find.byType(TextFormField).last, EXAMPLE_PASSWORD);
 
-      await commonTests.tapButton(tester, find.text('Sign in'));
+      await commonTests.tapButton(tester, find.byType(RaisedButton).first);
       expect(find.text('Email field can\'t be empty.'), findsOneWidget);
       expect(find.text('Password field can\'t be empty.'), findsOneWidget);
 

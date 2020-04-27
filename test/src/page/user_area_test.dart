@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:rubbish_calc/src/page/page.dart' as page;
+import 'package:rubbish_calc/src/route/route.dart' as route;
 import '../../utils/common_tests.dart' as commonTests;
 
 void main() {
-  group('Anonymous page.UserArea', () {
-    final userArea = page.UserArea();
-    commonTests.testNewStatefulWidget(userArea, page.UserArea);
+  group('Anonymous route.UserArea', () {
+    final userArea = route.UserArea();
+    commonTests.testNewStatefulWidget(userArea, route.UserArea);
 
     test('Check if an anonymity flag was set properly.', () {
       expect(userArea.isUserAnonymous, isTrue);
@@ -21,10 +21,10 @@ void main() {
   });
 
   group('Page.UserArea but for an email user.', () {
-    final userArea = page.UserArea(
+    final userArea = route.UserArea(
       isUserAnonymous: false,
     );
-    commonTests.testNewStatefulWidget(userArea, page.UserArea);
+    commonTests.testNewStatefulWidget(userArea, route.UserArea);
 
     test('Check if an anonymity flag was unset.', () {
       expect(userArea.isUserAnonymous, isFalse);
