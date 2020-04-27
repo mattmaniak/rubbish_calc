@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'auth_test.dart';
 import 'package:rubbish_calc/src/app_injector.dart';
-import '../common_tests/common_tests.dart' as commonTests;
+import '../utils/common_tests.dart' as commonTests;
 
 void main() {
   group('AppInjector', () {
