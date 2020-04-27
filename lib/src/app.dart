@@ -22,7 +22,22 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+    double routeOpacity = 1.0;
+    List<Widget> children = [];
+
     _chooseCurrentPage();
+    if (_visibleRoute == route.Visible.loading) {
+      routeOpacity = 0.0;
+      children.add(route.LoadingAnimation());
+      _hideKeyboard();
+    }
+    children.add(
+      Opacity(
+        opacity: routeOpacity,
+        child: _currentRoute,
+      ),
+    );
+
     return AppInjector(
       auth: _auth,
       switchPage: _switchPage,
@@ -31,12 +46,7 @@ class _AppState extends State<App> {
       child: Scaffold(
         key: _scaffoldKey,
         body: Stack(
-          children: [
-            _visibleRoute == route.Visible.loading
-                ? route.LoadingAnimation()
-                : Container(),
-            _currentRoute,
-          ],
+          children: children,
         ),
       ),
     );
@@ -70,6 +80,10 @@ class _AppState extends State<App> {
       case route.Visible.loading:
     }
   }
+
+  /// Force to hide an expanded keyboard.
+  void _hideKeyboard() => FocusScope.of(context).requestFocus(FocusNode());
+
 
   /// Method used as a callback that provides switching between routes.
   void _switchPage(route.Visible newPage) {
