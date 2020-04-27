@@ -15,7 +15,7 @@ class App extends StatefulWidget {
 
 /// Handle a state of the App.
 class _AppState extends State<App> {
-  final auth = Auth();
+  final _auth = Auth();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   route.Visible _visibleRoute = route.Visible.signedOut;
   Widget _currentRoute;
@@ -24,7 +24,7 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     _chooseCurrentPage();
     return AppInjector(
-      auth: this.auth,
+      auth: _auth,
       switchPage: _switchPage,
       showSnackBar: _showScaffoldSnackBar,
       showSimpleAlertBox: _showScaffoldSimpleAlertDialog,
@@ -77,7 +77,7 @@ class _AppState extends State<App> {
       if (newPage != null) {
         _visibleRoute = newPage;
       } else {
-        auth.signOut();
+        _auth.signOut();
         _visibleRoute = route.Visible.signedOut;
       }
     });
