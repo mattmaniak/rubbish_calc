@@ -126,7 +126,7 @@ class _LoginFormState extends State<LoginForm> {
         await AppInjector.of(context).auth.signIn(
             widget.emailController.text.trim(),
             widget.passwordController.text.trim());
-        await AppInjector.of(context).auth.signOut();
+        // await AppInjector.of(context).auth.signOut();
       } on PlatformException catch (ex) {
         AppInjector.of(context).switchPage(Visible.signedOut);
         Navigator.of(context).pop();
@@ -184,17 +184,20 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   /// Tell user about email verification by showing a display box.
-  void _showEmailVerificationSimpleAlertDialog() =>
-      widget.showAppSimpleAlertDialog('Confirm account',
-          'Check your mailbox and verifiy your email in order to sign in.');
+  void _showEmailVerificationSimpleAlertDialog() {
+    widget.showAppSimpleAlertDialog('Confirm account',
+        'Check your mailbox and verifiy your email in order to sign in.');
+  }
 
   /// Tell user about 'sign in' and 'anonymous sign in' in a display box.
-  void _showSignInDifferencesSimpleAlertDialog() => widget.showAppSimpleAlertDialog(
-      'Sign in - differences',
-      'Creating an account gives you an opportunity to save your data '
-          'automatically and to fully enjoy the app experience. An anonymous '
-          'account makes adding new rubbish items impossible. Once you log out '
-          'from it, you will lost all your saved app data.');
+  void _showSignInDifferencesSimpleAlertDialog() {
+    widget.showAppSimpleAlertDialog(
+        'Sign in - differences',
+        'Creating an account gives you an opportunity to save your data '
+            'automatically and to fully enjoy the app experience. An anonymous '
+            'account makes adding new rubbish items impossible. Once you log '
+            'out from it, you will lost all your saved app data.');
+  }
 
   /// Check if a given email has got valid format.
   String _validateEmail(String email) {

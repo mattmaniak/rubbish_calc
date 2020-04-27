@@ -49,6 +49,10 @@ class _AppState extends State<App> {
         );
         break;
 
+      case page.Visible.accountSettings:
+        _currentPage = page.AccountSettings();
+        break;
+
       case page.Visible.signedInAnonymously:
         _currentPage = page.UserArea();
         break;

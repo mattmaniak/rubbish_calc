@@ -38,7 +38,7 @@ class _UserAreaState extends State<UserArea> {
                     Icons.add_box,
                     semanticLabel: 'A transparent plus.',
                   ),
-                  tooltip: 'Add an item.',
+                  tooltip: 'Add an item',
                   onPressed: () {},
                 ),
                 IconButton(
@@ -46,7 +46,7 @@ class _UserAreaState extends State<UserArea> {
                     Icons.account_box,
                     semanticLabel: 'A transparent human silhouette.',
                   ),
-                  tooltip: 'Manage your account.',
+                  tooltip: 'Manage your account',
                   onPressed: () => _navigateToAccountSettings(context),
                 ),
               ]
@@ -56,14 +56,8 @@ class _UserAreaState extends State<UserArea> {
     );
   }
 
-  void _navigateToAccountSettings(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => _AccountSettings(),
-      ),
-    );
-  }
+  void _navigateToAccountSettings(BuildContext context) =>
+      AppInjector.of(context).switchPage(Visible.accountSettings);
 
   void _signOut(BuildContext context) async {
     Navigator.push(
@@ -72,51 +66,12 @@ class _UserAreaState extends State<UserArea> {
         builder: (context) => LoadingAnimation(),
       ),
     );
-    await AppInjector.of(context).auth.signOut();
+    if (widget.isUserAnonymous) {
+      await AppInjector.of(context).auth.deleteAccount(); // Prevent anon spam.
+    } else {
+      await AppInjector.of(context).auth.signOut();
+    }
     AppInjector.of(context).switchPage(Visible.signedOut);
     Navigator.of(context).pop();
-  }
-}
-
-class _AccountSettings extends StatefulWidget {
-  @override
-  _AccountSettingsState createState() => _AccountSettingsState();
-}
-
-class _AccountSettingsState extends State<_AccountSettings> {
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: _ScrollableView(
-          bar: _ScrollableBar(
-            title: 'Account settings',
-          ),
-          view: ExpansionTile(
-            title: Text('Your account'),
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 16.0,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    RaisedButton(
-                      child: Text('Send password reset email'),
-                      onPressed: () {},
-                    ),
-                    FlatButton(
-                      child: Text('Remove your account'),
-                      onPressed: () {},
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }
