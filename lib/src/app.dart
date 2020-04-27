@@ -30,7 +30,14 @@ class _AppState extends State<App> {
       showSimpleAlertBox: _showScaffoldSimpleAlertDialog,
       child: Scaffold(
         key: _scaffoldKey,
-        body: _currentPage,
+        body: Stack(
+          children: [
+            _visiblePage == route.Visible.loading
+                ? route.LoadingAnimation()
+                : Container(),
+            _currentPage,
+          ],
+        ),
       ),
     );
   }
@@ -61,7 +68,6 @@ class _AppState extends State<App> {
         break;
 
       case route.Visible.loading:
-        _currentPage = route.LoadingAnimation();
     }
   }
 

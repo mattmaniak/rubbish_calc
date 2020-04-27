@@ -4,16 +4,12 @@ part of 'route.dart';
 class LoadingAnimation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: _ScrollableView(
-          bar: _ScrollableBar(
-            title: 'Loading...',
-          ),
-          view: LinearProgressIndicator(
-            semanticsLabel: 'An animated line as a loading indicator.',
-          ),
-        ),
+    return _ScrollableView(
+      bar: _ScrollableBar(
+        title: 'Loading...',
+      ),
+      view: LinearProgressIndicator(
+        semanticsLabel: 'An animated line as a loading indicator.',
       ),
     );
   }
