@@ -17,8 +17,8 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   final auth = Auth();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  route.Visible _visiblePage = route.Visible.signedOut;
-  Widget _currentPage;
+  route.Visible _visibleRoute = route.Visible.signedOut;
+  Widget _currentRoute;
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +32,10 @@ class _AppState extends State<App> {
         key: _scaffoldKey,
         body: Stack(
           children: [
-            _visiblePage == route.Visible.loading
+            _visibleRoute == route.Visible.loading
                 ? route.LoadingAnimation()
                 : Container(),
-            _currentPage,
+            _currentRoute,
           ],
         ),
       ),
@@ -44,27 +44,27 @@ class _AppState extends State<App> {
 
   /// Decide which route will be displayed.
   void _chooseCurrentPage() {
-    switch (_visiblePage) {
+    switch (_visibleRoute) {
       case route.Visible.signedOut:
-        _currentPage = route.LoginForm();
+        _currentRoute = route.LoginForm();
         break;
 
       case route.Visible.signedIn:
-        _currentPage = route.UserArea(
+        _currentRoute = route.UserArea(
           isUserAnonymous: false,
         );
         break;
 
       case route.Visible.accountSettings:
-        _currentPage = route.AccountSettings();
+        _currentRoute = route.AccountSettings();
         break;
 
       case route.Visible.signedInAnonymously:
-        _currentPage = route.UserArea();
+        _currentRoute = route.UserArea();
         break;
 
       case route.Visible.about:
-        _currentPage = route.About();
+        _currentRoute = route.About();
         break;
 
       case route.Visible.loading:
@@ -75,10 +75,10 @@ class _AppState extends State<App> {
   void _switchPage(route.Visible newPage) {
     setState(() {
       if (newPage != null) {
-        _visiblePage = newPage;
+        _visibleRoute = newPage;
       } else {
         auth.signOut();
-        _visiblePage = route.Visible.signedOut;
+        _visibleRoute = route.Visible.signedOut;
       }
     });
   }
