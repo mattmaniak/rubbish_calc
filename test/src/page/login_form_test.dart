@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../common_tests/common_tests.dart' as commonTests;
 import 'package:rubbish_calc/src/page/page.dart' as page;
+import '../../common_tests/common_tests.dart' as commonTests;
 
 const String EXAMPLE_EMAIL = 'johndoe@example.com';
 const String EXAMPLE_PASSWORD = '___TestPasswor6___';

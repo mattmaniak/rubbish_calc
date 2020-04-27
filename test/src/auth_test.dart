@@ -2,11 +2,11 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:mockito/mockito.dart';
 
+import 'package:rubbish_calc/src/auth.dart';
 import '../common_tests/common_tests.dart' as commonTests;
 import '../src/page/login_form_test.dart';
-import 'package:rubbish_calc/src/auth.dart';
 
-class _MockAuth extends Mock implements Auth {
+class MockAuth extends Mock implements Auth {
   bool isUserSignedIn = false;
   bool isEmailVerified = false;
 
@@ -43,7 +43,7 @@ class _MockAuth extends Mock implements Auth {
 
 void main() {
   group('Auth', () {
-    final auth = _MockAuth();
+    final auth = MockAuth();
 
     void testSignOut() {
       test('An user should be signed out.', () async {
@@ -52,7 +52,7 @@ void main() {
       });
     }
 
-    commonTests.testNewObject(auth, _MockAuth);
+    commonTests.testNewObject(auth, MockAuth);
 
     test('An anonymous user should sign in.', () async {
       auth.signInAnonymously();
