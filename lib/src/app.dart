@@ -39,10 +39,7 @@ class _AppState extends State<App> {
   void _chooseCurrentPage() {
     switch (_visiblePage) {
       case route.Visible.signedOut:
-        _currentPage = route.LoginForm(
-            // showAppSnackBar: _showScaffoldSnackBar,
-            // showAppSimpleAlertDialog: _showScaffoldSimpleAlertDialog,
-            );
+        _currentPage = route.LoginForm();
         break;
 
       case route.Visible.signedIn:
