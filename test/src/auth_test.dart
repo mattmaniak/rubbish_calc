@@ -11,6 +11,11 @@ class _MockAuth extends Mock implements Auth {
   bool isEmailVerified = false;
 
   @override
+  Future<void> deleteAccount() {
+    return signOut();
+  }
+
+  @override
   Future<String> signIn(String email, String password) async {
     isEmailVerified = true;
     isUserSignedIn = true;
@@ -26,6 +31,7 @@ class _MockAuth extends Mock implements Auth {
   @override
   Future<void> signOut() async {
     isUserSignedIn = false;
+    isEmailVerified = false;
   }
 
   @override
@@ -62,9 +68,18 @@ void main() {
 
     test('An user should sign in using provided credentials.', () async {
       auth.signIn(EXAMPLE_EMAIL, EXAMPLE_PASSWORD);
-      expect(auth.isEmailVerified, isTrue);
       expect(auth.isUserSignedIn, isTrue);
+      expect(auth.isEmailVerified, isTrue);
     });
     testSignOut();
+
+    test('An account should be deleted.', () async {
+      auth.signIn(EXAMPLE_EMAIL, EXAMPLE_PASSWORD);
+      expect(auth.isUserSignedIn, isTrue);
+      expect(auth.isEmailVerified, isTrue);
+      auth.deleteAccount();
+      expect(auth.isUserSignedIn, isFalse);
+      expect(auth.isEmailVerified, isFalse);
+    });
   });
 }
