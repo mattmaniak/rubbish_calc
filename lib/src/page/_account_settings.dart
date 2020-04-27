@@ -33,11 +33,11 @@ class _AccountSettingsState extends State<AccountSettings> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     RaisedButton(
-                      child: Text('Send password reset email'),
-                      onPressed: () {},
+                      child: Text('Reset your password'),
+                      onPressed: () => _resetPassword(context),
                     ),
                     FlatButton(
-                      child: Text('Delete your account'),
+                      child: Text('Delete the account permanently'),
                       onPressed: () => _deleteAccount(context),
                     ),
                   ],
@@ -64,4 +64,10 @@ class _AccountSettingsState extends State<AccountSettings> {
 
   void _navigateBack(BuildContext context) =>
       AppInjector.of(context).switchPage(Visible.signedIn);
+
+  void _resetPassword(BuildContext context) async {
+    await AppInjector.of(context)
+        .auth
+        .resetPassword((await AppInjector.of(context).auth.currentUser).email);
+  }
 }
