@@ -6,13 +6,6 @@ class LoginForm extends StatefulWidget {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  // final Function showAppSimpleAlertDialog;
-  // final Function showAppSnackBar;
-
-  // LoginForm(
-  //     {@required this.showAppSnackBar,
-  //     @required this.showAppSimpleAlertDialog});
-
   @override
   _LoginFormState createState() => _LoginFormState();
 }
