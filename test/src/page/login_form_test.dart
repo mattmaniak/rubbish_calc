@@ -9,10 +9,7 @@ const String EXAMPLE_PASSWORD = '___TestPasswor6___';
 
 void main() {
   group('page.LoginForm', () {
-    final login = page.LoginForm(
-      showAppSimpleAlertDialog: () {},
-      showAppSnackBar: () {},
-    );
+    final login = page.LoginForm();
 
     commonTests.testNewStatefulWidget(login, page.LoginForm);
     commonTests.testNewObject(login.emailController, TextEditingController);
@@ -31,12 +28,13 @@ void main() {
       await commonTests.testFormField(
           tester, find.byType(TextFormField).last, EXAMPLE_PASSWORD);
 
-      await commonTests.tapButton(tester, find.byType(RaisedButton).first);
+      await commonTests.tapButton(tester, find.text('Sign in'));
       expect(find.text('Email field can\'t be empty.'), findsOneWidget);
       expect(find.text('Password field can\'t be empty.'), findsOneWidget);
 
       await tester.enterText(find.byType(TextFormField).first, 'johndoe@');
       await tester.enterText(find.byType(TextFormField).last, 'pass');
+
       await commonTests.tapButton(tester, find.byType(RaisedButton).first);
       expect(find.text('Invalid email format.'), findsOneWidget);
       expect(

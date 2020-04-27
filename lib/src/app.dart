@@ -25,7 +25,9 @@ class _AppState extends State<App> {
     _chooseCurrentPage();
     return AppInjector(
       auth: this.auth,
-      switchPage: this._switchPage,
+      switchPage: _switchPage,
+      showSnackBar: _showScaffoldSnackBar,
+      showSimpleAlertBox: _showScaffoldSimpleAlertDialog,
       child: Scaffold(
         key: _scaffoldKey,
         body: _currentPage,
@@ -38,9 +40,9 @@ class _AppState extends State<App> {
     switch (_visiblePage) {
       case page.Visible.signedOut:
         _currentPage = page.LoginForm(
-          showAppSnackBar: _showScaffoldSnackBar,
-          showAppSimpleAlertDialog: _showScaffoldSimpleAlertDialog,
-        );
+            // showAppSnackBar: _showScaffoldSnackBar,
+            // showAppSimpleAlertDialog: _showScaffoldSimpleAlertDialog,
+            );
         break;
 
       case page.Visible.signedIn:

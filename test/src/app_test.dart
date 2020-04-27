@@ -8,8 +8,8 @@ import '../common_tests/common_tests.dart' as commonTests;
 void main() {
   group('App', () {
     final app = App();
+
     commonTests.testNewStatefulWidget(app, App);
-    commonTests.testNewObject(app.createState().auth, Auth);
 
     testWidgets('Check if the App\'s Scaffold used.',
         (WidgetTester tester) async {

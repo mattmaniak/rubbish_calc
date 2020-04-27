@@ -6,12 +6,12 @@ class LoginForm extends StatefulWidget {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  final Function showAppSimpleAlertDialog;
-  final Function showAppSnackBar;
+  // final Function showAppSimpleAlertDialog;
+  // final Function showAppSnackBar;
 
-  LoginForm(
-      {@required this.showAppSnackBar,
-      @required this.showAppSimpleAlertDialog});
+  // LoginForm(
+  //     {@required this.showAppSnackBar,
+  //     @required this.showAppSimpleAlertDialog});
 
   @override
   _LoginFormState createState() => _LoginFormState();
@@ -104,7 +104,8 @@ class _LoginFormState extends State<LoginForm> {
               Divider(),
               FlatButton(
                 child: Text('What is an anonymous sign in?'),
-                onPressed: _showSignInDifferencesSimpleAlertDialog,
+                onPressed: () =>
+                    _showSignInDifferencesSimpleAlertDialog(context),
               ),
             ],
           ),
@@ -131,9 +132,9 @@ class _LoginFormState extends State<LoginForm> {
         AppInjector.of(context).switchPage(Visible.signedOut);
         Navigator.of(context).pop();
         if (ex.code == 'ERROR_EMAIL_NOT_VERIFIED') {
-          _showEmailVerificationSimpleAlertDialog();
+          _showEmailVerificationSimpleAlertDialog(context);
         } else {
-          widget.showAppSnackBar(ex.message);
+          AppInjector.of(context).showSnackBar(ex.message);
         }
         return;
       }
@@ -172,26 +173,27 @@ class _LoginFormState extends State<LoginForm> {
       } on PlatformException catch (ex) {
         AppInjector.of(context).switchPage(Visible.signedOut);
         Navigator.of(context).pop();
-        widget.showAppSnackBar(ex.message);
+        AppInjector.of(context).showSnackBar(ex.message);
         return;
       }
       AppInjector.of(context).switchPage(Visible.signedOut);
       Navigator.of(context).pop();
-      _showEmailVerificationSimpleAlertDialog();
+      _showEmailVerificationSimpleAlertDialog(context);
     } else {
-      widget.showAppSnackBar('Invalid data format or no data at all.');
+      AppInjector.of(context)
+          .showSnackBar('Invalid data format or no data at all.');
     }
   }
 
   /// Tell user about email verification by showing a display box.
-  void _showEmailVerificationSimpleAlertDialog() {
-    widget.showAppSimpleAlertDialog('Confirm account',
+  void _showEmailVerificationSimpleAlertDialog(BuildContext context) {
+    AppInjector.of(context).showSimpleAlertBox('Confirm account',
         'Check your mailbox and verifiy your email in order to sign in.');
   }
 
   /// Tell user about 'sign in' and 'anonymous sign in' in a display box.
-  void _showSignInDifferencesSimpleAlertDialog() {
-    widget.showAppSimpleAlertDialog(
+  void _showSignInDifferencesSimpleAlertDialog(BuildContext context) {
+    AppInjector.of(context).showSimpleAlertBox(
         'Sign in - differences',
         'Creating an account gives you an opportunity to save your data '
             'automatically and to fully enjoy the app experience. An anonymous '
