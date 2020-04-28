@@ -14,7 +14,6 @@ import 'package:rubbish_calc/src/app_injector.dart';
 
 part 'package:rubbish_calc/src/route/_about.dart';
 part 'package:rubbish_calc/src/route/_account_settings.dart';
-part 'package:rubbish_calc/src/route/_loading_animation.dart';
 part 'package:rubbish_calc/src/route/_login_form.dart';
 part 'package:rubbish_calc/src/route/_user_area.dart';
 part 'package:rubbish_calc/src/route/_utils_scrollable.dart';

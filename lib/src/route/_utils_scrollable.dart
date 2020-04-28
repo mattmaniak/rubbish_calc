@@ -14,15 +14,16 @@ class _ScrollableBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isLoading = AppInjector.of(context).isLoading;
     return SliverAppBar(
       pinned: true,
       floating: true,
-      leading: this.leading,
-      actions: this.actions,
+      leading: isLoading ? null : this.leading,
+      actions: isLoading ? null : this.actions,
       expandedHeight: 100.0,
       flexibleSpace: FlexibleSpaceBar(
         centerTitle: true,
-        title: Text(title),
+        title: Text(isLoading ? 'Loading...' : title),
         background: Column(
           children: [
             SizedBox(
@@ -44,15 +45,31 @@ class _ScrollableView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isLoading = AppInjector.of(context).isLoading;
+
+    if (isLoading) {
+      _hideKeyboard(context);
+    }
     return CustomScrollView(
       slivers: [
         bar,
         SliverList(
           delegate: SliverChildListDelegate(
-            [view],
+            isLoading
+                ? [
+                    LinearProgressIndicator(
+                      semanticsLabel:
+                          'An animated line as a loading indicator.',
+                    ),
+                  ]
+                : [view],
           ),
         ),
       ],
     );
   }
+
+  /// Force to hide an expanded keyboard.
+  void _hideKeyboard(BuildContext context) =>
+      FocusScope.of(context).requestFocus(FocusNode());
 }

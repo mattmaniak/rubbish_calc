@@ -60,18 +60,12 @@ class _UserAreaState extends State<UserArea> {
       AppInjector.of(context).switchPage(Visible.accountSettings);
 
   void _signOut(BuildContext context) async {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => LoadingAnimation(),
-      ),
-    );
+    AppInjector.of(context).switchPage(Visible.loading);
     if (widget.isUserAnonymous) {
       await AppInjector.of(context).auth.deleteAccount(); // Prevent anon spam.
     } else {
       await AppInjector.of(context).auth.signOut();
     }
     AppInjector.of(context).switchPage(Visible.signedOut);
-    Navigator.of(context).pop();
   }
 }

@@ -4,6 +4,7 @@ import 'package:rubbish_calc/src/auth.dart';
 
 class AppInjector extends InheritedWidget {
   final Auth auth;
+  final bool isLoading;
   final Function showSimpleAlertBox;
   final Function showSnackBar;
   final Function switchPage;
@@ -11,6 +12,7 @@ class AppInjector extends InheritedWidget {
 
   const AppInjector(
       {@required this.child,
+      @required this.isLoading,
       @required this.auth,
       @required this.switchPage,
       @required this.showSimpleAlertBox,

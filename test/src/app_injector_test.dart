@@ -9,6 +9,7 @@ void main() {
   group('AppInjector', () {
     final appInjector = AppInjector(
       auth: MockAuth(),
+      isLoading: false,
       switchPage: () {},
       showSimpleAlertBox: () {},
       showSnackBar: () {},

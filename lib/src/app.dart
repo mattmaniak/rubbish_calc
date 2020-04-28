@@ -19,25 +19,28 @@ class _AppState extends State<App> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   route.Visible _visibleRoute = route.Visible.signedOut;
   Widget _currentRoute;
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
+    _chooseCurrentPage();
+
     return AppInjector(
       auth: _auth,
+      isLoading: _isLoading,
       switchPage: _switchPage,
       showSnackBar: _showScaffoldSnackBar,
       showSimpleAlertBox: _showScaffoldSimpleAlertDialog,
       child: Scaffold(
         key: _scaffoldKey,
-        body: _chooseCurrentPage(),
+        body: _currentRoute,
       ),
     );
   }
 
   /// Decide which route will be displayed.
-  Widget _chooseCurrentPage() {
-    double routeOpacity = 1.0;
-    List<Widget> children = [];
+  void _chooseCurrentPage() {
+    _isLoading = false;
 
     switch (_visibleRoute) {
       case route.Visible.signedOut:
@@ -63,18 +66,8 @@ class _AppState extends State<App> {
         break;
 
       case route.Visible.loading:
-        routeOpacity = 0.0;
-        children.add(route.LoadingAnimation());
+        _isLoading = true;
     }
-    children.add(
-      Opacity(
-        opacity: routeOpacity,
-        child: _currentRoute,
-      ),
-    );
-    return Stack(
-      children: children,
-    );
   }
 
   /// Method used as a callback that provides switching between routes.

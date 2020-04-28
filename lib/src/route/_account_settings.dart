@@ -47,15 +47,9 @@ class _AccountSettingsState extends State<AccountSettings> {
   }
 
   void _deleteAccount(BuildContext context) async {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => LoadingAnimation(),
-      ),
-    );
+    AppInjector.of(context).switchPage(Visible.loading);
     await AppInjector.of(context).auth.deleteAccount();
     AppInjector.of(context).switchPage(Visible.signedOut);
-    Navigator.of(context).pop();
   }
 
   void _navigateBack(BuildContext context) =>
