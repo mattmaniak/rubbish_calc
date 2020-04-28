@@ -28,7 +28,7 @@ class _AppState extends State<App> {
     return AppInjector(
       auth: _auth,
       isLoading: _isLoading,
-      switchPage: _switchPage,
+      changeRoute: _changeRoute,
       showSnackBar: _showScaffoldSnackBar,
       showSimpleAlertBox: _showScaffoldSimpleAlertDialog,
       child: Scaffold(
@@ -71,7 +71,7 @@ class _AppState extends State<App> {
   }
 
   /// Method used as a callback that provides switching between routes.
-  void _switchPage(route.Visible newPage) {
+  void _changeRoute(route.Visible newPage) {
     setState(() {
       if (newPage != null) {
         _visibleRoute = newPage;

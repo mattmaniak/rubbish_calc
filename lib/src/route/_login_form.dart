@@ -110,13 +110,13 @@ class _LoginFormState extends State<LoginForm> {
   /// Sign into the app using only valid credentials from the form.
   void _signIn(BuildContext context) async {
     if (widget.formKey.currentState.validate()) {
-      AppInjector.of(context).switchPage(Visible.loading);
+      AppInjector.of(context).changeRoute(Visible.loading);
       try {
         await AppInjector.of(context).auth.signIn(
             widget.emailController.text.trim(),
             widget.passwordController.text.trim());
       } on PlatformException catch (ex) {
-        AppInjector.of(context).switchPage(Visible.signedOut);
+        AppInjector.of(context).changeRoute(Visible.signedOut);
         if (ex.code == 'ERROR_EMAIL_NOT_VERIFIED') {
           _showEmailVerificationSimpleAlertDialog(context);
         } else {
@@ -124,32 +124,32 @@ class _LoginFormState extends State<LoginForm> {
         }
         return;
       }
-      AppInjector.of(context).switchPage(Visible.signedIn);
+      AppInjector.of(context).changeRoute(Visible.signedIn);
     }
   }
 
   /// Sign into the app without giving any credentials.
   void _signInAnonymously(BuildContext context) async {
-    AppInjector.of(context).switchPage(Visible.loading);
+    AppInjector.of(context).changeRoute(Visible.loading);
     await AppInjector.of(context).auth.signInAnonymously();
-    AppInjector.of(context).switchPage(Visible.signedInAnonymously);
+    AppInjector.of(context).changeRoute(Visible.signedInAnonymously);
   }
 
   /// Sign up to the app using only valid credentials from the form.
   void _signUp(BuildContext context) async {
     if (widget.formKey.currentState.validate()) {
-      AppInjector.of(context).switchPage(Visible.loading);
+      AppInjector.of(context).changeRoute(Visible.loading);
       try {
         await AppInjector.of(context).auth.signUp(
             widget.emailController.text.trim(),
             widget.passwordController.text.trim());
         await AppInjector.of(context).auth.signOut();
       } on PlatformException catch (ex) {
-        AppInjector.of(context).switchPage(Visible.signedOut);
+        AppInjector.of(context).changeRoute(Visible.signedOut);
         AppInjector.of(context).showSnackBar(ex.message);
         return;
       }
-      AppInjector.of(context).switchPage(Visible.signedOut);
+      AppInjector.of(context).changeRoute(Visible.signedOut);
       _showEmailVerificationSimpleAlertDialog(context);
     } else {
       AppInjector.of(context)

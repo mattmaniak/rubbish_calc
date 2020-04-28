@@ -57,15 +57,15 @@ class _UserAreaState extends State<UserArea> {
   }
 
   void _navigateToAccountSettings(BuildContext context) =>
-      AppInjector.of(context).switchPage(Visible.accountSettings);
+      AppInjector.of(context).changeRoute(Visible.accountSettings);
 
   void _signOut(BuildContext context) async {
-    AppInjector.of(context).switchPage(Visible.loading);
+    AppInjector.of(context).changeRoute(Visible.loading);
     if (widget.isUserAnonymous) {
       await AppInjector.of(context).auth.deleteAccount(); // Prevent anon spam.
     } else {
       await AppInjector.of(context).auth.signOut();
     }
-    AppInjector.of(context).switchPage(Visible.signedOut);
+    AppInjector.of(context).changeRoute(Visible.signedOut);
   }
 }

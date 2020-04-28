@@ -10,7 +10,7 @@ void main() {
     final appInjector = AppInjector(
       auth: MockAuth(),
       isLoading: false,
-      switchPage: () {},
+      changeRoute: () {},
       showSimpleAlertBox: () {},
       showSnackBar: () {},
       child: Scaffold(),

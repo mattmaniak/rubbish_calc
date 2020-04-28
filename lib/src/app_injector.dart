@@ -7,14 +7,14 @@ class AppInjector extends InheritedWidget {
   final bool isLoading;
   final Function showSimpleAlertBox;
   final Function showSnackBar;
-  final Function switchPage;
+  final Function changeRoute;
   final Widget child;
 
   const AppInjector(
       {@required this.child,
       @required this.isLoading,
       @required this.auth,
-      @required this.switchPage,
+      @required this.changeRoute,
       @required this.showSimpleAlertBox,
       @required this.showSnackBar})
       : super(child: child);

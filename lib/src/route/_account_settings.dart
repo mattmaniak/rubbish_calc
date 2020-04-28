@@ -47,13 +47,13 @@ class _AccountSettingsState extends State<AccountSettings> {
   }
 
   void _deleteAccount(BuildContext context) async {
-    AppInjector.of(context).switchPage(Visible.loading);
+    AppInjector.of(context).changeRoute(Visible.loading);
     await AppInjector.of(context).auth.deleteAccount();
-    AppInjector.of(context).switchPage(Visible.signedOut);
+    AppInjector.of(context).changeRoute(Visible.signedOut);
   }
 
   void _navigateBack(BuildContext context) =>
-      AppInjector.of(context).switchPage(Visible.signedIn);
+      AppInjector.of(context).changeRoute(Visible.signedIn);
 
   void _resetPassword(BuildContext context) async {
     await AppInjector.of(context)
