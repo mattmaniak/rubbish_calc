@@ -4,6 +4,8 @@ part of 'route.dart';
 class LoadingAnimation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    _hideKeyboard(context);
+
     return _ScrollableView(
       bar: _ScrollableBar(
         title: 'Loading...',
@@ -13,4 +15,8 @@ class LoadingAnimation extends StatelessWidget {
       ),
     );
   }
+
+  /// Force to hide an expanded keyboard.
+  void _hideKeyboard(BuildContext context) =>
+      FocusScope.of(context).requestFocus(FocusNode());
 }
