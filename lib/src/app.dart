@@ -16,57 +16,24 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   final _auth = Auth();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  bool _isLoading = false;
-  Widget _currentRoute;
+  // bool _isLoading = false;
+  // Widget _currentRoute;
   var _visibleRoute = route.Visible.signedOut;
 
   @override
   Widget build(BuildContext context) {
-    _chooseCurrentPage();
-
     return AppInjector(
       auth: _auth,
-      isLoading: _isLoading,
+      // isLoading: _isLoading,
+      visibleRoute: _visibleRoute,
       changeRoute: _changeRoute,
       showSnackBar: _showScaffoldSnackBar,
       // showSimpleAlertBox: _showScaffoldSimpleAlertDialog,
       child: Scaffold(
         key: _scaffoldKey,
-        body: _currentRoute,
+        body: route.Picker(),
       ),
     );
-  }
-
-  /// Decide which route will be displayed.
-  void _chooseCurrentPage() {
-    _isLoading = false;
-
-    switch (_visibleRoute) {
-      case route.Visible.signedOut:
-        _currentRoute = route.LoginForm();
-        break;
-
-      case route.Visible.signedIn:
-        _currentRoute = route.UserArea(
-          isUserAnonymous: false,
-        );
-        break;
-
-      case route.Visible.accountSettings:
-        _currentRoute = route.AccountSettings();
-        break;
-
-      case route.Visible.signedInAnonymously:
-        _currentRoute = route.UserArea();
-        break;
-
-      case route.Visible.about:
-        _currentRoute = route.About();
-        break;
-
-      case route.Visible.loading:
-        _isLoading = true;
-    }
   }
 
   /// Method used as a callback that provides switching between routes.

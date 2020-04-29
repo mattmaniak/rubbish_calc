@@ -14,7 +14,8 @@ class _ScrollableBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isLoading = AppInjector.of(context).isLoading;
+    final bool isLoading =
+        AppInjector.of(context).visibleRoute == Visible.loading;
     return SliverAppBar(
       pinned: true,
       floating: true,
@@ -47,7 +48,8 @@ class _ScrollableView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isLoading = AppInjector.of(context).isLoading;
+    final bool isLoading =
+        AppInjector.of(context).visibleRoute == Visible.loading;
 
     if (isLoading) {
       _hideKeyboard(context);

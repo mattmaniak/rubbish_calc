@@ -28,3 +28,31 @@ enum Visible {
   signedIn,
   signedInAnonymously,
 }
+
+/// Decide which route will be displayed.
+class Picker extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    switch (AppInjector.of(context).visibleRoute) {
+      case Visible.signedOut:
+        return LoginForm();
+
+      case Visible.signedIn:
+        return UserArea(
+          isUserAnonymous: false,
+        );
+
+      case Visible.accountSettings:
+        return AccountSettings();
+
+      case Visible.signedInAnonymously:
+        return UserArea();
+
+      case Visible.about:
+        return About();
+
+      case Visible.loading:
+    }
+    return LoginForm();
+  }
+}
