@@ -16,9 +16,9 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   final _auth = Auth();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  route.Visible _visibleRoute = route.Visible.signedOut;
-  Widget _currentRoute;
   bool _isLoading = false;
+  Widget _currentRoute;
+  var _visibleRoute = route.Visible.signedOut;
 
   @override
   Widget build(BuildContext context) {
