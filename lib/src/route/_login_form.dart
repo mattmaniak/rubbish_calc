@@ -191,11 +191,11 @@ class _LoginFormState extends State<LoginForm> {
 
   /// Measure a password strength.
   String _validatePassword(String password) {
-    // final isReasonablySafe =
+    // final bool isReasonablySafe =
     //     RegExp('((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{12,})').hasMatch(password);
 
-    final isReasonablySafe =
-        password.length >= 6 ? true : false; // TODO: DEBUG.
+    final bool isReasonablySafe =
+        password.length >= 6 ? true : false; // TODO: debug only.
 
     if (password.isEmpty) {
       return 'Password field can\'t be empty.';
