@@ -39,9 +39,11 @@ class _ScrollableBar extends StatelessWidget {
 
 class _ScrollableView extends StatelessWidget {
   final Widget bar;
+  final Widget floatingActionButton;
   final Widget view;
 
-  const _ScrollableView({@required this.bar, @required this.view});
+  const _ScrollableView(
+      {@required this.bar, @required this.view, this.floatingActionButton});
 
   @override
   Widget build(BuildContext context) {
@@ -50,22 +52,26 @@ class _ScrollableView extends StatelessWidget {
     if (isLoading) {
       _hideKeyboard(context);
     }
-    return CustomScrollView(
-      slivers: [
-        bar,
-        SliverList(
-          delegate: SliverChildListDelegate(
-            isLoading
-                ? [
-                    LinearProgressIndicator(
-                      semanticsLabel:
-                          'An animated line as a loading indicator.',
-                    ),
-                  ]
-                : [view],
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          bar,
+          SliverList(
+            delegate: SliverChildListDelegate(
+              isLoading
+                  ? [
+                      LinearProgressIndicator(
+                        semanticsLabel:
+                            'An animated line as a loading indicator.',
+                      ),
+                    ]
+                  : [view],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: this.floatingActionButton,
     );
   }
 

@@ -35,14 +35,6 @@ class _UserAreaState extends State<UserArea> {
             ? [
                 IconButton(
                   icon: Icon(
-                    Icons.add_box,
-                    semanticLabel: 'A transparent plus.',
-                  ),
-                  tooltip: 'Add an item',
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: Icon(
                     Icons.account_box,
                     semanticLabel: 'A transparent human silhouette.',
                   ),
@@ -53,6 +45,15 @@ class _UserAreaState extends State<UserArea> {
             : null,
       ),
       view: Text(widget.isUserAnonymous ? 'Anonymous user' : 'Email user'),
+      floatingActionButton: FloatingActionButton.extended(
+        icon: Icon(
+          Icons.add_box,
+          semanticLabel: 'A transparent plus.',
+        ),
+        label: Text('Add an item'),
+        tooltip: 'Add an item to the database',
+        onPressed: () {},
+      ),
     );
   }
 

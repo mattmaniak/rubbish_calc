@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
 
+/// Method used as a callback that shows a dialog box in the App's Scaffold.
+void showSimpleAlertDialog(BuildContext context, String title, String content) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) => _SimpleAlertDialog(
+      title: title ?? 'Something broke...',
+      content: content ?? 'Unknown error.',
+    ),
+  );
+}
+
 /// The unified wrapper for the AlertDialog.
-class SimpleAlertDialog extends StatelessWidget {
+class _SimpleAlertDialog extends StatelessWidget {
   final String content;
   final String title;
 
-  const SimpleAlertDialog({@required this.title, @required this.content});
+  const _SimpleAlertDialog({@required this.title, @required this.content});
 
   @override
   Widget build(BuildContext context) {

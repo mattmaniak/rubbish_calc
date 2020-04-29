@@ -65,7 +65,9 @@ class _LoginFormState extends State<LoginForm> {
               RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
-                  style: DefaultTextStyle.of(context).style,
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
                   children: [
                     TextSpan(
                       text:
@@ -159,13 +161,14 @@ class _LoginFormState extends State<LoginForm> {
 
   /// Tell user about email verification by showing a display box.
   void _showEmailVerificationSimpleAlertDialog(BuildContext context) {
-    AppInjector.of(context).showSimpleAlertBox('Confirm account',
+    showSimpleAlertDialog(context, 'Confirm account',
         'Check your mailbox and verifiy your email in order to sign in.');
   }
 
   /// Tell user about 'sign in' and 'anonymous sign in' in a display box.
   void _showSignInDifferencesSimpleAlertDialog(BuildContext context) {
-    AppInjector.of(context).showSimpleAlertBox(
+    showSimpleAlertDialog(
+        context,
         'Sign in - differences',
         'Creating an account gives you an opportunity to save your data '
             'automatically and to fully enjoy the app experience. An anonymous '

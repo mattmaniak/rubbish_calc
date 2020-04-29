@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:rubbish_calc/src/app_injector.dart';
 import 'package:rubbish_calc/src/auth.dart';
 import 'package:rubbish_calc/src/route/route.dart' as route;
-import 'package:rubbish_calc/src/simple_alert_dialog.dart';
 
 /// Control all crucial modules and make an interaction between them possible.
 class App extends StatefulWidget {
@@ -30,7 +29,7 @@ class _AppState extends State<App> {
       isLoading: _isLoading,
       changeRoute: _changeRoute,
       showSnackBar: _showScaffoldSnackBar,
-      showSimpleAlertBox: _showScaffoldSimpleAlertDialog,
+      // showSimpleAlertBox: _showScaffoldSimpleAlertDialog,
       child: Scaffold(
         key: _scaffoldKey,
         body: _currentRoute,
@@ -80,18 +79,6 @@ class _AppState extends State<App> {
         _visibleRoute = route.Visible.signedOut;
       }
     });
-  }
-
-  /// Method used as a callback that shows a dialog box in the App's Scaffold.
-  void _showScaffoldSimpleAlertDialog(String title, String content) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => SimpleAlertDialog(
-        title: title ?? 'Something broke...',
-        content: content ?? 'Unknown error.',
-      ),
-    );
   }
 
   /// Method used as a callback that shows a snack bar in the App's Scaffold.
