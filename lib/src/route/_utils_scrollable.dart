@@ -1,10 +1,8 @@
+/// Provide universal visual stuff for various pages.
+
 part of 'route.dart';
 
-/// Provide universal visual stuff for various pages.
-///
-/// As all pages have unifed layout, e.g. bar, this mixin extends all pages
-/// to provide an easy-to-programm and common user interface.
-
+/// The universal and preconfigured SliverAppBar.
 class _ScrollableBar extends StatelessWidget {
   final List<Widget> actions;
   final String title;
@@ -38,6 +36,7 @@ class _ScrollableBar extends StatelessWidget {
   }
 }
 
+/// The universal and preconfigured SliverScrollView.
 class _ScrollableView extends StatelessWidget {
   final Widget bar;
   final Widget floatingActionButton;

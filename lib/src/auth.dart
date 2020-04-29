@@ -61,10 +61,10 @@ class Auth {
     }
   }
 
-  /// Send a link to an email to reset an account's password.
-  Future<void> resetPassword(String email) async =>
+  /// Send a link to an email to reset an user's password.
+  Future<void> resetPassword() async =>
       (await _firebaseAuth.sendPasswordResetEmail(
-        email: email,
+        email: (await currentUser).email,
       ));
 
   /// Say bye-bye to the Firebase safely and clear the disk cache.

@@ -16,8 +16,6 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   final _auth = Auth();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  // bool _isLoading = false;
-  // Widget _currentRoute;
   var _visibleRoute = route.Visible.signedOut;
 
   @override
@@ -28,7 +26,6 @@ class _AppState extends State<App> {
       visibleRoute: _visibleRoute,
       changeRoute: _changeRoute,
       showSnackBar: _showScaffoldSnackBar,
-      // showSimpleAlertBox: _showScaffoldSimpleAlertDialog,
       child: Scaffold(
         key: _scaffoldKey,
         body: route.Picker(),

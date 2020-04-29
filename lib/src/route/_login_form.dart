@@ -189,7 +189,7 @@ class _LoginFormState extends State<LoginForm> {
     }
   }
 
-  /// Measure a password strength.
+  /// Measure a given password strength.
   String _validatePassword(String password) {
     // final bool isReasonablySafe =
     //     RegExp('((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{12,})').hasMatch(password);
