@@ -5,7 +5,6 @@ import 'package:rubbish_calc/src/route/route.dart' as route;
 
 class AppInjector extends InheritedWidget {
   final Auth auth;
-  // final bool isLoading;
   final Function showSnackBar;
   final Function changeRoute;
   final Widget child;
@@ -14,7 +13,6 @@ class AppInjector extends InheritedWidget {
   const AppInjector(
       {@required this.child,
       @required this.visibleRoute,
-      // @required this.isLoading,
       @required this.auth,
       @required this.changeRoute,
       @required this.showSnackBar})
@@ -23,6 +21,7 @@ class AppInjector extends InheritedWidget {
   @override
   bool updateShouldNotify(InheritedWidget oldWidget) => true;
 
+  /// Provide an access to all the members.
   static AppInjector of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<AppInjector>();
 }

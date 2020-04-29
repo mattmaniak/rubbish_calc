@@ -22,7 +22,6 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return AppInjector(
       auth: _auth,
-      // isLoading: _isLoading,
       visibleRoute: _visibleRoute,
       changeRoute: _changeRoute,
       showSnackBar: _showScaffoldSnackBar,

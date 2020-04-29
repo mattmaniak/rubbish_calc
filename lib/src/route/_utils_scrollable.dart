@@ -76,7 +76,7 @@ class _ScrollableView extends StatelessWidget {
     );
   }
 
-  /// Force to hide an expanded keyboard.
+  /// Emulate a tap anywhere and tho, force to hide a keyboard.
   void _hideKeyboard(BuildContext context) =>
       FocusScope.of(context).requestFocus(FocusNode());
 }
