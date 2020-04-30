@@ -14,7 +14,6 @@ void main() {
         (WidgetTester tester) async {
       await commonTests.pumpWidget(tester, accountSettings);
 
-      commonTests.findWidgetTypesNTimes([IconButton], 1);
       commonTests.findWidgetTypesNTimes([Icon], 2);
       commonTests.findWidgetTypesNTimes([FlatButton, RaisedButton]);
 

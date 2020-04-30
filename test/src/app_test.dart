@@ -13,7 +13,7 @@ void main() {
     testWidgets('Check if the App\'s Scaffold used.',
         (WidgetTester tester) async {
       await commonTests.pumpWidget(tester, app);
-      commonTests.findWidgetTypesNTimes([Scaffold], 3);
+      commonTests.findWidgetTypesNTimes([Scaffold], 2);
     });
   });
 }

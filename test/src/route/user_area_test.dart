@@ -16,7 +16,8 @@ void main() {
     testWidgets('Find some descendants for an anonymous user UI.',
         (WidgetTester tester) async {
       await commonTests.pumpWidget(tester, userArea);
-      commonTests.findWidgetTypesNTimes([IconButton, Icon], 1);
+      commonTests.findWidgetTypesNTimes([IconButton], 1);
+      commonTests.findWidgetTypesNTimes([Icon], 2);
     });
   });
 
@@ -33,8 +34,10 @@ void main() {
     testWidgets('Find some descendants for an email user UI.',
         (WidgetTester tester) async {
       await commonTests.pumpWidget(tester, userArea);
-      commonTests.findWidgetTypesNTimes([Scaffold], 1);
-      commonTests.findWidgetTypesNTimes([IconButton, Icon], 3);
+
+      commonTests.findWidgetTypesNTimes([Scaffold, FloatingActionButton], 1);
+      commonTests.findWidgetTypesNTimes([IconButton], 2);
+      commonTests.findWidgetTypesNTimes([Icon], 3);
     });
   });
 }

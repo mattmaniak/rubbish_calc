@@ -20,14 +20,14 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return AppInjector(
-      auth: _auth,
-      visibleRoute: _visibleRoute,
-      changeRoute: _changeRoute,
-      showSnackBar: _showScaffoldSnackBar,
-      child: Scaffold(
-        key: _scaffoldKey,
-        body: route.Picker(),
+    return Scaffold(
+      key: _scaffoldKey,
+      body: AppInjector(
+        auth: _auth,
+        visibleRoute: _visibleRoute,
+        changeRoute: _changeRoute,
+        showSnackBar: _showScaffoldSnackBar,
+        child: route.Picker(),
       ),
     );
   }
