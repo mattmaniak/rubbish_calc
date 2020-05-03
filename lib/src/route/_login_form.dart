@@ -12,6 +12,8 @@ class LoginForm extends StatefulWidget {
 
 /// Hold a state of the login screen.
 class _LoginFormState extends State<LoginForm> {
+  bool _showPassword = false;
+
   /// Destroy all input controllers as they are not needed.
   void dispose() {
     widget.passwordController.dispose();
@@ -43,11 +45,21 @@ class _LoginFormState extends State<LoginForm> {
                 placeholder: 'Password',
                 controller: widget.passwordController,
                 validator: _validatePassword,
-                obscureText: true,
+                obscureText: !_showPassword,
               ),
-              SizedBox(
-                height: 10.0,
+              Container(
+                transform: Matrix4.translationValues(-15.0, 0.0, 0.0),
+                child: Row(
+                  children: [
+                    Checkbox(
+                      value: _showPassword,
+                      onChanged: _togglePasswordView,
+                    ),
+                    Text('Show password'),
+                  ],
+                ),
               ),
+              Divider(),
               RaisedButton(
                 child: Text('Sign in'),
                 onPressed: () => _signIn(context),
@@ -177,6 +189,12 @@ class _LoginFormState extends State<LoginForm> {
             'automatically and to fully enjoy the app experience. An anonymous '
             'account makes adding new rubbish items impossible. Once you log '
             'out from it, you will lost all your saved app data.');
+  }
+
+  void _togglePasswordView(bool show) {
+    setState(() {
+      _showPassword = show;
+    });
   }
 
   /// Check if a given email has got valid format.
