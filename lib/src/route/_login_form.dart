@@ -205,7 +205,7 @@ class _LoginFormState extends State<LoginForm> {
     } else if (isReasonablySafe) {
       return null;
     } else {
-      return 'Use at least 12 chars with number and uppercase letter.';
+      return 'Required: 12 chars, 1 number, 1 uppercase, no whitespaces.';
     }
   }
 }
