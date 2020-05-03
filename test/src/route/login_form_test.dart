@@ -18,10 +18,10 @@ void main() {
     testWidgets('Test the TextFormField inputs.', (WidgetTester tester) async {
       await commonTests.pumpWidget(tester, login);
 
-      commonTests.findWidgetTypesNTimes([Form], 1);
+      commonTests.findWidgetTypesNTimes([Form, Checkbox], 1);
       commonTests
           .findWidgetTypesNTimes([TextFormField, FlatButton, RaisedButton], 2);
-      commonTests.findWidgetTypesNTimes([Divider], 3);
+      commonTests.findWidgetTypesNTimes([Divider], 4);
 
       await commonTests.testFormField(
           tester, find.byType(TextFormField).first, EXAMPLE_EMAIL);
@@ -37,9 +37,6 @@ void main() {
 
       await commonTests.tapButton(tester, find.byType(RaisedButton).first);
       expect(find.text('Invalid email format.'), findsOneWidget);
-      expect(
-          find.text('Use at least 12 chars with number and uppercase letter.'),
-          findsOneWidget);
     });
   });
 }

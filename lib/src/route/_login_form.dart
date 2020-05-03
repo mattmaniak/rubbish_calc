@@ -12,6 +12,8 @@ class LoginForm extends StatefulWidget {
 
 /// Hold a state of the login screen.
 class _LoginFormState extends State<LoginForm> {
+  bool _showPassword = false;
+
   /// Destroy all input controllers as they are not needed.
   void dispose() {
     widget.passwordController.dispose();
@@ -43,11 +45,21 @@ class _LoginFormState extends State<LoginForm> {
                 placeholder: 'Password',
                 controller: widget.passwordController,
                 validator: _validatePassword,
-                obscureText: true,
+                obscureText: !_showPassword,
               ),
-              SizedBox(
-                height: 10.0,
+              Container(
+                transform: Matrix4.translationValues(-15.0, 0.0, 0.0),
+                child: Row(
+                  children: [
+                    Checkbox(
+                      value: _showPassword,
+                      onChanged: _togglePasswordView,
+                    ),
+                    Text('Show password'),
+                  ],
+                ),
               ),
+              Divider(),
               RaisedButton(
                 child: Text('Sign in'),
                 onPressed: () => _signIn(context),
@@ -111,12 +123,13 @@ class _LoginFormState extends State<LoginForm> {
 
   /// Sign into the app using only valid credentials from the form.
   void _signIn(BuildContext context) async {
+    final String email = widget.emailController.text.trim();
+    final String password = widget.passwordController.text.trim();
+
     if (widget.formKey.currentState.validate()) {
       AppInjector.of(context).changeRoute(Visible.loading);
       try {
-        await AppInjector.of(context).auth.signIn(
-            widget.emailController.text.trim(),
-            widget.passwordController.text.trim());
+        await AppInjector.of(context).auth.signIn(email, password);
       } on PlatformException catch (ex) {
         AppInjector.of(context).changeRoute(Visible.signedOut);
         if (ex.code == 'ERROR_EMAIL_NOT_VERIFIED') {
@@ -126,6 +139,8 @@ class _LoginFormState extends State<LoginForm> {
         }
         return;
       }
+      SessionStorage.saveEmail(email);
+      SessionStorage.savePassword(password);
       AppInjector.of(context).changeRoute(Visible.signedIn);
     }
   }
@@ -176,6 +191,12 @@ class _LoginFormState extends State<LoginForm> {
             'out from it, you will lost all your saved app data.');
   }
 
+  void _togglePasswordView(bool show) {
+    setState(() {
+      _showPassword = show;
+    });
+  }
+
   /// Check if a given email has got valid format.
   String _validateEmail(String email) {
     final bool isFormattedCorrectly = EmailValidator.validate(email);
@@ -202,7 +223,7 @@ class _LoginFormState extends State<LoginForm> {
     } else if (isReasonablySafe) {
       return null;
     } else {
-      return 'Use at least 12 chars with number and uppercase letter.';
+      return 'Required: 12 chars, 1 number, 1 uppercase, no whitespaces.';
     }
   }
 }

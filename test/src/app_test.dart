@@ -8,7 +8,7 @@ void main() {
   group('App', () {
     final app = App();
 
-    commonTests.testNewStatefulWidget(app, App);
+    commonTests.testNewObject(app, App);
 
     testWidgets('Check if the App\'s Scaffold used.',
         (WidgetTester tester) async {

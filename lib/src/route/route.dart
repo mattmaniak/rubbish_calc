@@ -11,6 +11,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:rubbish_calc/src/app_injector.dart';
+import 'package:rubbish_calc/src/session_storage.dart';
 import 'package:rubbish_calc/src/simple_alert_dialog.dart';
 
 part 'package:rubbish_calc/src/route/_about.dart';

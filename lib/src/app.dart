@@ -1,10 +1,12 @@
 /// The primary file that connects all modules.
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:rubbish_calc/src/app_injector.dart';
 import 'package:rubbish_calc/src/auth.dart';
 import 'package:rubbish_calc/src/route/route.dart' as route;
+import 'package:rubbish_calc/src/session_storage.dart';
 
 /// Control all crucial modules and make an interaction between them possible.
 class App extends StatefulWidget {
@@ -16,7 +18,11 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   final _auth = Auth();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  var _visibleRoute = route.Visible.signedOut;
+  var _visibleRoute = route.Visible.loading;
+
+  _AppState() {
+    _tryToAutoSignIn();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +38,31 @@ class _AppState extends State<App> {
     );
   }
 
+  Future<void> _tryToAutoSignIn() async {
+    String email = await SessionStorage.email;
+    String password = await SessionStorage.password;
+
+    if (email.isNotEmpty && password.isNotEmpty) {
+      try {
+        await _auth.signIn(email, password);
+      } on PlatformException {
+        _changeRoute(route.Visible.signedOut);
+      }
+      _changeRoute(route.Visible.signedIn);
+      return;
+    }
+    _changeRoute(route.Visible.signedOut);
+  }
+
   /// Method used as a callback that provides switching between routes.
   void _changeRoute(route.Visible newPage) {
     setState(() {
       if (newPage != null) {
         _visibleRoute = newPage;
       } else {
-        _auth.signOut();
         _visibleRoute = route.Visible.signedOut;
+        _auth.signOut();
+        SessionStorage.clear();
       }
     });
   }
