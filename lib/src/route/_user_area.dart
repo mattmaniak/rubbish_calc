@@ -66,6 +66,7 @@ class _UserAreaState extends State<UserArea> {
       await AppInjector.of(context).auth.deleteAccount(); // Prevent anon spam.
     } else {
       await AppInjector.of(context).auth.signOut();
+      await SessionStorage.clear();
     }
     AppInjector.of(context).changeRoute(Visible.signedOut);
   }
