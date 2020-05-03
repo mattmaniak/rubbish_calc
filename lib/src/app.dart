@@ -29,9 +29,7 @@ class _AppState extends State<App> {
     SessionStorage.password.then((pass) {
       password = pass;
     });
-    if (email.isNotEmpty && password.isNotEmpty) {
-
-    }
+    if (email.isNotEmpty && password.isNotEmpty) {}
   }
 
   @override

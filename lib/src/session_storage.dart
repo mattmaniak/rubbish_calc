@@ -24,7 +24,8 @@ class SessionStorage {
 
   static Future<String> get password async {
     if (!_isPasswordAccessEnabled) {
-      throw Exception('Password is locked. Can by accessed only one after save.');
+      throw Exception(
+          'Password is locked. Can by accessed only one after save.');
     }
     return await _storage.read(key: 'password') ?? '';
   }

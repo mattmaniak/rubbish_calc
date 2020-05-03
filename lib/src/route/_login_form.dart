@@ -113,12 +113,11 @@ class _LoginFormState extends State<LoginForm> {
   void _signIn(BuildContext context) async {
     final String email = widget.emailController.text.trim();
     final String password = widget.passwordController.text.trim();
+
     if (widget.formKey.currentState.validate()) {
       AppInjector.of(context).changeRoute(Visible.loading);
       try {
-        await AppInjector.of(context).auth.signIn(
-            email,
-            password);
+        await AppInjector.of(context).auth.signIn(email, password);
       } on PlatformException catch (ex) {
         AppInjector.of(context).changeRoute(Visible.signedOut);
         if (ex.code == 'ERROR_EMAIL_NOT_VERIFIED') {
