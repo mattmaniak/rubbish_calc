@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:rubbish_calc/src/app_injector.dart';
 import 'package:rubbish_calc/src/auth.dart';
 import 'package:rubbish_calc/src/route/route.dart' as route;
+import 'package:rubbish_calc/src/session_storage.dart';
 
 /// Control all crucial modules and make an interaction between them possible.
 class App extends StatefulWidget {
@@ -17,6 +18,21 @@ class _AppState extends State<App> {
   final _auth = Auth();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   var _visibleRoute = route.Visible.signedOut;
+
+  _AppState() {
+    String email;
+    String password;
+
+    SessionStorage.email.then((em) {
+      email = em;
+    });
+    SessionStorage.password.then((pass) {
+      password = pass;
+    });
+    if (email.isNotEmpty && password.isNotEmpty) {
+
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

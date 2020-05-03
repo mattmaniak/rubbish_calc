@@ -111,12 +111,14 @@ class _LoginFormState extends State<LoginForm> {
 
   /// Sign into the app using only valid credentials from the form.
   void _signIn(BuildContext context) async {
+    final String email = widget.emailController.text.trim();
+    final String password = widget.passwordController.text.trim();
     if (widget.formKey.currentState.validate()) {
       AppInjector.of(context).changeRoute(Visible.loading);
       try {
         await AppInjector.of(context).auth.signIn(
-            widget.emailController.text.trim(),
-            widget.passwordController.text.trim());
+            email,
+            password);
       } on PlatformException catch (ex) {
         AppInjector.of(context).changeRoute(Visible.signedOut);
         if (ex.code == 'ERROR_EMAIL_NOT_VERIFIED') {
@@ -126,6 +128,8 @@ class _LoginFormState extends State<LoginForm> {
         }
         return;
       }
+      SessionStorage.saveEmail(email);
+      SessionStorage.savePassword(password);
       AppInjector.of(context).changeRoute(Visible.signedIn);
     }
   }
