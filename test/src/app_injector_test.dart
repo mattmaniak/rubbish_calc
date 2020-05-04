@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'auth_test.dart';
+import 'firebase/auth_test.dart';
 import 'package:rubbish_calc/src/app_injector.dart';
 import 'package:rubbish_calc/src/route/route.dart' as route;
 import '../utils/common_tests.dart' as commonTests;
