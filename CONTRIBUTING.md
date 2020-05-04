@@ -6,7 +6,8 @@ before making a change.
 ## Pull Request Process
 1. Ensure any install or build dependencies are removed before the end of the
    layer when doing a build.
-2. Create an issue and stick it to the 'Doing' column in the GitLab Issues Boards.
+2. Create an issue and stick it to the 'Doing' column in the GitLab Issues
+   Boards.
 3. Create a branch named like: ```your-nickname/feature-name-on-issue-boards```.
 4. Update the CHANGELOG.md with your changes.
 5. Push your branch.
