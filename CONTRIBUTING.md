@@ -11,4 +11,6 @@ before making a change.
 4. Update the CHANGELOG.md with your changes.
 5. Push your branch.
 6. Create a merge request to ```master```.
-7. The versioning scheme we use is [SemVer](http://semver.org/).
+7. After an aprovval and merge, your issue will be marked as 'Done' by
+   a maintainer.
+8. The versioning scheme we use is [SemVer](http://semver.org/).
