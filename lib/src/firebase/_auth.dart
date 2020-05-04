@@ -1,7 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
+part of 'firebase.dart';
 
-/// Provide Firebase Authentication mechanisms.
+/// Provide Firebase Authentication mechanism.
 class Auth {
   /// Firebase handler.
   final _firebaseAuth = FirebaseAuth.instance;

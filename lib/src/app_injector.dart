@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import 'package:rubbish_calc/src/firebase/auth.dart' as firebase;
+import 'package:rubbish_calc/src/firebase/firebase.dart' as firebase;
 import 'package:rubbish_calc/src/route/route.dart' as route;
 
 class AppInjector extends InheritedWidget {

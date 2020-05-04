@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:mockito/mockito.dart';
 
-import 'package:rubbish_calc/src/firebase/auth.dart' as firebase;
+import 'package:rubbish_calc/src/firebase/firebase.dart' as firebase;
 import '../../utils/common_tests.dart' as commonTests;
 import '../../src/route/login_form_test.dart';
 

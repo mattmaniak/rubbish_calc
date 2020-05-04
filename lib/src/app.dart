@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:rubbish_calc/src/app_injector.dart';
-import 'package:rubbish_calc/src/firebase/auth.dart' as firebase;
+import 'package:rubbish_calc/src/firebase/firebase.dart' as firebase;
 import 'package:rubbish_calc/src/route/route.dart' as route;
 import 'package:rubbish_calc/src/session_storage.dart';
 
