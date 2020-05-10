@@ -17,6 +17,8 @@ in longer (multiline) expressions.
 Run ```flutter format lib/ test/``` in the root project directory.
 
 ## Pull Request Process
+Workflow style: [TBD](https://trunkbaseddevelopment.com/) with short-lived
+feature branches.
 1. Ensure any install or build dependencies are removed before the end of the
    layer when doing a build.
 2. Create an issue and stick it to the 'Doing' column in the GitLab Issues
