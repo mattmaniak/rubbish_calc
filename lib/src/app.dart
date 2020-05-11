@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:rubbish_calc/src/app_injector.dart';
-import 'package:rubbish_calc/src/auth.dart';
+import 'package:rubbish_calc/src/firebase/firebase.dart' as firebase;
 import 'package:rubbish_calc/src/route/route.dart' as route;
 import 'package:rubbish_calc/src/session_storage.dart';
 
@@ -16,7 +16,7 @@ class App extends StatefulWidget {
 
 /// Handle a state of the App.
 class _AppState extends State<App> {
-  final _auth = Auth();
+  final _auth = firebase.Auth();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   var _visibleRoute = route.Visible.loading;
 
