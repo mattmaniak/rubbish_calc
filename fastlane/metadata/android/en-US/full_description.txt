@@ -1,0 +1,1 @@
+Simple rubbish mass calculator that covers basic and most common trash.

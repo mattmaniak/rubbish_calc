@@ -1,0 +1,2 @@
+- New item and changed names.
+- Better rendering on non-rectangular screens.
