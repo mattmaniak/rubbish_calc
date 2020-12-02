@@ -1,4 +1,4 @@
-# Rubbish Calc
+# <img src='assets/icon.png' width='32'> Rubbish Calc
 Check how much rubbish you produce every day.
 
 ## Description
